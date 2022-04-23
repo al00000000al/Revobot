@@ -1,0 +1,33 @@
+{
+    "name": "al00000000al/revobot",
+    "description": "VK/TG bot",
+    "type": "project",
+    "autoload": {
+        "psr-0": {
+            "Revobot": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Revobot\\Test\\": "tests/"
+        }
+    },
+    "license": "GPL",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:VKCOM/kphp-polyfills.git"
+        }
+    ],
+    "require": {
+        "ext-mbstring": "*",
+      "ext-iconv": "*",
+        "aboyadzhiev/php-math-parser": "dev-master",
+        "vkcom/kphp-polyfills": "^1.0.0",
+      "ext-curl": "*",
+      "ext-json": "*"
+    }
+}

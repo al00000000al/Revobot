@@ -14,14 +14,21 @@ class Pukvy
 
     private array $words = [];
 
-    public function __construct($input)
+    /**
+     * @param string $input
+     */
+    public function __construct(string $input)
     {
+        $input = iconv('cp1251', 'UTF-8', $input);
         $words = Strings::stringToWords($input);
         $this->words[0] = Strings::cyrillicOnly($words[0]);
         $this->words[1] = Strings::cyrillicOnly($words[1]);
 
     }
 
+    /**
+     * @return string
+     */
     public function convert(): string
     {
         $first_1 = mb_substr($this->words[0], 0, 1);
@@ -53,6 +60,10 @@ class Pukvy
         return $word_1 . ' ' . $word_2;
     }
 
+    /**
+     * @param $text
+     * @return false|string[]|force(string[])
+     */
     private function slogi($text)
     {
 
@@ -60,6 +71,8 @@ class Pukvy
         $RusV = "[аеёиоуыэюя]";
         $RusN = "[бвгджзклмнпрстфхцчшщ]";
         $RusX = "[йъь]";
+
+        $regs = [];
 
         $regs[] = "~(" . $RusX . ")(" . $RusA . $RusA . ")~iu";
         $regs[] = "~(" . $RusV . ")(" . $RusV . $RusA . ")~iu";

@@ -6,8 +6,19 @@ use Revobot\Games\Predictor\Percents;
 
 class RandCmd extends BaseCmd
 {
-    protected string $description = 'Введите /rand min max';
 
+    /**
+     * @param $input
+     */
+    public function __construct($input)
+    {
+        parent::__construct($input);
+        $this->setDescription('Введите /rand min max');
+    }
+
+    /**
+     * @return string
+     */
     public function exec(): string
     {
         if (!empty($this->input)) {

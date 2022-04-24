@@ -10,8 +10,8 @@ class Math
      */
     public static function avg($input): int
     {
-        $filtered_input = array_filter($input);
-        return (int)(array_sum($filtered_input) / count($filtered_input));
+      //  $filtered_input = array_filter($input);
+        return (int)((int)array_sum($input) / count($input));
     }
 
 }

@@ -3,7 +3,6 @@
 namespace Revobot\Games\Predictor;
 
 use Revobot\Numerology\Converter;
-use Revobot\Util\Math;
 use Revobot\Util\Strings;
 
 class PredictBase
@@ -11,29 +10,31 @@ class PredictBase
     protected const YES = 1;
     protected const NO = -1;
     protected const MAYBE = 0;
+    /** @var string[]  */
     protected array $input = [];
 
-    public function __construct($input)
-    {
-        $this->input = Strings::stringToWords($input);
-    }
-
     /**
-     * @return string
+     * @param string $input
      */
-    public function calc(): string
+    public function __construct(string $input)
     {
-        return Math::avg($this->wordsToNum());
+        $words = Strings::stringToWords($input);
+
+        $this->input = $words;
     }
 
+
+
     /**
-     * @return array
+     * @return int[]
      */
     protected function wordsToNum(): array
     {
         $result = [];
-        foreach ($this->input as $word) {
-            $result[] = Converter::toNumber($word);
+        $inp = $this->input;
+        foreach ($inp as $word) {
+            $num = (int)Converter::toNumber($word);
+            $result[] = $num;
         }
         return $result;
     }

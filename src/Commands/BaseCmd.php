@@ -5,15 +5,29 @@ namespace Revobot\Commands;
 class BaseCmd
 {
     protected string $description = 'Base cmd';
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
     protected string $input;
 
 
-
-    public function __construct($input){
+    /**
+     * @param string $input
+     */
+    public function __construct(string $input){
         $this->input = trim($input);
 
     }
 
+    /**
+     * @return string
+     */
     public function exec(): string
     {
       return $this->input;
@@ -26,6 +40,8 @@ class BaseCmd
     {
         return $this->description;
     }
+
+
 
     /**
      * @return string

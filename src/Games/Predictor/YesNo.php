@@ -10,14 +10,15 @@ class YesNo extends PredictBase
     private const NO_STR = 'Нет';
     private const MAYBE_STR = 'Может быть';
 
-    protected array $input = [];
 
     /**
      * @return string
      */
     public function calc(): string
     {
-        return self::getString(Math::avg($this->wordsToNum()));
+        $numbers = $this->wordsToNum();
+        $avg = Math::avg($numbers);
+        return self::getString($avg);
     }
 
     /**

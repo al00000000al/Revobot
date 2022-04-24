@@ -6,8 +6,19 @@ use Revobot\Games\Predictor\Percents;
 
 class InfaCmd extends BaseCmd
 {
-    protected string $description = 'Введите /infa <событие>';
 
+    /**
+     * @param $input
+     */
+    public function __construct($input)
+    {
+        parent::__construct($input);
+        $this->setDescription('Введите /infa <событие>');
+    }
+
+    /**
+     * @return string
+     */
     public function exec(): string
     {
         if (empty($this->input)) {

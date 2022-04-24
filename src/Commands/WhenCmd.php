@@ -6,8 +6,19 @@ use Revobot\Games\Predictor\When;
 
 class WhenCmd extends BaseCmd
 {
-    protected string $description = 'Введите /when событие';
 
+    /**
+     * @param $input
+     */
+    public function __construct($input)
+    {
+        parent::__construct($input);
+        $this->setDescription('Введите /when событие');
+    }
+
+    /**
+     * @return string
+     */
     public function exec(): string
     {
         if (!empty($this->input)) {

@@ -6,17 +6,22 @@ class Converter
 {
 
     /**
-     * @param $word
+     * @param string $word
      * @return int
      */
-    public static function toNumber($word): int
+    public static function toNumber(string $word): int
     {
-        $chrs = mb_str_split(mb_strtolower($word));
+
+        $word = strtolower(trim($word));
+        $word_len = mb_strlen($word);
         $number = 0;
 
-        foreach ($chrs as $chr) {
-            $number += Words::getNumber($chr);
+        for($i = 0; $i < $word_len; $i++) {
+            $char = mb_substr($word, $i, 1, 'UTF-8');
+            $char_n = Words::getNumber($char);
+            $number += $char_n;
         }
+
 
         // too long word
         if ($number >= 100) {
@@ -25,7 +30,6 @@ class Converter
 
         // get rate of special numbers
         $rate = Words::getRate($number);
-
         if($rate !== Words::UNKNOWN_RATE) {
             return $rate;
         }

@@ -5,6 +5,7 @@ namespace Revobot\Numerology;
 class Words
 {
 
+
     public const LETTERS_TO_NUM = [
         'а' => 1, 'б' => 5, 'в' => 6,
         'г' => 7, 'д' => 4, 'е' => 5,

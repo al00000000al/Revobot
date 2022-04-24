@@ -6,7 +6,6 @@ use Revobot\Util\Math;
 
 class When extends PredictBase
 {
-    protected array $input = [];
 
     /**
      * @return string
@@ -21,6 +20,10 @@ class When extends PredictBase
             );
     }
 
+    /**
+     * @param int $avg
+     * @return int
+     */
     private function getTime(int $avg): int
     {
 
@@ -39,7 +42,7 @@ class When extends PredictBase
 
         $new_time_pref = substr(dechex($next_time ), 0, 3);
 
-        $crc = substr(crc32(join("_", $this->input)), 5);
+        $crc = substr(crc32(implode("_", $this->input)), 5);
         return (int)hexdec($new_time_pref . $crc);
     }
 

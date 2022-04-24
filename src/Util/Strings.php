@@ -5,18 +5,22 @@ namespace Revobot\Util;
 class Strings
 {
 
+
+    /**
+     * @param $string
+     * @return string[]
+     */
     public static function stringToWords($string): array
     {
-        $words = array();
-        $tok = strtok($string, " \t\n");
-        while ($tok) {
-            $words[] = $tok;
-            $tok = strtok(" \t\n");
-        }
-        return $words;
+        return explode(" ", $string);
     }
 
+    /**
+     * @param $string
+     * @return string|string[]|null
+     */
     public static function cyrillicOnly($string){
         return preg_replace('/[^а-яА-ЯёЁ]/ui', '', $string);
     }
+
 }

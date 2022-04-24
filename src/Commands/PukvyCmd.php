@@ -7,8 +7,18 @@ use Revobot\Games\Pukvy;
 class PukvyCmd extends BaseCmd
 {
 
-    protected string $description = 'Введите /pukvy два слова';
+    /**
+     * @param $input
+     */
+    public function __construct($input)
+    {
+        parent::__construct($input);
+        $this->setDescription('Введите /pukvy два слова');
+    }
 
+    /**
+     * @return string
+     */
     public function exec(): string
     {
 

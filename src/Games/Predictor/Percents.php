@@ -6,7 +6,6 @@ use Revobot\Util\Math;
 
 class Percents extends PredictBase
 {
-    protected array $input = [];
 
     /**
      * @return string
@@ -17,10 +16,10 @@ class Percents extends PredictBase
     }
 
     /**
-     * @param $avg_rate
+     * @param int $avg_rate
      * @return int
      */
-    private function getPercents($avg_rate): int
+    private function getPercents(int $avg_rate): int
     {
         switch ($avg_rate) {
             case self::YES:

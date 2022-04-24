@@ -19,7 +19,7 @@ class Pukvy
      */
     public function __construct(string $input)
     {
-        $input = iconv('cp1251', 'UTF-8', $input);
+
         $words = Strings::stringToWords($input);
         $this->words[0] = Strings::cyrillicOnly($words[0]);
         $this->words[1] = Strings::cyrillicOnly($words[1]);
@@ -31,6 +31,8 @@ class Pukvy
      */
     public function convert(): string
     {
+
+
         $first_1 = mb_substr($this->words[0], 0, 1);
         $first_2 = mb_substr($this->words[1], 0, 1);
 
@@ -52,11 +54,14 @@ class Pukvy
 
             $word_1 = $slog_2 . mb_substr($this->words[0], mb_strlen($slog_1));
             $word_2 = $slog_1 . mb_substr($this->words[1], mb_strlen($slog_2));
-
+            dbg_echo($slog_2 .' '. $slog_1);
         } else {
             $word_1 = $first_2 . mb_substr($this->words[0], 1);
             $word_2 = $first_1 . mb_substr($this->words[1], 1);
+            dbg_echo($first_2 .' '. $first_1);
         }
+
+
         return $word_1 . ' ' . $word_2;
     }
 

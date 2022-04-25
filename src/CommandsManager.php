@@ -11,7 +11,7 @@ class CommandsManager
      * @param Revobot $bot
      * @return string
      */
-    public static function process(Revobot $bot)
+    public static function process(Revobot $bot): string
     {
         $message = $bot->message;
         $message = str_replace('@Therevoluciabot','', $message);
@@ -61,8 +61,9 @@ class CommandsManager
 
     /**
      * @param string $message
+     * @return array
      */
-    private static function extract(string $message)
+    private static function extract(string $message): array
     {
         preg_match(self::CMD_REGEX, $message, $matches, PREG_OFFSET_CAPTURE);
         $command = mb_strtolower($matches[1][0]);

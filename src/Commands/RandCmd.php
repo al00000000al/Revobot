@@ -2,8 +2,6 @@
 
 namespace Revobot\Commands;
 
-use Revobot\Games\Predictor\Percents;
-
 class RandCmd extends BaseCmd
 {
 
@@ -32,6 +30,6 @@ class RandCmd extends BaseCmd
             $max = 100;
         }
 
-        return "Ваше число: " . mt_rand($min, $max);
+        return "Ваше число: " . mt_rand((int)$min, (int)$max);
     }
 }

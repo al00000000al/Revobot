@@ -14,22 +14,17 @@ class TlgrmApp
      */
     public static function search(string $query): string
     {
-        $tries = 0;
         $link = '';
-
-        while ($tries < 3) {
-            $res = self::fetch($query);
-            if ($res && isset($res['found'])) {
-                $count = (int)$res['found'];
-                if ($count > 0 && isset($res['hits'][0]['document']['link'])) {
-                    $link = (string)$res['hits'][0]['document']['link'];
-                    return 'https://t.me/' . $link;
-                }
-            } elseif (isset($res['message'])) {
-                dbg_echo((string)$res['message']);
-                break;
+        $res = self::fetch($query);
+        if ($res && isset($res['found'])) {
+            $count = (int)$res['found'];
+            if ($count > 0 && isset($res['hits'][0]['document']['link'])) {
+                $link = (string)$res['hits'][0]['document']['link'];
+                return 'https://t.me/' . $link;
             }
-            $tries++;
+        } elseif (isset($res['message'])) {
+            dbg_echo((string)$res['message']);
+            return $link;
         }
         return $link;
 

@@ -3,6 +3,7 @@
 namespace Revobot\Money;
 
 use Revobot\Revobot;
+use Revobot\Util\Hash;
 
 class Revocoin
 {
@@ -12,15 +13,21 @@ class Revocoin
     private int $difficulty = 3;
     private \Memcache $pmc;
 
-    const MAX_TRIES_DEFAULT = 40;
+    const MONEY_VERSION = 1;
+    const MAX_TRIES_DEFAULT = 30;
 
     const PMC_MONEY_TRIES_KEY = 'money_tries';
     const PMC_MONEY_LAST_BLOCK_KEY = 'money_last_block';
+    const PMC_MONEY_USER_BALANCE_KEY = 'money_'; // .$provider.$id
+    const PMC_MONEY_LOCKED_KEY = 'money_locked_'; // .$provider.$id
+    const PMC_MONEY_BLOCK_KEY = 'money_block_'; // .$block_id
+    const PMC_MONEY_STAT_CHAT_KEY = 'money_stat_'; // .$chat_id.'_'.$provider.$id
 
     /**
      * @param Revobot $bot
      */
-    public function __construct(Revobot $bot){
+    public function __construct(Revobot $bot)
+    {
         $this->bot = $bot;
         $this->pmc = $bot->pmc;
     }
@@ -29,8 +36,9 @@ class Revocoin
      * @param int $to_user_id
      * @param int $from_user_id
      */
-    public function send(int $to_user_id, int $from_user_id = 0){
-        if($this->bot->provider === 'tg'){
+    public function send(int $to_user_id, int $from_user_id = 0)
+    {
+        if ($this->bot->provider === 'tg') {
             //get key
             //send resp
         }
@@ -42,69 +50,189 @@ class Revocoin
      */
     public function getMaxTries(): int
     {
-        $prize_max_tries = (int) $this->pmc->get(self::PMC_MONEY_TRIES_KEY);
-        if($prize_max_tries === 0){
+        $prize_max_tries = (int)$this->pmc->get(self::PMC_MONEY_TRIES_KEY);
+        if ($prize_max_tries === 0) {
             $prize_max_tries = self::MAX_TRIES_DEFAULT;
         }
         return $prize_max_tries;
     }
 
     /**
-     * @return tuple(int, string)
+     * @return mixed[]
      */
-    public function getLastBlock()
+    public function getLastBlock(): array
     {
-        $last_block = (string) $this->pmc->get(self::PMC_MONEY_LAST_BLOCK_KEY);
-        if(empty($last_block)){
-            return tuple(0, '');
-        }
+        $last_block = $this->pmc->get(self::PMC_MONEY_LAST_BLOCK_KEY);
+
         list($block_id, $prev_hash) = $last_block;
-        return tuple($block_id, $prev_hash);
+        return [$block_id, $prev_hash];
+    }
+
+
+    /**
+     * @param $block_id
+     * @param $prev_hash
+     * @return bool
+     */
+    public function setLastBlock($block_id, $prev_hash): bool
+    {
+        $this->pmc->set(self::PMC_MONEY_LAST_BLOCK_KEY, array($block_id, $prev_hash));
+        return true;
+    }
+
+
+    /**
+     * @param string $params
+     * @return string
+     */
+    private function generate(string $params): string
+    {
+        return Hash::generate($params);
+    }
+
+    /**
+     * @param int $id
+     * @param string $params
+     */
+    public function saveBlock(int $id, string $params)
+    {
+        $this->pmc->set(self::PMC_MONEY_BLOCK_KEY . $this->bot->provider . $id, $params);
+    }
+
+    /**
+     * @param string $hash
+     * @return bool
+     */
+    public function validateBlock(string $hash): bool
+    {
+        if (substr($hash, 0, $this->difficulty) === str_repeat("0", $this->difficulty)) {
+            dbg_echo("Block mined: " . $hash . "\n");
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @param float $amount
+     * @param int $to_user_id
+     * @param int $from_user_id
+     * @return bool
+     */
+    public function transaction(float $amount, int $to_user_id, int $from_user_id = 0): bool
+    {
+        if ($from_user_id !== 0) {
+            $from_user_balance = self::getBalance($from_user_id);
+            if ($from_user_balance < $amount) {
+                return false;
+            }
+            $this->updateBalance($from_user_id, $from_user_balance, -$amount);
+
+        }
+
+        $to_user_balance = (float) self::getBalance($to_user_id);
+
+        dbg_echo('user_balance: ' . $to_user_balance . "\n");
+        dbg_echo('user_balance_new: ' . ($to_user_balance + $amount) . "\n");
+
+        $this->updateBalance($to_user_id, $to_user_balance, $amount);
+        return true;
+    }
+
+    /**
+     * @param int $user
+     * @return float
+     */
+    public function getBalance(int $user): float
+    {
+        return (float)$this->pmc->get(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user);
+    }
+
+
+
+    /**
+     * @param int $user
+     * @param float $old_balance
+     * @param float $balance
+     * @return bool
+     */
+    public function updateBalance(int $user, float $old_balance, float $balance): bool
+    {
+        $new_balance = $old_balance + $balance;
+        $this->pmc->set(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user, $new_balance);
+
+        self::updateStat($user, $new_balance);
+        return true;
+    }
+
+
+    public function updateStat(int $user, float $balance)
+    {
+        $this->pmc->set(self::PMC_MONEY_STAT_CHAT_KEY . $this->bot->chat_id . '_' . $this->bot->provider . $user, $balance);
     }
 
 
     // Майнинг фккоенов
 
-    public function mining(){
-
-        /*
-
-
+    /**
+     * @param int $to_user_id
+     * @param int $from_user_id
+     * @return mixed[]
+     */
+    public function mining(int $to_user_id, int $from_user_id = 0): array
+    {
         // @todo: instance_cache
 
-        $prize_max_tries_future = fork(self::getMaxTries());
-        $last_block_future = fork(self::getLastBlock());
-        $prize_max_tries = wait($prize_max_tries_future);
-        list($block_id, $prev_hash) = wait($last_block_future);
+        //   $prize_max_tries_future = fork(self::getMaxTries());
+        //   $prize_max_tries = wait($prize_max_tries_future);
+        $prize_max_tries = self::MAX_TRIES_DEFAULT;
+        $last_block = self::getLastBlock();
+        $block_id = (int)$last_block[0];
+        $prev_hash = $last_block[1];
 
+        $next_id = $block_id + 1;
+        $prize = 100.0;
+        $time = time();
+        $nonce = mt_rand(0, PHP_INT_MAX);
 
-        for($i = 0; $i < $prize_max_tries; $i++){
+        for ($i = 0; $i < $prize_max_tries; $i++) {
 
-        }
+            $params = [
+                'id' => $next_id,
+                'time' => $time,
+                'amount' => $prize,
+                'from' => $from_user_id,
+                'to' => $to_user_id,
+                'prev_hash' => $prev_hash,
+                'version' => self::MONEY_VERSION,
+                'nonce' => $nonce,
 
-        if(substr($block->hash, 0, $this->difficulty) === str_repeat("0", $this->difficulty)){
-            echo "Block mined: ".$block->hash."\n";
-            return;
-        }
+            ];
 
+            $params_str = (string)json_encode($params);
 
-        if (mcDecrKey('prize_' . $user_id, $coins_cnt)) {
-            mcIncKey('prize_' . $to_user['user_id'], $coins_cnt);
-            $last->from = $user_id;
-            $last->previousHash = $prev_hash;
+            $hash = $this->generate($params_str);
 
-            $last_id++;
+            dbg_echo('Hash:' . $hash . ' ' . $params_str . "\n");
 
-            $mc->set('prize_prev', $last->hash);
-            $mc->set('last_prize_id', $last_id);
-            return ($coins_cnt > 0 ? '+' : '') . $coins_cnt . ' фккоин у ' . $to_user['name'];
-        }
+            if (self::validateBlock($hash)) {
 
-            if ($result) {
+                $result = self::transaction($prize, $to_user_id, $from_user_id);
 
-                fc_send($data['chat']['chat_id'], $result);
+                if ($result) {
+                    self::saveBlock($next_id, $params_str);
+                    self::setLastBlock($next_id, $hash);
+
+                    dbg_echo('id:' . $next_id . ' amount:' . $prize . "\n");
+                    return ['id' => $next_id, 'amount' => $prize];
+                }
+
+                return [];
+
             }
+            $prize /= 1.5;
+        }
 
-        */
+        return [];
     }
 }

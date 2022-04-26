@@ -50,6 +50,12 @@ class CommandsManager
             case 'chat':
                 $response = (new \Revobot\Commands\ChatCmd($input, $bot))->exec();
                 break;
+            case 'time':
+                $response = (new \Revobot\Commands\TimeCmd($input))->exec();
+                break;
+            case 'balance':
+                $response = (new \Revobot\Commands\BalanceCmd($input, $bot))->exec();
+                break;
             default:
                 $response = '';
         }

@@ -2,6 +2,7 @@
 
 namespace Revobot;
 
+use Revobot\Money\Revocoin;
 use Revobot\Util\Curl;
 
 class Revobot
@@ -44,41 +45,83 @@ class Revobot
         $this->chat_id = $chat_id;
     }
 
+
     /**
      * @param string $provider
      */
-    public function __construct(string $provider){
+    public function __construct(string $provider)
+    {
         $this->provider = $provider;
     }
 
     /**
      * @param string $message
      */
-    public function setMessage(string $message){
+    public function setMessage(string $message)
+    {
         $this->message = $message;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        if ($this->provider == 'tg') {
+            if (isset($this->raw_data['from']['id'])) {
+                return (int)$this->raw_data['from']['id'];
+            }
+            return 0;
+        }
+        return 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserNick(): string
+    {
+        if ($this->provider == 'tg') {
+            if (isset($this->raw_data['from']['username'])) {
+                return (string)$this->raw_data['from']['username'];
+            }
+            return 'null';
+        }
+        return '';
     }
 
     /**
      *
      */
-    public function run(){
-        if($this->provider === 'tg'){
+    public function run()
+    {
+        if ($this->provider === 'tg') {
+
+            $mining_future = fork((new Revocoin($this))->mining($this->getUserId()));
             $response = CommandsManager::process($this);
+
            // dbg_echo($response."\n");
-            if($response){
+            if ($response) {
                 $this->sendMessageTg($response);
             }
+            $mining_result = wait($mining_future);
+            if(!empty($mining_result)) {
+                $this->sendMessageTg('+'.$mining_result['amount'].' R у @'.$this->getUserNick()."\nBlock #".$mining_result['id']);
+
+            }
+
         }
     }
 
     /**
      * @param string $response_text
      */
-    public function sendMessageTg(string $response_text){
+    public function sendMessageTg(string $response_text)
+    {
         $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
         Curl::post($url, [
-           'chat_id' => $this->chat_id,
-           'text' => $response_text
+            'chat_id' => $this->chat_id,
+            'text' => $response_text
         ]);
     }
 

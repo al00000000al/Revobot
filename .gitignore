@@ -3,3 +3,4 @@
 build/
 .phpunit.result.cache
 /config.php
+/test.php

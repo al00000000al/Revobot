@@ -51,11 +51,11 @@ class Stat
 
         $result = "Рейтинг: \n";
 
-        asort($users);
+        arsort($users);
 
         $i = 1;
         foreach ($users as $user_id => $amount) {
-            if (in_array($user_id, $usernames)) {
+            if (array_key_exists($user_id, $usernames)) {
                 $username = $usernames[$user_id];
             } else {
                 $username = $user_id;
@@ -74,12 +74,13 @@ class Stat
     private function getUsername(int $user_id): string
     {
         $chat_member = $this->bot->getChatMemberTg($user_id);
-        if (!$chat_member) {
+
+        if(!isset($chat_member['result'])) {
             return '';
         }
 
-        if (isset($chat_member['user']['username'])) {
-            $username = '@' . $chat_member['user']['username'];
+        if (isset($chat_member['result']['user']['username'])) {
+            $username = '@' . $chat_member['result']['user']['username'];
         } else {
             $username = (string)$user_id;
         }

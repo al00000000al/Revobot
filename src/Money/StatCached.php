@@ -3,7 +3,7 @@
 namespace Revobot\Money;
 
 /**
- * @kphp-immutable-class
+ * @kphp-immutable-class *
  *
  * This instances will be stored in shared memory
  */

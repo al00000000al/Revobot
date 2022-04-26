@@ -2,9 +2,10 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Money\Stat;
 use Revobot\Revobot;
 
-class AliveCmd extends BaseCmd
+class StatCmd extends BaseCmd
 {
     private Revobot $bot;
 
@@ -14,11 +15,8 @@ class AliveCmd extends BaseCmd
         $this->bot = $bot;
     }
 
-    /**
-     * @return string
-     */
     public function exec(): string
     {
-        return 'Жив! ПМС:'. $this->bot->pmc->getVersion();
+       return (new Stat($this->bot))->get();
     }
 }

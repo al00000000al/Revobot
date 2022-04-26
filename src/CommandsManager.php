@@ -21,7 +21,7 @@ class CommandsManager
 
         switch ($command) {
             case 'alive' :
-                $response = (new \Revobot\Commands\AliveCmd($input))->exec();
+                $response = (new \Revobot\Commands\AliveCmd($input, $bot))->exec();
                 break;
             case 'bash' :
                 $response = (new \Revobot\Commands\BashCmd($input))->exec();
@@ -55,6 +55,9 @@ class CommandsManager
                 break;
             case 'balance':
                 $response = (new \Revobot\Commands\BalanceCmd($input, $bot))->exec();
+                break;
+            case 'stat':
+                $response = (new \Revobot\Commands\StatCmd($input, $bot))->exec();
                 break;
             default:
                 $response = '';

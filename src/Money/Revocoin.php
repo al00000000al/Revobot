@@ -160,16 +160,11 @@ class Revocoin
     {
         $new_balance = $old_balance + $balance;
         $this->pmc->set(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user, $new_balance);
-
-        self::updateStat($user, $new_balance);
         return true;
     }
 
 
-    public function updateStat(int $user, float $balance)
-    {
-        $this->pmc->set(self::PMC_MONEY_STAT_CHAT_KEY . $this->bot->chat_id . '_' . $this->bot->provider . $user, $balance);
-    }
+
 
 
     // Майнинг фккоенов

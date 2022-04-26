@@ -20,6 +20,15 @@ class Revobot
 
     /** @var $pmc \Memcache */
     public \Memcache $pmc;
+    private string $parse_mode;
+
+    /**
+     * @param string $parse_mode
+     */
+    public function setParseMode(string $parse_mode): void
+    {
+        $this->parse_mode = $parse_mode;
+    }
 
     /**
      * @param \Memcache $pmc
@@ -100,20 +109,22 @@ class Revobot
             $mining_future = fork((new Revocoin($this))->mining($this->getUserId()));
             $response = CommandsManager::process($this);
 
-           // dbg_echo($response."\n");
+            // dbg_echo($response."\n");
             if ($response) {
                 $this->sendMessageTg($response);
+                $this->addUserChat();
             }
             $mining_result = wait($mining_future);
-            if(!empty($mining_result)) {
-                $this->sendMessageTg('+'.$mining_result['amount'].' R у @'.$this->getUserNick()."\nBlock #".$mining_result['id']);
-
+            if (!empty($mining_result)) {
+                $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
             }
+
 
         }
     }
 
     /**
+     * @todo
      * @param string $response_text
      */
     public function sendMessageTg(string $response_text)
@@ -121,8 +132,27 @@ class Revobot
         $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
         Curl::post($url, [
             'chat_id' => $this->chat_id,
-            'text' => $response_text
+            'text' => $response_text,
+            'parse_mode' => $this->parse_mode,
         ]);
+    }
+
+
+    /**
+     * @todo
+     * @param int $user_id
+     * @return mixed
+     */
+    public function getChatMemberTg(int $user_id)
+    {
+
+        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/getChatMember';
+        return Curl::post($url, [
+            'chat_id' => $this->chat_id,
+            'user_id' => $user_id,
+        ]);
+
+
     }
 
     /**
@@ -131,6 +161,24 @@ class Revobot
     public function setRawData(array $raw_data): void
     {
         $this->raw_data = $raw_data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function loadChat(): array
+    {
+        return $this->pmc->get('chat_' . $this->provider . $this->chat_id);
+    }
+
+    public function addUserChat()
+    {
+        $user = $this->getUserId();
+        $chat = $this->loadChat();
+        if (!in_array($user, $chat)) {
+            $chat[] = $user;
+            $this->pmc->set('chat_' . $this->provider . $this->chat_id, $chat);
+        }
     }
 
 

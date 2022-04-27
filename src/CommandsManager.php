@@ -4,7 +4,7 @@ namespace Revobot;
 
 class CommandsManager
 {
-    public const CMD_REGEX = '/^\/([A-Za-z]+?)(\s|$)(.{0,3000})/sum';
+    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ]+?)(\s|$)(.{0,3000})/sum';
 
 
     /**

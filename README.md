@@ -20,6 +20,7 @@ kphp  --composer-root=$(pwd) --composer-no-dev index.php
 
 Запуск:
 ````
- nohup ./kphp_out/server -H 8088 --use-utf8 --workers-num 5 -q &
+ nohup ./kphp_out/server -H 8088 --use-utf8 --workers-num 5 -q  >/dev/null 2>&1 &
+
 ````
 

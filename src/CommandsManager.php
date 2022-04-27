@@ -4,7 +4,7 @@ namespace Revobot;
 
 class CommandsManager
 {
-    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ]+?)(\s|$)(.{0,3000})/sum';
+    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ]+?)(\s|$|@)(.{0,3000})/sum';
 
 
     /**
@@ -14,10 +14,10 @@ class CommandsManager
     public static function process(Revobot $bot): string
     {
         $message = $bot->message;
-        $message = str_replace('@Therevoluciabot','', $message);
 
         list($command, $input) = self::extract($message);
 
+        dbg_echo($command."\n");
 
         switch ($command) {
             case 'alive' :
@@ -90,8 +90,8 @@ class CommandsManager
     private static function extract(string $message): array
     {
         preg_match(self::CMD_REGEX, $message, $matches, PREG_OFFSET_CAPTURE);
-        $command = mb_strtolower($matches[1][0]);
-        $text = (string)$matches[3][0];
+        $command = mb_strtolower($matches[1][0], 'UTF-8');
+        $text = $matches[3][0]."";
        // dbg_echo('cmd='.$command.' text='.$text."\n");
         return [$command, $text];
     }

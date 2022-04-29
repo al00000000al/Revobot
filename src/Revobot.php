@@ -123,6 +123,8 @@ class Revobot
         }
     }
 
+
+
     /**
      * @todo
      * @param string $response_text
@@ -151,9 +153,24 @@ class Revobot
             'chat_id' => $this->chat_id,
             'user_id' => $user_id,
         ]);
-
-
     }
+
+
+    /**
+     * @param string $username
+     * @return mixed
+     * @todo
+     */
+    public function getChatMemberByUsernameTg(string $username)
+    {
+
+        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/getChatMember';
+        return Curl::post($url, [
+            'chat_id' => $this->chat_id,
+            'user_id' => $username,
+        ]);
+    }
+
 
     /**
      * @param mixed $raw_data

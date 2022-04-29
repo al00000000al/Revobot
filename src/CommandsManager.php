@@ -17,7 +17,7 @@ class CommandsManager
 
         list($command, $input) = self::extract($message);
 
-        dbg_echo($command."\n");
+        dbg_echo($command . "\n");
 
         switch ($command) {
             case 'alive' :
@@ -74,11 +74,21 @@ class CommandsManager
             case 'стат':
                 $response = (new \Revobot\Commands\StatCmd($input, $bot))->exec();
                 break;
+            case 'echo':
+            case 'print':
+            case 'принт':
+            case 'excho':
+                $response = (new \Revobot\Commands\EchoCmd($input))->exec();
+                break;
+            case 'config':
+            case 'конфиг':
+                $response = (new \Revobot\Commands\ConfigCmd($input, $bot))->exec();
+                break;
             default:
                 $response = '';
         }
 
-        dbg_echo('cmd:'.$command.',inp:'.$input.',response: ' . $response."\n");
+        dbg_echo('cmd:' . $command . ',inp:' . $input . ',response: ' . $response . "\n");
 
         return $response;
     }
@@ -91,8 +101,8 @@ class CommandsManager
     {
         preg_match(self::CMD_REGEX, $message, $matches, PREG_OFFSET_CAPTURE);
         $command = mb_strtolower($matches[1][0], 'UTF-8');
-        $text = $matches[3][0]."";
-       // dbg_echo('cmd='.$command.' text='.$text."\n");
+        $text = $matches[3][0] . "";
+        // dbg_echo('cmd='.$command.' text='.$text."\n");
         return [$command, $text];
     }
 }

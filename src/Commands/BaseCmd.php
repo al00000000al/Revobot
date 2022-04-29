@@ -51,4 +51,12 @@ class BaseCmd
         return $this->input;
     }
 
+    /**
+     * @param int $user
+     * @return bool
+     */
+    public function isAdmin(int $user): bool
+    {
+        return in_array($user, TG_BOT_ADMINS, true);
+    }
 }

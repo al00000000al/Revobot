@@ -87,6 +87,8 @@ class Stat
         return $username;
     }
 
+
+
     /**
      * @return string
      */

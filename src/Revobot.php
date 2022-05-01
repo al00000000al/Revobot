@@ -3,7 +3,9 @@
 namespace Revobot;
 
 use Revobot\Money\Revocoin;
+use Revobot\Neural\Answers;
 use Revobot\Util\Curl;
+use Revobot\Util\Dummy;
 
 class Revobot
 {
@@ -21,6 +23,12 @@ class Revobot
     /** @var $pmc \Memcache */
     public \Memcache $pmc;
     private string $parse_mode;
+
+    private const PMC_TALK_LIMIT_KEY = 'talk_limit_'; // $provider.$chat
+    private const PMC_MSG_HISTORY_KEY = 'msg_history_'; // $provider.$chat
+    private const PMC_USERNAMES_CHAT_KEY = 'usernames_chat_'; // $provider.$chat
+    private const PMC_CHAT_KEY = 'chat_'; // $provider.$chat
+    private const DEFAULT_TALK_LIMIT = 40;
 
     /**
      * @param string $parse_mode
@@ -100,6 +108,19 @@ class Revobot
     }
 
     /**
+     * @return int
+     */
+    public function getTalkLimit(): int
+    {
+        return (int)$this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
+    }
+
+    public function setTalkLimit(int $talk_limit)
+    {
+        $this->pmc->set(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id, $talk_limit);
+    }
+
+    /**
      *
      */
     public function run()
@@ -107,9 +128,12 @@ class Revobot
         if ($this->provider === 'tg') {
 
             $mining_future = fork((new Revocoin($this))->mining($this->getUserId()));
+            $talk_limit = (int)$this->getTalkLimit() ?? self::DEFAULT_TALK_LIMIT;
+
+            $has_bot_response = (time() % $talk_limit) === 0;
+
             $response = CommandsManager::process($this);
 
-            // dbg_echo($response."\n");
             if ($response) {
                 $this->sendMessageTg($response);
                 $this->addUserChat();
@@ -119,15 +143,44 @@ class Revobot
                 $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
             }
 
+            if ($has_bot_response) {
+
+
+                $payload = '- '.$this->message."\n - ";
+                $payload_len = strlen($payload);
+                $bot_answer = Answers::getAnswer('- '.$this->message."\n - ");
+                if (!empty($bot_answer)) {
+                    $bot_answer = substr($bot_answer, $payload_len);
+                    $this->sendMessageTg((string)$bot_answer);
+                }
+            }
+
 
         }
     }
 
 
+    /**
+     * @return string
+     */
+    public function getHistoryMsg(): string
+    {
+        return (string)$this->pmc->get(self::PMC_MSG_HISTORY_KEY . $this->provider . $this->chat_id);
+    }
 
     /**
-     * @todo
+     * @param string $msg
+     * @return string
+     */
+    public function setHistoryMsg(string $msg): string
+    {
+        return (string)$this->pmc->set(self::PMC_MSG_HISTORY_KEY . $this->provider . $this->chat_id, $msg);
+    }
+
+
+    /**
      * @param string $response_text
+     * @todo
      */
     public function sendMessageTg(string $response_text)
     {
@@ -141,9 +194,9 @@ class Revobot
 
 
     /**
-     * @todo
      * @param int $user_id
      * @return mixed
+     * @todo
      */
     public function getChatMemberTg(int $user_id)
     {
@@ -185,18 +238,31 @@ class Revobot
      */
     public function loadChat(): array
     {
-        return $this->pmc->get('chat_' . $this->provider . $this->chat_id);
+        return $this->pmc->get(self::PMC_CHAT_KEY . $this->provider . $this->chat_id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function loadUsernamesChat(): array
+    {
+        return $this->pmc->get(self::PMC_USERNAMES_CHAT_KEY . $this->provider . $this->chat_id);
     }
 
     public function addUserChat()
     {
         $user = $this->getUserId();
         $chat = $this->loadChat();
+        $usernames_chat = $this->loadUsernamesChat();
         if (!in_array($user, $chat)) {
             $chat[] = $user;
-            $this->pmc->set('chat_' . $this->provider . $this->chat_id, $chat);
+            $this->pmc->set(self::PMC_CHAT_KEY . $this->provider . $this->chat_id, $chat);
+        }
+
+        $user_nick = $this->getUserNick();
+        if (!array_key_exists($user, $usernames_chat) || $usernames_chat[$user_nick] !== $user) {
+            $usernames_chat[$user_nick] = $user;
+            $this->pmc->set(self::PMC_USERNAMES_CHAT_KEY . $this->provider . $this->chat_id, $usernames_chat);
         }
     }
-
-
 }

@@ -8,14 +8,18 @@ class Curl
     /**
      * @param $url
      * @param $data
+     * @param mixed $options
      * @return mixed
      */
-    public static function post($url, $data){
+    public static function post($url, $data, $options = []){
+
+        $curl_headers = (array)$options['headers'] ?? false;
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $curl_headers);
         $res = curl_exec($ch);
         curl_close($ch);
         return json_decode($res, true);

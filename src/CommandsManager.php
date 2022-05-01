@@ -2,6 +2,8 @@
 
 namespace Revobot;
 
+use Revobot\Neural\Answers;
+
 class CommandsManager
 {
     public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ]+?)(\s|$|@)(.{0,3000})/sum';
@@ -81,8 +83,32 @@ class CommandsManager
                 $response = (new \Revobot\Commands\EchoCmd($input))->exec();
                 break;
             case 'config':
+            case 'key':
             case 'конфиг':
-                $response = (new \Revobot\Commands\ConfigCmd($input, $bot))->exec();
+                $response = (new \Revobot\Commands\Key\KeyCmd($input, $bot))->exec();
+                break;
+            case 'key.edit':
+                $response = (new \Revobot\Commands\Key\KeyEditCmd($input, $bot))->exec();
+                break;
+            case 'send':
+            case 'сенд':
+                $response = (new \Revobot\Commands\SendCmd($input, $bot))->exec();
+                break;
+            case 'rsend':
+            case 'рсенд':
+                $response = (new \Revobot\Commands\RsendCmd($input, $bot))->exec();
+                break;
+            case 'talk':
+            case 'толк':
+                $response = (new \Revobot\Commands\TalkCmd($input, $bot))->exec();
+                break;
+            case 'кто':
+            case 'who':
+                $response = (new \Revobot\Commands\WhoCmd($input, $bot))->exec();
+                break;
+            case 'ии':
+            case 'ai':
+                $response = Answers::getAnswer($input);
                 break;
             default:
                 $response = '';

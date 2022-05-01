@@ -1,10 +1,11 @@
 <?php
 
-namespace Revobot\Commands;
+namespace Revobot\Commands\Key;
 
+use Revobot\Commands\BaseCmd;
 use Revobot\Revobot;
 
-class ConfigCmd extends BaseCmd
+class KeyCmd extends BaseCmd
 {
     private Revobot $bot;
 
@@ -12,7 +13,7 @@ class ConfigCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription('Введите /config <ключ>');
+        self::setDescription('Введите /key <ключ>');
     }
 
     public function exec(): string
@@ -22,7 +23,7 @@ class ConfigCmd extends BaseCmd
         }
 
         if(!empty($this->input)) {
-            return print_r(self::getKey($this->input), true);
+            return (string) print_r(self::getKey($this->input), true);
         }
         return $this->description;
     }

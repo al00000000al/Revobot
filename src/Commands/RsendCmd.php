@@ -29,7 +29,7 @@ class RsendCmd extends BaseCmd
             return $this->description;
         }
 
-        $choice = mt_rand(0, count($chat_members) - 1);
+        $choice = (int) $chat_members[mt_rand(0, count($chat_members) - 1)];
         $result = (new Revocoin($this->bot))->send($choice, $this->bot->getUserId(), $amount);
         if(!$result) {
             return $this->description;

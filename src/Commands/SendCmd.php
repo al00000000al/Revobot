@@ -27,7 +27,11 @@ class SendCmd extends BaseCmd
         }
 
         $username = $params[0];
+        $username = str_replace('@', '', $username);
         $to_user_id = self::getId($username);
+        if($to_user_id === 0){
+            return $this->description;
+        }
         $amount = (float)$params[1];
 
         $result = (new Revocoin($this->bot))->send($to_user_id, $this->bot->getUserId(), $amount);
@@ -35,7 +39,7 @@ class SendCmd extends BaseCmd
             return $this->description;
         }
         $amount = $amount - ($amount * Revocoin::TRANSACTION_COMMISSION);
-        return '+' . $amount . ' R у @' . $username;
+        return '+' . $amount . ' R у ' . $username;
     }
 
     /**
@@ -44,12 +48,10 @@ class SendCmd extends BaseCmd
      */
     private function getId(string $username): int
     {
-        $chat_member = $this->bot->getChatMemberByUsernameTg($username);
-
-        if (!isset($chat_member['result'])) {
-            return 0;
+        $chat_usernames = $this->bot->loadUsernamesChat();
+        if(array_key_exists($username, $chat_usernames)){
+            return (int)$chat_usernames[$username];
         }
-
-        return $chat_member['result']['user']['id'] ?? 0;
+        return 0;
     }
 }

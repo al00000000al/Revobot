@@ -129,6 +129,10 @@ class Revocoin
             return false;
         }
 
+        if($to_user_id === $from_user_id) {
+            return false;
+        }
+
         if ($from_user_id !== 0) {
             $from_user_balance = self::getBalance($from_user_id);
             if ($from_user_balance < $amount) {

@@ -1,6 +1,6 @@
 /vendor/
 .idea/
-build/
 .phpunit.result.cache
 /config.php
-/test.php
+/kphp_out/
+/test*.php

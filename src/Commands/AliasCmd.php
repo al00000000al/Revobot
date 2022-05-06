@@ -15,7 +15,7 @@ class AliasCmd extends BaseCmd
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
-        $this->setDescription('/alias команда новое_название');
+        $this->setDescription('/alias новое_название команда');
         $this->bot = $bot;
     }
 
@@ -24,9 +24,11 @@ class AliasCmd extends BaseCmd
         if (empty($this->input)){
             return $this->description;
         }
+        $text_arr = explode(' ', $this->input);
+        $command_name = (string)array_shift($text_arr);
 
         $customCmd = new CustomCmd($this->bot);
-        $command_name = (string)explode(' ', $this->input)[0];
+        $command = (string)$text_arr[0];
 
         if (!$customCmd->isValidCommand($command_name)) {
             return 'Недопустимое имя';
@@ -40,7 +42,7 @@ class AliasCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_ALIAS, []);
+        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_ALIAS, [$command]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, -TG_BOT_ID, $this->bot->getUserId());
         return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
     }

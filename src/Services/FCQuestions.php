@@ -6,6 +6,7 @@ use Revobot\Util\Curl;
 
 class FCQuestions
 {
+
     private const BASE_URL = 'https://fc-questions.trainzland.ru/api.php?key=';
 
     /**

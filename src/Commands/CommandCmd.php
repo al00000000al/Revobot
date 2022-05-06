@@ -47,6 +47,6 @@ class CommandCmd extends BaseCmd
 
         $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_TEXT, [$text]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, -TG_BOT_ID, $this->bot->getUserId());
-        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
+        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_TEXT.'R';
     }
 }

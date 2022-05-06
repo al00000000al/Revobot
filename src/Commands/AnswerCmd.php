@@ -5,7 +5,7 @@ namespace Revobot\Commands;
 use Revobot\Games\Quiz;
 use Revobot\Revobot;
 
-class QuestionCmd extends BaseCmd
+class AnswerCmd extends BaseCmd
 {
     private Revobot $bot;
 
@@ -13,11 +13,17 @@ class QuestionCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
+        $this->setDescription('/answer ответ');
     }
 
     public function exec(): string
     {
-        $question = (new Quiz($this->bot))->getQuestion();
-        return (string)$question['question'];
+        if (empty($this->input)) {
+            return $this->description;
+        }
+        $quiz = (new Quiz($this->bot));
+
+        $quiz->sendAnswer($this->input);
+        return '';
     }
 }

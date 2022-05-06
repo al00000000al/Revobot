@@ -154,7 +154,7 @@ class CustomCmd
         if($custom_cmd && isset($custom_cmd['command_type'])) {
             switch((int)($custom_cmd['command_type'])){
                 case Types::TYPE_ALIAS:
-                    return CommandsManager::run($this->bot, $command, $input);
+                    return CommandsManager::run($this->bot, (string)$custom_cmd['args'][0], $input);
                 case Types::TYPE_TEXT:
                     $string = (string)$custom_cmd['args'][0];
                     return (new EchoCmd($string))->exec();

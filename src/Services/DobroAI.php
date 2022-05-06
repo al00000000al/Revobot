@@ -13,7 +13,7 @@ class DobroAI
     {
         $response = Curl::post(
             self::BASE_URL,
-            json_encode(["prompt" => $start, "length" => 50, "num_samples" => 1]),
+            json_encode(["prompt" => $start, "length" => 25, "num_samples" => 1]),
             ['headers' => ['Content-Type: application/json']]
         );
         if(!$response){

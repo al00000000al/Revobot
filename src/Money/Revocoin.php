@@ -159,7 +159,7 @@ class Revocoin
      */
     public function getBalance(int $user): float
     {
-        return (float)$this->pmc->get(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user);
+        return (float)($this->pmc->get(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user));
     }
 
 

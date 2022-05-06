@@ -71,6 +71,11 @@ class CommandsManager
         'del',
         'delete',
         'удалить',
+        'вопрос',
+        'ответ',
+        'answer',
+        'question',
+        'quiz',
     ];
 
 
@@ -216,6 +221,14 @@ class CommandsManager
             case  'del':
             case  'удалить':
                 $response = (new \Revobot\Commands\DeleteCmd($input, $bot))->exec();
+                break;
+            case  'вопрос':
+            case  'question':
+                $response = (new \Revobot\Commands\QuestionCmd($input, $bot))->exec();
+                break;
+            case  'answer':
+            case  'ответ':
+                $response = (new \Revobot\Commands\AnswerCmd($input, $bot))->exec();
                 break;
             default:
                 $response = '';

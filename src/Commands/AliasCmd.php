@@ -2,11 +2,42 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Commands\Custom\CustomCmd;
+use Revobot\Commands\Custom\Prices;
+use Revobot\Commands\Custom\Types;
+use Revobot\Money\Revocoin;
+use Revobot\Revobot;
+
 class AliasCmd extends BaseCmd
 {
-    public function __construct(string $input)
+    private Revobot $bot;
+
+    public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
-        $this->setDescription('/alias <команда> <новое название>');
+        $this->setDescription('/alias команда новое_название');
+        $this->bot = $bot;
+    }
+
+    public function exec(): string
+    {
+        $customCmd = new CustomCmd($this->bot);
+        $command_name = (string)explode(' ', $this->input)[0];
+
+        if (!$customCmd->isValidCommand($command_name)) {
+            return 'Недопустимое имя';
+        }
+
+        if(!$customCmd->hasMoney(Types::TYPE_ALIAS) || empty($command_name)){
+            return 'Недостаточно ревокоинов.';
+        }
+
+        if($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)){
+            return 'Такая команда уже есть.';
+        }
+
+        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_ALIAS, []);
+        (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, -TG_BOT_ID, $this->bot->getUserId());
+        return 'Команда /'.$command_name.' создана!';
     }
 }

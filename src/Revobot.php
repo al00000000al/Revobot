@@ -150,7 +150,7 @@ class Revobot
                 $payload_len = strlen($payload);
                 $bot_answer = Answers::getAnswer('- '.$this->message."\n - ");
                 if (!empty($bot_answer)) {
-                    $bot_answer = substr($bot_answer, $payload_len);
+                   // $bot_answer = substr($bot_answer, $payload_len);
                     $this->sendMessageTg((string)$bot_answer);
                 }
             }

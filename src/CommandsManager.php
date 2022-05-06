@@ -2,11 +2,73 @@
 
 namespace Revobot;
 
+use Revobot\Commands\Custom\CustomCmd;
 use Revobot\Neural\Answers;
 
 class CommandsManager
 {
-    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ]+?)(\s|$|@)(.{0,3000})/sum';
+    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ\._\-]+?)(\s|$|@)(.{0,3000})/sum';
+
+    public const COMMANDS = [
+        'alive',
+        'алив',
+        'bash',
+        'баш',
+        'calc',
+        'help',
+        'хэлп',
+        'хлеп',
+        'помощь',
+        'infa',
+        'инфа',
+        'pukvy',
+        'пуквы',
+        'rand',
+        'ранд',
+        'when',
+        'когда',
+        'yn',
+        'дн',
+        'chat',
+        'чат',
+        'чят',
+        'time',
+        'время',
+        'balance',
+        'баланс',
+        'stat',
+        'стат',
+        'echo',
+        'print',
+        'принт',
+        'excho',
+        'config',
+        'key',
+        'конфиг',
+        'key.edit',
+        'send',
+        'сенд',
+        'rsend',
+        'рсенд',
+        'talk',
+        'толк',
+        'кто',
+        'who',
+        'ии',
+        'ai',
+        'ор',
+        'или',
+        'or',
+        'ili',
+        'alias',
+        'алиас',
+        'mycommands',
+        'моикоманды',
+        'command',
+        'cmd',
+        'комманда',
+        'команда',
+    ];
 
 
     /**
@@ -20,7 +82,24 @@ class CommandsManager
         list($command, $input) = self::extract($message);
 
         dbg_echo($command . "\n");
+        $result = CommandsManager::run($bot, $command, $input);
+        if (empty($result)) {
+            return (new CustomCmd($bot))->run();
+        } else {
+            return $result;
+        }
 
+
+    }
+
+    /**
+     * @param Revobot $bot
+     * @param string $command
+     * @param string $input
+     * @return string
+     */
+    public static function run(Revobot $bot, string $command, string $input): string
+    {
         switch ($command) {
             case 'alive' :
             case 'алив':
@@ -110,6 +189,30 @@ class CommandsManager
             case 'ai':
                 $response = Answers::getAnswer($input);
                 break;
+            case 'ор':
+            case 'или':
+            case 'or':
+            case 'ili':
+                $response = (new \Revobot\Commands\OrCmd($input))->exec();
+                break;
+            case  'alias':
+            case 'алиас':
+                $response = (new \Revobot\Commands\AliasCmd($input, $bot))->exec();
+                break;
+            case 'mycommands':
+            case 'моикоманды':
+                $response = (new \Revobot\Commands\MycommandsCmd($input, $bot))->exec();
+                break;
+            case  'command':
+            case  'cmd':
+            case  'комманда':
+            case  'команда':
+                $response = (new \Revobot\Commands\CommandCmd($input, $bot))->exec();
+                break;
+            case  'delete':
+            case  'удалить':
+                $response = (new \Revobot\Commands\DeleteCmd($input, $bot))->exec();
+                break;
             default:
                 $response = '';
         }
@@ -123,12 +226,11 @@ class CommandsManager
      * @param string $message
      * @return array
      */
-    private static function extract(string $message): array
+    public static function extract(string $message): array
     {
         preg_match(self::CMD_REGEX, $message, $matches, PREG_OFFSET_CAPTURE);
         $command = mb_strtolower($matches[1][0], 'UTF-8');
         $text = $matches[3][0] . "";
-        // dbg_echo('cmd='.$command.' text='.$text."\n");
         return [$command, $text];
     }
 }

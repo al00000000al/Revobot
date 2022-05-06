@@ -72,7 +72,7 @@ class CustomCmd
      */
     public function getCustomCmd(string $command_name): array
     {
-        $result = $this->bot->pmc->get(self::PMC_COMMAND_KEY . $command_name);
+        $result = $this->bot->pmc->get(self::PMC_COMMAND_KEY . sha1($command_name));
         if (empty($result)) {
             return [];
         }
@@ -128,7 +128,7 @@ class CustomCmd
             'created_at' => time(),
         ];
 
-        $this->bot->pmc->set(self::PMC_COMMAND_KEY . $command_name, $command);
+        $this->bot->pmc->set(self::PMC_COMMAND_KEY . sha1($command_name), $command);
         $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $this->bot->provider . '_' . $user_id, $user_commands);
     }
 
@@ -138,7 +138,7 @@ class CustomCmd
      */
     public function deleteCommand(int $user_id, string $command_name)
     {
-        $this->bot->pmc->delete(self::PMC_COMMAND_KEY . $command_name);
+        $this->bot->pmc->delete(self::PMC_COMMAND_KEY . sha1($command_name));
         $user_commands = array_diff($this->getUserCommands($user_id), [$command_name]);
         $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $this->bot->provider . '_' . $user_id, $user_commands);
     }

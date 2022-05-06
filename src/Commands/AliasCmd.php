@@ -21,6 +21,10 @@ class AliasCmd extends BaseCmd
 
     public function exec(): string
     {
+        if (empty($this->input)){
+            return $this->description;
+        }
+
         $customCmd = new CustomCmd($this->bot);
         $command_name = (string)explode(' ', $this->input)[0];
 
@@ -38,6 +42,6 @@ class AliasCmd extends BaseCmd
 
         $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_ALIAS, []);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, -TG_BOT_ID, $this->bot->getUserId());
-        return 'Команда /'.$command_name.' создана!';
+        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
     }
 }

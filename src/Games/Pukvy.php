@@ -33,11 +33,11 @@ class Pukvy
     {
 
 
-        $first_1 = mb_substr($this->words[0], 0, 1);
-        $first_2 = mb_substr($this->words[1], 0, 1);
+        $first_1 = mb_substr($this->words[0], 0, 1, 'UTF-8');
+        $first_2 = mb_substr($this->words[1], 0, 1, 'UTF-8');
 
-        $second_1 = mb_substr($this->words[0], 1, 1);
-        $second_2 = mb_substr($this->words[1], 1, 1);
+        $second_1 = mb_substr($this->words[0], 1, 1, 'UTF-8');
+        $second_2 = mb_substr($this->words[1], 1, 1, 'UTF-8');
 
         if
         (

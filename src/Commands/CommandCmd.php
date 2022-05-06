@@ -21,8 +21,17 @@ class CommandCmd extends BaseCmd
 
     public function exec(): string
     {
+
+        if (empty($this->input)){
+            return $this->description;
+        }
         $customCmd = new CustomCmd($this->bot);
-        $command_name = (string)explode(' ', $this->input)[0];
+
+
+        $text_arr = explode(' ', $this->input);
+        $command_name = (string)array_shift($text_arr);
+        $text = implode(' ', $text_arr);
+
 
         if (!$customCmd->isValidCommand($command_name)) {
             return 'Недопустимое имя';
@@ -36,8 +45,8 @@ class CommandCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_TEXT, []);
+        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_TEXT, [$text]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, -TG_BOT_ID, $this->bot->getUserId());
-        return 'Команда /'.$command_name.' создана!';
+        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
     }
 }

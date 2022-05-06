@@ -21,7 +21,7 @@ class DeleteCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (!empty($this->input)) {
+        if (empty($this->input)) {
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
@@ -42,7 +42,7 @@ class DeleteCmd extends BaseCmd
             }
             if ($price > 0) {
                 (new Revocoin($this->bot))->transaction($price, $this->bot->getUserId(), -TG_BOT_ID);
-
+                $customCmd->deleteCommand($this->bot->getUserId(), $this->input);
                 $commission = $price * Revocoin::TRANSACTION_COMMISSION;
                 $price = $price - $commission;
                 return '+' . $price . 'R у ' . $this->bot->getUserNick();

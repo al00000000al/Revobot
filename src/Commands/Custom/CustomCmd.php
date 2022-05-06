@@ -68,7 +68,7 @@ class CustomCmd
 
     /**
      * @param string $command_name
-     * @return array
+     * @return mixed
      */
     public function getCustomCmd(string $command_name): array
     {
@@ -96,7 +96,7 @@ class CustomCmd
 
     /**
      * @param int $user_id
-     * @return array
+     * @return mixed
      */
     public function getUserCommands(int $user_id): array
     {
@@ -156,7 +156,8 @@ class CustomCmd
                 case Types::TYPE_ALIAS:
                     return CommandsManager::run($this->bot, $command, $input);
                 case Types::TYPE_TEXT:
-                    return (new EchoCmd($input))->exec();
+                    $string = (string)$custom_cmd['args'][0];
+                    return (new EchoCmd($string))->exec();
             }
         }
         return '';

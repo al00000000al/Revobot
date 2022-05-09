@@ -76,6 +76,8 @@ class CommandsManager
         'answer',
         'question',
         'quiz',
+        'id',
+        'ид',
     ];
 
 
@@ -229,6 +231,10 @@ class CommandsManager
             case  'answer':
             case  'ответ':
                 $response = (new \Revobot\Commands\AnswerCmd($input, $bot))->exec();
+                break;
+            case 'id':
+            case 'ид':
+                $response = (new \Revobot\Commands\IdCmd($input, $bot))->exec();
                 break;
             default:
                 $response = '';

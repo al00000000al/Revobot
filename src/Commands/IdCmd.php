@@ -16,7 +16,7 @@ class IdCmd extends BaseCmd
 
     public function exec(): string
     {
-        return $this->bot->getUserId();
+        return (string)$this->bot->getUserId();
     }
 
 }

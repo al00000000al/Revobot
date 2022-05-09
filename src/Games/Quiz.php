@@ -14,7 +14,7 @@ class Quiz
     private const PMC_QUESTION_CURRENT_KEY = 'quiz_question_current_';//provider chat id
 
     public const QUIZ_WIN_PRIZE = 3;
-    public const QUIZ_LOSE_PRIZE = 1;
+    public const QUIZ_LOSE_PRIZE = 2;
 
     public function __construct(Revobot $bot)
     {

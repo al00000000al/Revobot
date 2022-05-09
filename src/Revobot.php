@@ -185,12 +185,21 @@ class Revobot
     public function sendMessageTg(string $response_text)
     {
         $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
-        $response_text = str_replace('@','%40', $response_text);
-        Curl::post($url, [
-            'chat_id' => $this->chat_id,
-            'text' => $response_text,
-            'parse_mode' => $this->parse_mode,
-        ]);
+        //$response_text = str_replace('@','%40', $response_text);
+
+        try {
+            Curl::post($url, [
+                'chat_id' => $this->chat_id,
+                'text' => $response_text,
+                'parse_mode' => $this->parse_mode,
+            ]);
+        }catch(\Exception $e){
+            Curl::post($url, [
+                'chat_id' => $this->chat_id,
+                'text' => 'Иди нахуй',
+                'parse_mode' => $this->parse_mode,
+            ]);
+        }
     }
 
 

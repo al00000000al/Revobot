@@ -146,11 +146,11 @@ class Revobot
             if ($has_bot_response) {
 
 
-                $payload = '- '.$this->message."\n - ";
+                $payload = '- ' . $this->message . "\n - ";
                 $payload_len = strlen($payload);
-                $bot_answer = Answers::getAnswer('- '.$this->message."\n - ");
+                $bot_answer = Answers::getAnswer('- ' . $this->message . "\n - ");
                 if (!empty($bot_answer)) {
-                   // $bot_answer = substr($bot_answer, $payload_len);
+                    // $bot_answer = substr($bot_answer, $payload_len);
                     $this->sendMessageTg((string)$bot_answer);
                 }
             }
@@ -185,21 +185,16 @@ class Revobot
     public function sendMessageTg(string $response_text)
     {
         $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
-        //$response_text = str_replace('@','%40', $response_text);
 
-        try {
-            Curl::post($url, [
-                'chat_id' => $this->chat_id,
-                'text' => $response_text,
-                'parse_mode' => $this->parse_mode,
-            ]);
-        }catch(\Exception $e){
-            Curl::post($url, [
-                'chat_id' => $this->chat_id,
-                'text' => 'Иди нахуй',
-                'parse_mode' => $this->parse_mode,
-            ]);
+        if (substr($response_text, 0, 1) == '@') {
+            $response_text = str_replace('@', '', $response_text);
         }
+
+        Curl::post($url, [
+            'chat_id' => $this->chat_id,
+            'text' => $response_text,
+            'parse_mode' => $this->parse_mode,
+        ]);
     }
 
 

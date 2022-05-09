@@ -12,7 +12,7 @@ class SendCmd extends BaseCmd
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
-        $this->setDescription('/send @юзер <сумма>');
+        $this->setDescription("/send @юзер <сумма>\n/send telegram_id <сумма>");
         $this->bot = $bot;
     }
 
@@ -27,8 +27,13 @@ class SendCmd extends BaseCmd
         }
 
         $username = $params[0];
-        $username = str_replace('@', '', $username);
-        $to_user_id = self::getId($username);
+
+        if(substr($username, 0, 1) == '@') {
+            $username = str_replace('@', '', $username);
+            $to_user_id = self::getId($username);
+        }else{
+            $to_user_id = (int)$username;
+        }
         if($to_user_id === 0){
             return $this->description;
         }

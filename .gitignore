@@ -4,3 +4,5 @@
 /config.php
 /kphp_out/
 /test*.php
+log.txt
+message.txt

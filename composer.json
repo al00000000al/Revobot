@@ -24,8 +24,6 @@
 
         "vkcom/kphp-polyfills": "^1.0.0",
       "ext-curl": "*",
-      "ext-json": "*",
-      "ext-memcache": "*",
-      "ext-memcached": "*"
+      "ext-json": "*"
     }
 }

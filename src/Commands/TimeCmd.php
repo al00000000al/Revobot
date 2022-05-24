@@ -36,7 +36,7 @@ class TimeCmd extends BaseCmd
             return date(self::DATE_FORMAT);
         }
 
-        return date(self::DATE_FORMAT, time() + (int)$tz - self::MSK_TZ * 60 * 60);
+        return date(self::DATE_FORMAT, time() + ((int)$tz - self::MSK_TZ) * 60 * 60);
 
     }
 

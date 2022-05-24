@@ -20,6 +20,7 @@ class TimeCmd extends BaseCmd
 
     public function exec(): string
     {
+        $tz = null;
         if (!empty($this->input)) {
             $tz = (string)$this->input;
             $this->bot->pmc->set($this->getKey(), $tz);
@@ -30,7 +31,7 @@ class TimeCmd extends BaseCmd
         if (isset($result)) {
             $tz = (string)$result;
         }
-        if (!isset($tz)) {
+        if (!$tz) {
             return date(self::DATE_FORMAT);
         }
 

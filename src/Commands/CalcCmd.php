@@ -3,6 +3,8 @@
 namespace Revobot\Commands;
 
 
+use Revobot\Util\Curl;
+
 class CalcCmd extends BaseCmd
 {
 
@@ -21,6 +23,8 @@ class CalcCmd extends BaseCmd
      */
     public function exec(): string
     {
-      return mt_rand(0, 100)."";
+        $url = 'https://api.mathjs.org/v4/?expr=' . urlencode($this->input);
+        return (string)Curl::get($url);
+
     }
 }

@@ -11,4 +11,6 @@ const HUGGINGFACE_KEY = '';
 
 const TLGRM_TYPESENSE_KEY = 'search on site';
 
+const OPEN_WEATHER_MAP_API_KEY = '';
+
 

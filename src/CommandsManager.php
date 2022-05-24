@@ -78,6 +78,10 @@ class CommandsManager
         'quiz',
         'id',
         'ид',
+        'casino',
+        'казино',
+        'weather',
+        'погода',
     ];
 
 
@@ -235,6 +239,14 @@ class CommandsManager
             case 'id':
             case 'ид':
                 $response = (new \Revobot\Commands\IdCmd($input, $bot))->exec();
+                break;
+            case 'casino':
+            case 'казино':
+                $response = (new \Revobot\Commands\CasinoCmd($input, $bot))->exec();
+                break;
+            case 'weather':
+            case 'погода':
+                $response = (new \Revobot\Commands\WeatherCmd($input, $bot))->exec();
                 break;
             default:
                 $response = '';

@@ -155,7 +155,7 @@ class CommandsManager
                 break;
             case 'time':
             case 'время':
-                $response = (new \Revobot\Commands\TimeCmd($input))->exec();
+                $response = (new \Revobot\Commands\TimeCmd($input, $bot))->exec();
                 break;
             case 'balance':
             case 'баланс':

@@ -8,6 +8,7 @@ class TimeCmd extends BaseCmd
 {
     private const PMC_USER_TIMEZONE_KEY = "user_timezone_";//.$provider.$user_id
     private const DATE_FORMAT = 'Y-m-d H:i:s';
+    const MSK_TZ = 3;
 
     private Revobot $bot;
 
@@ -35,7 +36,7 @@ class TimeCmd extends BaseCmd
             return date(self::DATE_FORMAT);
         }
 
-        return date(self::DATE_FORMAT, time() + (int)$tz * 60 * 60);
+        return date(self::DATE_FORMAT, time() + (int)$tz - self::MSK_TZ * 60 * 60);
 
     }
 

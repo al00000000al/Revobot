@@ -1,2 +1,2 @@
 #!/bin/bash
-service engine start
+/etc/init.d/engine start pmc

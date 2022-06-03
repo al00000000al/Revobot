@@ -82,6 +82,13 @@ class CommandsManager
         'казино',
         'weather',
         'погода',
+        'todo',
+        'туду',
+        'todos',
+        'задачи',
+        'todolist',
+        'todo.done',
+        'todo.delete',
     ];
 
 
@@ -247,6 +254,17 @@ class CommandsManager
             case 'weather':
             case 'погода':
                 $response = (new \Revobot\Commands\WeatherCmd($input, $bot))->exec();
+                break;
+            case 'todo':
+            case 'туду':
+            case 'todos':
+            case 'задачи':
+            case 'todolist':
+                $response = (new \Revobot\Commands\TodoCmd($input, $bot))->exec();
+                break;
+            case 'todo.done':
+            case 'todo.delete':
+                $response = (new \Revobot\Commands\TodoDoneCmd($input, $bot))->exec();
                 break;
             default:
                 $response = '';

@@ -33,7 +33,7 @@ class When extends PredictBase
                 $next_time += 40000000;
                 break;
             case 1:
-                $next_time += 30000000;
+                $next_time += 13000000;
                 break;
             default:
                 $next_time += 10000000;

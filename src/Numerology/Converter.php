@@ -25,7 +25,7 @@ class Converter
 
         // too long word
         if ($number >= 100) {
-            return 0;
+            return $number % 100;
         }
 
         // get rate of special numbers

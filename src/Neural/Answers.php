@@ -5,6 +5,7 @@ namespace Revobot\Neural;
 use Revobot\Services\AnswersMailru;
 use Revobot\Services\DobroAI;
 use Revobot\Services\Huggingface\SbermGPT;
+use Revobot\Services\SberGPT3;
 
 class Answers
 {
@@ -16,7 +17,15 @@ class Answers
     public static function getAnswer(string $input): string
     {
 
-        $text = DobroAI::get($input);
+        // $text = DobroAI::get($input);
+
+        $s = mt_rand(0, 100);
+        if ($s < 0) {
+            $text = SberGPT3::generate($input);
+        } else {
+            $text = AnswersMailru::get($input);
+        }
+
         return $text;
 
     }
@@ -57,6 +66,6 @@ class Answers
     {
         $result = trim(explode("\"", $result)[0]);
         $result = str_replace(['»', '«'], '', $result);
-        return  $result;
+        return $result;
     }
 }

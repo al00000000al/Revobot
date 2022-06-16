@@ -29,47 +29,28 @@ class AnswersMailru
         $results = Curl::get(self::BASE_GO_URL .$params);
 
 
-        $questions = json_decode($results, true);
+        $questions = (array)json_decode($results, true);
 
-        if(!isset($questions['results']) && !isset($questions['results'][0]['id'])){
+        if(!isset($questions['results']) || count($questions['results']) === 0){
             return '';
         }
 
+        $random_qid = (int) $questions['results'][mt_rand(0, count($questions['results']) - 1)]['id'];
 
-        $params = http_build_query([
-           'qid' =>  (int)$questions['results'][0]['id']
-        ]);
+        $params = http_build_query(['qid' =>  $random_qid]);
 
         $answers = Curl::get(self::BASE_OTVET_URL . $params);
 
-        $answers = json_decode($answers, true);
+        $answers = (array)json_decode($answers, true);
 
 
         if(!isset($answers['bestanswer'])){
             return '';
         }
-        $bestanswer = (int)$answers['bestanswer'];
+        //$bestanswer = (int)$answers['bestanswer'];
 
-        $text = "";
-        if (!empty($answers)) {
-            foreach ($answers as $answer) {
-                if (!isset($answer['id'])) {
-                    return '';
-                }
-                if ((int)$answer['id'] == $bestanswer) {
-                    $text = strip_tags((string)$answer['atext']);
-                    break;
-                }
-            }
-
-            if ($text === "") {
-                $text = strip_tags((string)$answers[0]['atext']);
-            }
-        } else {
-            $text = '';
-        }
-
-        return $text;
+        $text = $answers['answers'][mt_rand(0, count($answers['answers']) - 1)]['atext'];
+        return (string)$text;
     }
 
 }

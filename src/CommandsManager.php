@@ -141,7 +141,7 @@ class CommandsManager
                 break;
             case 'infa' :
             case 'инфа' :
-                $response = (new \Revobot\Commands\InfaCmd($input))->exec();
+                $response = (new \Revobot\Commands\InfaCmd($input, $bot))->exec();
                 break;
             case 'pukvy' :
             case 'пуквы' :
@@ -157,7 +157,7 @@ class CommandsManager
                 break;
             case 'yn' :
             case 'дн' :
-                $response = (new \Revobot\Commands\YnCmd($input))->exec();
+                $response = (new \Revobot\Commands\YnCmd($input, $bot))->exec();
                 break;
             case 'chat':
             case 'чат':

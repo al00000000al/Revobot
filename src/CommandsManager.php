@@ -89,6 +89,9 @@ class CommandsManager
         'todolist',
         'todo.done',
         'todo.delete',
+        'exchange',
+        'currency',
+        'курс',
     ];
 
 
@@ -265,6 +268,11 @@ class CommandsManager
             case 'todo.done':
             case 'todo.delete':
                 $response = (new \Revobot\Commands\TodoDoneCmd($input, $bot))->exec();
+                break;
+            case 'exchange':
+            case 'currency':
+            case 'курс':
+                $response = (new \Revobot\Commands\ExchangeCmd($input))->exec();
                 break;
             default:
                 $response = '';

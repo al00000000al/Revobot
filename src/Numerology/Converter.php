@@ -16,28 +16,30 @@ class Converter
         $word_len = mb_strlen($word);
         $number = 0;
 
-        for($i = 0; $i < $word_len; $i++) {
+        for ($i = 0; $i < $word_len; $i++) {
             $char = mb_substr($word, $i, 1, 'UTF-8');
             $char_n = Words::getNumber($char);
             $number += $char_n;
         }
 
 
-        // too long word
-        if ($number >= 100) {
-            return $number % 100;
-        }
-
         // get rate of special numbers
         $rate = Words::getRate($number);
-        if($rate !== Words::UNKNOWN_RATE) {
+        if ($rate !== Words::UNKNOWN_RATE) {
             return $rate;
         }
 
+        // too long word
+        if ($number >= 20) {
+            return $number % 20;
+        }
+
         // 12 = 1+2 = 3
-        $left = (int)($number / 10);
-        $right = $number % 10;
-        $number = $left + $right;
+        if ($number >= 10) {
+            $left = (int)($number / 10);
+            $right = $number % 10;
+            $number = $left + $right;
+        }
 
         // rate of other numbers
         return Words::getRate($number);

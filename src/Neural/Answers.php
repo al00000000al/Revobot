@@ -17,14 +17,18 @@ class Answers
     public static function getAnswer(string $input): string
     {
 
-        // $text = DobroAI::get($input);
+        try {
+            $text = DobroAI::get($input);
+        } catch (\Exception $e) {
 
-        $s = mt_rand(0, 100);
-        if ($s < 0) {
-            $text = SberGPT3::generate($input);
-        } else {
-            $text = AnswersMailru::get($input);
+            $s = mt_rand(0, 100);
+            if ($s < 0) {
+                $text = SberGPT3::generate($input);
+            } else {
+                $text = AnswersMailru::get($input);
+            }
         }
+
 
         return $text;
 

@@ -35,7 +35,12 @@ class YesNo extends PredictBase
                 $result = self::NO_STR;
                 break;
             default:
-                $result = self::MAYBE_STR;
+                $choice = mt_rand(0,1);
+                if($choice === 0){
+                    $result = self::YES_STR;
+                } else {
+                    $result = self::NO_STR;
+                }
         }
         return $result;
     }

@@ -18,6 +18,7 @@ class HelpCmd extends BaseCmd
 /chat - случайный канал
 /command - создать команду (20R)
 /echo - печатать
+/exchange - курс валют
 /infa - вероятность события
 /mycommands - мои команды
 /or - слово или слово

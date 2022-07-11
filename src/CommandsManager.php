@@ -7,7 +7,7 @@ use Revobot\Neural\Answers;
 
 class CommandsManager
 {
-    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ\._\-]+?)(\s|$|@)(.{0,3000})/sum';
+    public const CMD_REGEX = '/^\/([A-Za-zа-яА-ЯёЁ\._\-]+?)(\s|$|@Therevoluciabot\s?)(.{0,3000})/sum';
 
     public const COMMANDS = [
         'alive',

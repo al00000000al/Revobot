@@ -19,28 +19,25 @@ class OrCmd extends BaseCmd
         }
 
         $words = explode(' ', $this->input);
-        if (count($words) < 2) {
+        $count_words = count($words);
+        if ($count_words < 2) {
             return $this->description;
         }
 
-        $first = $words[0];
-        if (count($words) == 3) {
-            $second = $words[2];
-        } else {
-            $second = $words[1];
+        /** @var string[] $words_valid */
+        $words_valid = [];
+
+        for($i = 0; $i < $count_words; $i++){
+            $hash = crc32(Hash::generate($words[$i]));
+            if($hash % 2 === 0){
+                $words_valid[] = $words[$i];
+            }
         }
 
-        $hash1 = crc32($first);
-        $hash2 = crc32($second);
-
-        if ($hash1 % 2 === 0) {
-            return (string)$first;
+        if(empty($words_valid)){
+            return 'Ничего из перечисленного не подходит';
         }
 
-        if ($hash2 % 2 === 0) {
-            return (string)$second;
-        }
-
-        return 'Любое';
+        return implode(' ', $words_valid);
     }
 }

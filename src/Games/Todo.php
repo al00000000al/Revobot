@@ -36,7 +36,7 @@ class Todo
     {
         $new_items = $items;
         $new_items[] = $name;
-        sort($new_items);
+       // sort($new_items);
         $this->bot->pmc->set(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id, (string)json_encode($new_items));
         return true;
     }
@@ -70,6 +70,7 @@ class Todo
             return false;
         }
         unset($list[$number - 1]);
+        $list = array_values($list);
         $this->bot->pmc->set(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id, (string)json_encode($list));
         return true;
     }

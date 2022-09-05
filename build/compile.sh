@@ -1,3 +1,3 @@
 #!/bin/bash
 cd ../
-kphp  --composer-root=$(pwd) --composer-no-dev index.php
+kphp  --composer-root=$(pwd) index.php

@@ -60,7 +60,7 @@ class Todo
     }
 
     /**
-     * @param array $number
+     * @param array $numbers
      * @param array $list
      * @return bool
      */

@@ -29,8 +29,8 @@ class OrCmd extends BaseCmd
 
         for($i = 0; $i < $count_words; $i++){
             $hash = crc32(Hash::generate($words[$i]));
-            if($hash % 2 === 0){
-                $words_valid[] = $words[$i];
+            if($hash % $count_words === 0){
+                $words_valid = [$words[$i]];
             }
         }
 

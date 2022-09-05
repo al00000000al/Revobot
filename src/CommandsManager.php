@@ -92,6 +92,9 @@ class CommandsManager
         'exchange',
         'currency',
         'курс',
+        'cancel',
+        'передумал',
+        'отмена',
     ];
 
 
@@ -274,6 +277,11 @@ class CommandsManager
             case 'курс':
                 $response = (new \Revobot\Commands\ExchangeCmd($input))->exec();
                 break;
+            case 'cancel':
+            case 'передумал':
+            case 'отмена':
+                $response = (new \Revobot\Commands\CancelCmd($input, $bot))->exec();
+                break;    
             default:
                 $response = '';
         }

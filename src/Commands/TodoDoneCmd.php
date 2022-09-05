@@ -34,7 +34,8 @@ class TodoDoneCmd extends BaseCmd
         if (!$result) {
             return 'Такой задачи нет';
         } else {
-            return 'Задача выполнена!';
+            $user_todos = $todo->loadUserTodos();
+            return 'Задача выполнена!' ."\n\n" . $todo->formatUserTodos($user_todos);
         }
     }
 }

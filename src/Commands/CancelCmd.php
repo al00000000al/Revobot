@@ -24,13 +24,11 @@ class CancelCmd extends BaseCmd
 
     public function exec(): string
     {
-        $number = (int)$this->input;
-        if ($number < 1 || $number > PHP_INT_MAX) {
-            return 'Неверный номер задачи';
-        }
+        $numbers = explode(' ', $this->input);
+        
         $todo = new Todo($this->bot);
         $user_todos = $todo->loadUserTodos();
-        $result = $todo->deleteUserTodo($number, $user_todos);
+        $result = $todo->deleteUserTodo($numbers, $user_todos);
         if (!$result) {
             return 'Такой задачи нет';
         } else {

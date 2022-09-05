@@ -60,16 +60,25 @@ class Todo
     }
 
     /**
-     * @param int $number
+     * @param array $number
      * @param array $list
      * @return bool
      */
-    public function deleteUserTodo(int $number, array $list): bool
+    public function deleteUserTodo(array $numbers, array $list): bool
     {
-        if (empty($list) || !isset($list[$number - 1])) {
+
+        if(empty($list)){
             return false;
         }
-        unset($list[$number - 1]);
+
+        foreach($numbers as $number){
+            $iNumber = (int)$number;
+            if(!isset($list[$iNumber - 1])){
+                return false;
+            }
+            unset($list[$iNumber - 1]);
+        }
+
         $list = array_values($list);
         $this->bot->pmc->set(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id, (string)json_encode($list));
         return true;

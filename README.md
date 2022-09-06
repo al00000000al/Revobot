@@ -15,7 +15,7 @@ https://github.com/VKCOM/kphp
 ------
 Сборка:
 ````
-kphp  --composer-root=$(pwd) --composer-no-dev index.php
+kphp  --composer-root=$(pwd) index.php
 ````
 
 Запуск:

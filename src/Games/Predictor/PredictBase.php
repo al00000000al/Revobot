@@ -29,7 +29,7 @@ class PredictBase
      * @return int[]
      */
     protected function wordsToNum(): array
-    {
+    { 
         $result = [];
         $inp = $this->input;
         foreach ($inp as $word) {

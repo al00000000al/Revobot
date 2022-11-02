@@ -112,7 +112,11 @@ class Revobot
      */
     public function getTalkLimit(): int
     {
-        return (int)$this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
+        $response = $this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
+        if(!$response){
+            return self::DEFAULT_TALK_LIMIT;
+        }
+        return $response;
     }
 
     public function setTalkLimit(int $talk_limit)
@@ -128,7 +132,7 @@ class Revobot
         if ($this->provider === 'tg') {
 
             $mining_future = fork((new Revocoin($this))->mining($this->getUserId()));
-            $talk_limit = (int)$this->getTalkLimit() ?? self::DEFAULT_TALK_LIMIT;
+            $talk_limit = $this->getTalkLimit();
 
             $has_bot_response = (time() % $talk_limit) === 0;
 

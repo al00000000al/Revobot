@@ -36,7 +36,7 @@ class RsendCmd extends BaseCmd
         }
         $username = $this->getUsername($choice);
         $amount = $amount - ($amount * Revocoin::TRANSACTION_COMMISSION);
-        return '+' . $amount . ' R у @' . $username;
+        return '+' . $amount . ' R у ' . $username;
     }
 
     /**

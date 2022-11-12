@@ -3,6 +3,7 @@
 namespace Revobot\Commands;
 
 
+
 class TranslateCmd extends BaseCmd
 {
 
@@ -21,7 +22,8 @@ class TranslateCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
-           
+            $tr = new GoogleTranslate('ru');
+            return (string) $tr->translate($this->input);
         }
         return $this->description;
     }

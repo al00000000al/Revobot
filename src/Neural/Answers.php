@@ -29,6 +29,9 @@ class Answers
             }
         }
 
+        if($text === 'техт сгенерирован с помощью нейросети Порфирьевич porfirevich.ru'){
+            $text = (string) AnswersMailru::get($input);
+        }
 
         return $text;
 

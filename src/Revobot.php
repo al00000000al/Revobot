@@ -28,7 +28,7 @@ class Revobot
     private const PMC_MSG_HISTORY_KEY = 'msg_history_'; // $provider.$chat
     private const PMC_USERNAMES_CHAT_KEY = 'usernames_chat_'; // $provider.$chat
     private const PMC_CHAT_KEY = 'chat_'; // $provider.$chat
-    private const DEFAULT_TALK_LIMIT = 40;
+    private const DEFAULT_TALK_LIMIT = 90;
 
     /**
      * @param string $parse_mode
@@ -112,7 +112,7 @@ class Revobot
      */
     public function getTalkLimit(): int
     {
-        $response = $this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
+        $response = (int) $this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
         if(!$response){
             return self::DEFAULT_TALK_LIMIT;
         }
@@ -149,12 +149,9 @@ class Revobot
 
             if ($has_bot_response) {
 
-
-                $payload = '- ' . $this->message . "\n - ";
-                $payload_len = strlen($payload);
                 $bot_answer = Answers::getAnswer('- ' . $this->message . "\n - ");
                 if (!empty($bot_answer)) {
-                    // $bot_answer = substr($bot_answer, $payload_len);
+
                     $this->sendMessageTg((string)$bot_answer);
                 }
             }

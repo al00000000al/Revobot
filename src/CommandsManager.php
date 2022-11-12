@@ -95,6 +95,7 @@ class CommandsManager
         'cancel',
         'передумал',
         'отмена',
+     //   'tr'
     ];
 
 
@@ -281,7 +282,11 @@ class CommandsManager
             case 'передумал':
             case 'отмена':
                 $response = (new \Revobot\Commands\CancelCmd($input, $bot))->exec();
-                break;    
+                break;
+            case 'tr':
+                $response = '';
+          //      $response = (new \Revobot\Commands\TranslateCmd($input))->exec();
+                break;
             default:
                 $response = '';
         }

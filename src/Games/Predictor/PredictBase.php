@@ -4,6 +4,7 @@ namespace Revobot\Games\Predictor;
 
 use Revobot\Numerology\Converter;
 use Revobot\Util\Strings;
+use Revobot\Util\Time;
 
 class PredictBase
 {
@@ -18,6 +19,7 @@ class PredictBase
      */
     public function __construct(string $input)
     {
+        $input .= ' ' . Time::today();
         $words = Strings::stringToWords($input);
 
         $this->input = $words;
@@ -29,7 +31,7 @@ class PredictBase
      * @return int[]
      */
     protected function wordsToNum(): array
-    { 
+    {
         $result = [];
         $inp = $this->input;
         foreach ($inp as $word) {

@@ -2,38 +2,40 @@
 
 namespace Revobot\Money;
 
+use Revobot\Commands\StoyakCmd;
 use Revobot\Revobot;
 
-class Stat
+class StatStoyak
 {
     private Revobot $bot;
+    private $pmc;
 
     public function __construct(Revobot $bot)
     {
         $this->bot = $bot;
+        $this->pmc = $this->bot->pmc;
     }
 
     public function get(): string
     {
         $chat = $this->bot->loadChat();
         if (empty($chat)) {
-            return 'Никого еще нет в рейтинге';
+            return 'Ни у кого еще не встал';
         }
 
-        $stat_key = $this->getStatCacheKey();
+        $stat_key = $this->getStatCacheKey($this->bot->chat_id);
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);
         if (!$cached) {
-            $revocoin = new Revocoin($this->bot);
             $users = [];
             $usernames = [];
             foreach ($chat as $user) {
-                $users[$user] = $revocoin->getBalance((int)$user);
+                $users[$user] = $this->pmc->get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
                 $usernames[$user] = $this->getUsername((int)$user);
             }
 
             $cached = new StatCached($users, $usernames);
-            instance_cache_store($this->getStatCacheKey(), $cached, 60);
+            instance_cache_store(self::getStatCacheKey($this->bot->chat_id), $cached, 60);
         }
 
 
@@ -47,7 +49,7 @@ class Stat
      */
     public function format(array $users, array $usernames): string
     {
-        $result = "Рейтинг: \n";
+        $result = "Рейтинг стояков: \n";
 
         arsort($users);
 
@@ -58,7 +60,7 @@ class Stat
             } else {
                 $username = $user_id;
             }
-            $result .= "{$i}) {$username}: {$amount} R\n";
+            $result .= "{$i}) {$username}: {$amount}\n";
             $i++;
         }
 
@@ -90,8 +92,8 @@ class Stat
     /**
      * @return string
      */
-    public function getStatCacheKey(): string
+    public static function getStatCacheKey($chat_id): string
     {
-        return 'stat_' . $this->bot->chat_id;
+        return 'stoyak_stat_' . $chat_id;
     }
 }

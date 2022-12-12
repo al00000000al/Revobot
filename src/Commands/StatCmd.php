@@ -17,6 +17,6 @@ class StatCmd extends BaseCmd
 
     public function exec(): string
     {
-       return (new Stat($this->bot))->get();
+        return (new Stat($this->bot))->get();
     }
 }

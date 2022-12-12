@@ -9,18 +9,15 @@ use Revobot\Services\SberGPT3;
 
 class Answers
 {
-
     /**
      * @param string $input
      * @return string
      */
     public static function getAnswer(string $input): string
     {
-
         try {
             $text = DobroAI::get($input);
         } catch (\Exception $e) {
-
             $s = mt_rand(0, 100);
             if ($s < 0) {
                 $text = SberGPT3::generate($input);
@@ -29,12 +26,11 @@ class Answers
             }
         }
 
-        if($text === 'техт сгенерирован с помощью нейросети Порфирьевич porfirevich.ru'){
+        if ($text === 'техт сгенерирован с помощью нейросети Порфирьевич porfirevich.ru') {
             $text = (string) AnswersMailru::get($input);
         }
 
         return $text;
-
     }
 
 
@@ -62,7 +58,6 @@ class Answers
         }
         $history .= '- Револиса: "';
         return $history;
-
     }
 
     /**

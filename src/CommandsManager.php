@@ -95,6 +95,8 @@ class CommandsManager
         'cancel',
         'передумал',
         'отмена',
+        'stoyak',
+        'стояк',
      //   'tr'
     ];
 

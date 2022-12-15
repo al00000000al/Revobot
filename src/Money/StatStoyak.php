@@ -8,7 +8,7 @@ use Revobot\Revobot;
 class StatStoyak
 {
     private Revobot $bot;
-    private \Memcache $pmc;
+    private $pmc;
 
     public function __construct(Revobot $bot)
     {
@@ -23,7 +23,7 @@ class StatStoyak
             return 'Ни у кого еще не встал';
         }
 
-        $stat_key = self::getStatCacheKey($this->bot->chat_id);
+        $stat_key = $this->getStatCacheKey($this->bot->chat_id);
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);
         if (!$cached) {

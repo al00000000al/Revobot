@@ -10,7 +10,7 @@ class StoyakCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    private $pmc;
+    private \Memcache $pmc;
     private int $chat_id;
 
     public const DAY = 24 * 60 * 60;

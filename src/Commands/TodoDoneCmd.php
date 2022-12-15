@@ -44,7 +44,7 @@ class TodoDoneCmd extends BaseCmd
         } else {
             $user_todos = $todo->loadUserTodos();
             if (count($numbers) > 1) {
-                return 'Задачи: -' . join("\n-", $tasks) . ' выполнены!' ."\n\n" . $todo->formatUserTodos($user_todos);
+                return 'Задачи выполнены: -' . join("\n-", $tasks) ."\n\n" . $todo->formatUserTodos($user_todos);
             } else {
                 return 'Задача: -' . $tasks[0] . ' выполнена!' ."\n\n" . $todo->formatUserTodos($user_todos);
             }

@@ -270,7 +270,7 @@ class CommandsManager
                 $response = (new \Revobot\Commands\TodoCmd($input, $bot))->exec();
                 break;
             case 'todo.done':
-            case 'todo.delete':
+            case 'done':
                 $response = (new \Revobot\Commands\TodoDoneCmd($input, $bot))->exec();
                 break;
             case 'exchange':
@@ -281,7 +281,12 @@ class CommandsManager
             case 'cancel':
             case 'передумал':
             case 'отмена':
+            case 'todo.delete':
                 $response = (new \Revobot\Commands\CancelCmd($input, $bot))->exec();
+                break;
+            case 'stoyak':
+            case 'стояк':
+                $response = (new \Revobot\Commands\StoyakCmd($input, $bot))->exec();
                 break;
             case 'tr':
                 $response = '';

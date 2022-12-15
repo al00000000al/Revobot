@@ -8,7 +8,7 @@ use Revobot\Revobot;
 class StatStoyak
 {
     private Revobot $bot;
-    private $pmc;
+    private \Memcache $pmc;
 
     public function __construct(Revobot $bot)
     {

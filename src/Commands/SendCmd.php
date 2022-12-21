@@ -7,6 +7,10 @@ use Revobot\Revobot;
 
 class SendCmd extends BaseCmd
 {
+
+    const KEYS = ['send','сенд'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Отправить R польз.';
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

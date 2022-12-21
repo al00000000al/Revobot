@@ -8,6 +8,10 @@ use Revobot\Util\Curl;
 class CalcCmd extends BaseCmd
 {
 
+    const KEYS = ['calc','калк'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Калькулятор';
+
     /**
      * @param $input
      */

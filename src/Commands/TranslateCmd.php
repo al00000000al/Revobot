@@ -7,6 +7,10 @@ namespace Revobot\Commands;
 class TranslateCmd extends BaseCmd
 {
 
+    const KEYS = ['translate','перевод'];
+    const IS_ENABLED = false;
+    const HELP_DESCRIPTION = 'Перевод фразы';
+
     /**
      * @param $input
      */

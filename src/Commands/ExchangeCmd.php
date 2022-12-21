@@ -9,6 +9,10 @@ use Revobot\Util\Curl;
 class ExchangeCmd extends BaseCmd
 {
 
+    const KEYS = ['exchange','currency','курс',];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Курс';
+
     public function __construct(string $input)
     {
         $this->setDescription('/exchange сумма валюта');

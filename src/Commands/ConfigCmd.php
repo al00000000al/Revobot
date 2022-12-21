@@ -8,6 +8,11 @@ class ConfigCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['config','конфиг'];
+    const IS_ENABLED = true;
+    const IS_ADMIN_ONLY = true;
+    const HELP_DESCRIPTION = 'Конфиг';
+
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);

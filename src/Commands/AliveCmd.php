@@ -8,6 +8,10 @@ class AliveCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['alive','алив'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Состояние бота';
+
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);

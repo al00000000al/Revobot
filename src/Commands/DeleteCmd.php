@@ -10,6 +10,10 @@ use Revobot\Revobot;
 
 class DeleteCmd extends BaseCmd
 {
+
+    const KEYS = ['delete','del','удалить'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Удалить команду';
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

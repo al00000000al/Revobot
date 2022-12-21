@@ -8,6 +8,10 @@ use Revobot\Revobot;
 class KeyCmd extends BaseCmd
 {
     private Revobot $bot;
+    const KEYS = ['key','ключ'];
+    const IS_ENABLED = true;
+    const IS_ADMIN_ONLY = true;
+    const HELP_DESCRIPTION = 'key';
 
     public function __construct(string $input, Revobot $bot)
     {

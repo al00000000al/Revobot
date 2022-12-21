@@ -8,6 +8,9 @@ use Revobot\Revobot;
 class MycommandsCmd extends BaseCmd
 {
 
+    const KEYS = ['mycommands','моикомманды'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Мои комманды';
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

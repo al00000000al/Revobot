@@ -12,6 +12,10 @@ class CommandCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['cmd','кмд','команда','command','комманда'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Создать команду (20R)';
+
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);

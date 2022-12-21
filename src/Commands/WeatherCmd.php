@@ -11,6 +11,10 @@ use Revobot\Util\Curl;
 
 class WeatherCmd extends BaseCmd
 {
+    const KEYS = ['weather','погода','pogoda'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Моя погода';
+
     private Revobot $bot;
     private const PMC_USER_CITY_NAME = 'pmc_user_city_'; //.$provider_id.$user_id
 

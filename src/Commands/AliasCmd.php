@@ -12,6 +12,10 @@ class AliasCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['alias','алиас'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Создать алиас (10R)';
+
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);

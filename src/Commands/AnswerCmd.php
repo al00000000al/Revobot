@@ -9,11 +9,15 @@ class AnswerCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['answer','ответ'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Ответить на вопрос';
+
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
         $this->bot = $bot;
-        $this->setDescription('/answer ответ');
+        $this->setDescription('/answer буква ответа');
     }
 
     public function exec(): string

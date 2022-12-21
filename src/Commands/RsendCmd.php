@@ -7,6 +7,11 @@ use Revobot\Revobot;
 
 class RsendCmd extends BaseCmd
 {
+
+    const KEYS = ['rsend','рсенд'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Отправить R случ. польз.';
+
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

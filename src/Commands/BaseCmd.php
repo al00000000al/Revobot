@@ -6,6 +6,8 @@ class BaseCmd
 {
     protected string $description = 'Base cmd';
 
+    const IS_ENABLED = false;
+
     /**
      * @param string $description
      */

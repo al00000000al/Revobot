@@ -7,7 +7,9 @@ use Revobot\Money\Revocoin;
 
 class CasinoCmd extends BaseCmd
 {
-
+    const KEYS = ['casino','казино',];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Казино на ревокоены';
     private Revobot $bot;
 
     public function __construct($input, Revobot $bot)

@@ -5,6 +5,10 @@ namespace Revobot\Commands;
 class RandCmd extends BaseCmd
 {
 
+    const KEYS = ['rand','random','ранд', 'рандом'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Случайное число';
+
     /**
      * @param $input
      */

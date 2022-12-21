@@ -8,6 +8,10 @@ use Revobot\Revobot;
 
 class StoyakCmd extends BaseCmd
 {
+    const KEYS = ['stoyak','стояк'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Узнать';
+
     private Revobot $bot;
 
     private \Memcache $pmc;

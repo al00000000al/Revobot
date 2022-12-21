@@ -8,6 +8,10 @@ use Revobot\Revobot;
 
 class TodoCmd extends BaseCmd
 {
+    const KEYS = ['todo','туду','задачи'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Список задач';
+
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

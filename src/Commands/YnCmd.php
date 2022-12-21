@@ -9,6 +9,9 @@ use Revobot\Revobot;
 class YnCmd extends BaseCmd
 {
 
+    const KEYS = ['yn','дн'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Да или нет';
     private Revobot $bot;
 
     /**

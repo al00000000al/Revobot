@@ -9,6 +9,10 @@ use Revobot\Revobot;
 class InfaCmd extends BaseCmd
 {
 
+    const KEYS = ['infa','инфа'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Вероятность события';
+
     private Revobot $bot;
 
     /**

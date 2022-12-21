@@ -6,6 +6,9 @@ use Revobot\Util\Hash;
 
 class OrCmd extends BaseCmd
 {
+    const KEYS = ['or','ili','или',];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Выбрать что-то одно';
     public function __construct(string $input)
     {
         parent::__construct($input);

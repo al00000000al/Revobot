@@ -10,6 +10,10 @@ class ChatCmd extends BaseCmd
 {
     private Revobot $bot;
 
+    const KEYS = ['chat','чат'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Случайный чат';
+
     private const CHARACTERS = 'abcdefghijklmnopqrstuvwxyz';
 
     /**

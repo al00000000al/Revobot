@@ -6,6 +6,9 @@ use Revobot\Revobot;
 
 class TalkCmd extends BaseCmd
 {
+    const KEYS = ['talk','толк'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Лимит на разговоров';
     private Revobot $bot;
 
     public function __construct($input, Revobot $bot)

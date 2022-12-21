@@ -7,6 +7,10 @@ use Revobot\Games\Pukvy;
 class PukvyCmd extends BaseCmd
 {
 
+    const KEYS = ['pukvy','пуквы',];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'риска миса';
+
     /**
      * @param $input
      */

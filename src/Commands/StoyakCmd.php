@@ -132,13 +132,13 @@ class StoyakCmd extends BaseCmd
         if ($this->input === 'stat') {
             return (new StatStoyak($this->bot))->get();
         } else {
-            list($time, $user_id) = self::getLatStoyak($this->chat_id);
+            list($time, $user_id) = $this->getLastStoyak($this->chat_id);
             $user_name = '';
-            if (! self::isTodayStoyak($time)) {
-                list($user_id, $user_name) = self::doCalc();
+            if (! self::isTodayStoyak((int)$time)) {
+                list($user_id, $user_name) = $this->doCalc();
             }
             if (empty($user_name)) {
-                $user_name = $this->getUsername($user_id);
+                $user_name = $this->getUsername((int)$user_id);
             } else {
                 $user_name = '@' . $user_name;
             }
@@ -149,27 +149,28 @@ class StoyakCmd extends BaseCmd
     private function doCalc()
     {
         list($user_id, $user_name) = (new Who("У кого сегодня стояк?", $this->bot))->calcUserId();
-        self::writeCalcText();
-        self::updateLastStoyak($this->chat_id, $user_id);
-        self::incUserStoyak($this->chat_id, $user_id);
+        $user_id = (int) $user_id;
+        $this->writeCalcText();
+        $this->updateLastStoyak($this->chat_id, $user_id);
+        $this->incUserStoyak($this->chat_id, $user_id);
         instance_cache_delete(StatStoyak::getStatCacheKey($this->bot->chat_id));
         return [$user_id, $user_name];
     }
     private function writeCalcText()
     {
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
-        usleep(1000);
+        sleep(3);
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
-        usleep(1000);
+        sleep(3);
         $this->bot->sendMessageTg("3");
-        usleep(1000);
+        sleep(3);
         $this->bot->sendMessageTg("2");
-        usleep(1000);
+        sleep(4);
         $this->bot->sendMessageTg("1...");
-        usleep(500);
+        sleep(3);
     }
 
-    private function getLatStoyak($chat_id)
+    private function getLastStoyak($chat_id)
     {
         $result = $this->pmc->get(self::getChatKey($chat_id));
         if (!$result) {
@@ -180,13 +181,15 @@ class StoyakCmd extends BaseCmd
 
     private static function isTodayStoyak(int $last_time): bool
     {
-        return $last_time + self::DAY < time();
+        return $last_time + self::DAY >= time();
     }
 
 
     private function incUserStoyak($chat_id, $user_id)
     {
-        $this->pmc->incr(self::getUserChatKey($chat_id, $user_id), 1);
+        $key = self::getUserChatKey($chat_id, $user_id);
+        $old = (int) $this->pmc->get($key);
+        $this->pmc->set($key, $old+1);
     }
 
     private function updateLastStoyak($chat_id, $user_id)

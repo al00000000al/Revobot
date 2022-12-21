@@ -13,7 +13,7 @@ class StatStoyak
     public function __construct(Revobot $bot)
     {
         $this->bot = $bot;
-        $this->pmc = $this->bot->pmc;
+        $this->pmc = $bot->pmc;
     }
 
     public function get(): string
@@ -23,14 +23,14 @@ class StatStoyak
             return 'Ни у кого еще не встал';
         }
 
-        $stat_key = $this->getStatCacheKey($this->bot->chat_id);
+        $stat_key = self::getStatCacheKey($this->bot->chat_id);
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);
         if (!$cached) {
             $users = [];
             $usernames = [];
             foreach ($chat as $user) {
-                $users[$user] = $this->pmc->get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
+                $users[$user] = (int) $this->pmc->get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
                 $usernames[$user] = $this->getUsername((int)$user);
             }
 
@@ -55,6 +55,9 @@ class StatStoyak
 
         $i = 1;
         foreach ($users as $user_id => $amount) {
+            if($amount == 0){
+                continue;
+            }
             if (array_key_exists($user_id, $usernames)) {
                 $username = $usernames[$user_id];
             } else {

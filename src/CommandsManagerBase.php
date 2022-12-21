@@ -19,13 +19,13 @@ class CommandsManagerBase
     {
         $message = $bot->message;
 
-        list($command, $input) = self::extract($message);
+        list($command, $input) = static::extract($message);
 
         if(0) {
         dbg_echo($command . "\n");
        }
 
-        $result = self::run($bot, $command, $input);
+        $result = CommandsManager::run($bot, $command, $input);
         if (empty($result)) {
             return (new CustomCmd($bot))->run();
         } else {

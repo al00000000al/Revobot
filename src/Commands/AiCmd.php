@@ -28,7 +28,7 @@ class AiCmd extends BaseCmd
             if ($this->input === 'reset') {
                 return self::reset();
             }
-            return self::process();
+          //  return self::process();
         }
         return $this->description;
     }
@@ -62,13 +62,14 @@ class AiCmd extends BaseCmd
 
     private function process()
     {
-        $conversation_id = self::getLastConversation(self::getChatId());
-        $response = (new OpenAI())->generate($this->input, $conversation_id);
-        if ($response) {
+     //   return;
+    //    $conversation_id = self::getLastConversation(self::getChatId());
+     //   $response = (new OpenAI())->generate($this->input, $conversation_id);
+      //  if ($response) {
             //$res_json = json_decode($response);
-        } else {
+      //  } else {
             return "";
-        }
+       // }
     }
 
     private function reset()

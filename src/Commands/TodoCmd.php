@@ -30,7 +30,9 @@ class TodoCmd extends BaseCmd
         }
         $todos = explode(';', $this->input);
         foreach ($todos as $item) {
-            $todo->saveUserTodos(trim($item), $user_todos);
+            $item = trim($item);
+            $todo->saveUserTodos($item, $user_todos);
+            $user_todos[] = $item;
         }
         if(count($todos) > 0){
             return 'Задачи добавлены!';

@@ -28,7 +28,14 @@ class TodoCmd extends BaseCmd
         if (empty($this->input)) {
             return $todo->formatUserTodos($user_todos) . "\n\n" . $this->description;
         }
-        $todo->saveUserTodos($this->input, $user_todos);
-        return 'Задача добавлена!';
+        $todos = explode(';', $this->input);
+        foreach ($todos as $item) {
+            $todo->saveUserTodos(trim($item), $user_todos);
+        }
+        if(count($todos) > 0){
+            return 'Задачи добавлены!';
+        }else{
+            return 'Задача добавлена!';
+        }
     }
 }

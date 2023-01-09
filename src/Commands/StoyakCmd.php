@@ -12,6 +12,8 @@ class StoyakCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Узнать';
 
+    const PSINKA_ID = 176165416;
+
     private Revobot $bot;
 
     private \Memcache $pmc;
@@ -152,8 +154,14 @@ class StoyakCmd extends BaseCmd
 
     private function doCalc()
     {
-        list($user_id, $user_name) = (new Who("У кого сегодня стояк?", $this->bot))->calcUserId();
-        $user_id = (int) $user_id;
+        $users = $this->bot->loadUsernamesChat();
+        if(in_array(self::PSINKA_ID, $users)){
+            $user_id = self::PSINKA_ID;
+            $user_name = '';
+        } else {
+            list($user_id, $user_name) = (new Who("У кого сегодня стояк?", $this->bot))->calcUserId();
+            $user_id = (int) $user_id;
+        }
         $this->writeCalcText();
         $this->updateLastStoyak($this->chat_id, $user_id);
         $this->incUserStoyak($this->chat_id, $user_id);
@@ -236,5 +244,9 @@ class StoyakCmd extends BaseCmd
             $username = (string)$user_id;
         }
         return $username;
+    }
+
+    private function isPsinkaInChat(int $chat_id){
+
     }
 }

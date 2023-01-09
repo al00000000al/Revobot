@@ -45,6 +45,7 @@ class HelpCmd extends BaseCmd
 /time - Правильное время
 /todo - Список задач
 /todo.done - Отметить выполненым
+/vozrast - Сколько сегодня мне лет (нецелое)
 /weather - Моя погода
 /when - Узнать когда
 /who - Узнать кто

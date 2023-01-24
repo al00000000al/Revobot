@@ -34,7 +34,7 @@ class TodoCmd extends BaseCmd
             $todo->saveUserTodos($item, $user_todos);
             $user_todos[] = $item;
         }
-        if(count($todos) > 0){
+        if(count($todos) > 1){
             return 'Задачи добавлены!';
         }else{
             return 'Задача добавлена!';

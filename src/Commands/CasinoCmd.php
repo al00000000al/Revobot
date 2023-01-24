@@ -36,9 +36,7 @@ class CasinoCmd extends BaseCmd
 
         // get balance of TG_BOT_ID (bank)
         $balance = (new Revocoin($this->bot))->getBalance(-TG_BOT_ID);
-        if ($balance < $amount) {
-            return 'Недостаточно средств на счету';
-        }
+
 
         // check that amount is positive and user has enough money
         if ($amount <= 0) {
@@ -46,62 +44,36 @@ class CasinoCmd extends BaseCmd
         }
 
         if(($user_balance < $amount) ||( $user_balance == 0)) {
-            return 'Недостаточно средств на счету';
+            return 'Недостаточно средств у вас на счету';
         }
 
-        $rand = mt_rand(0, 100);
-        (new Revocoin($this->bot))->transaction($amount,  -TG_BOT_ID,$this->bot->getUserId(),);
+        $coeff_arr = [0, 0, 2, 3, 4, 5, 0, 2, 2, 2, 3, 4, 5, 6, 0, 2, 3, 4, 5, 6, 10, 2, 3, 4, 5, 0, 0, 50, 1];
+        $coeff = $coeff_arr[mt_rand(0, count($coeff_arr)-1)];
 
-        // there is different random and coefficient pseudo-randomly
-        /** @var float[] $coefficient_array */
-        $coefficient_array = [
-            0,
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5,
-            0.6,
-            0.7,
-            0.8,
-            0.9,
-            1,
-            1.1,
-            1.2,
-            1.3,
-            1.4,
-            1.5,
-            1.6,
-            1.7,
-            1.8,
-            1.9,
-            2,
-            2.1,
-            2.2,
-            2.3,
-            2.4,
-            2.5,
-            2.6,
-            2.7,
-            2.8,
-            2.9,
-            3,
-        ];
-        $coefficient = $coefficient_array[$rand % count($coefficient_array)];
-        if ($rand > 50) { // if user won
+        if ($balance < ($amount * $coeff)) {
+            $coeff = 0;
+      //      return 'Недостаточно средств на счету казина';
+        }
+
+        $old_amount = $amount;
+        $new_amount = $amount * $coeff;
+        if($new_amount == 0){
             (new Revocoin($this->bot))->transaction(
-                $amount + ($amount * $coefficient),
-                $this->bot->getUserId(),
-                -TG_BOT_ID
-            );
-            return '+' . ($amount + ($amount * $coefficient)) . ' R';
-        } else { // if user lost
-            (new Revocoin($this->bot))->transaction(
-                $amount * $coefficient,
+                $old_amount,
                 -TG_BOT_ID,
                 $this->bot->getUserId()
             );
-            return '-' . $amount * $coefficient . ' R';
+            return '-' . $old_amount . ' R';
+        }else{
+            (new Revocoin($this->bot))->transaction(
+                $new_amount,
+                $this->bot->getUserId(),
+                -TG_BOT_ID
+            );
+            $commission = $new_amount * Revocoin::TRANSACTION_COMMISSION;
+            $new_amount = $new_amount - $commission;
+
+            return '+' . $new_amount . ' R';
         }
     }
 }

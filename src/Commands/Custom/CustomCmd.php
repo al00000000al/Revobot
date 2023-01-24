@@ -98,9 +98,9 @@ class CustomCmd
      * @param int $user_id
      * @return mixed
      */
-    public function getUserCommands(int $user_id): array
+    public function getUserCommands(int $user_id, string $provider = 'tg'): array
     {
-        $result = $this->bot->pmc->get(self::PMC_USER_COMMANDS_KEY . $this->bot->provider . '_' . $user_id);
+        $result = $this->bot->pmc->get(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id);
         if (empty($result)) {
             return [];
         }
@@ -114,7 +114,7 @@ class CustomCmd
      * @param int $command_type
      * @param array $args
      */
-    public function addCommand(int $user_id, string $command_name, int $command_type, array $args)
+    public function addCommand(int $user_id, string $command_name, int $command_type, array $args, string $provider = 'tg')
     {
         $user_commands = $this->getUserCommands($user_id);
         $user_commands[] = $command_name;
@@ -129,18 +129,18 @@ class CustomCmd
         ];
 
         $this->bot->pmc->set(self::PMC_COMMAND_KEY . sha1($command_name), $command);
-        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $this->bot->provider . '_' . $user_id, $user_commands);
+        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
     }
 
     /**
      * @param int $user_id
      * @param string $command_name
      */
-    public function deleteCommand(int $user_id, string $command_name)
+    public function deleteCommand(int $user_id, string $command_name, string $provider = 'tg')
     {
         $this->bot->pmc->delete(self::PMC_COMMAND_KEY . sha1($command_name));
         $user_commands = array_diff($this->getUserCommands($user_id), [$command_name]);
-        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $this->bot->provider . '_' . $user_id, $user_commands);
+        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
     }
 
 

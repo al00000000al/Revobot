@@ -230,6 +230,18 @@ class Revobot
         ]);
     }
 
+    public function sendPollTg(string $question, array $options)
+    {
+        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendPoll';
+     //   $opts = (string) json_encode($options);
+
+        return Curl::post($url, [
+            'chat_id' => $this->chat_id,
+           'question' => $question,
+           'options' => '{"'.implode('","', $options).'"}',
+        ]);
+    }
+
 
     /**
      * @param mixed $raw_data

@@ -27,6 +27,11 @@ class Todo
         return (array)json_decode($this->bot->pmc->get(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id), true);
     }
 
+    public function getUserTodos(int $user_id, string $provider = 'tg'): array
+    {
+        return (array)json_decode($this->bot->pmc->get(self::PMC_TODO_USER_KEY . $provider . $user_id), true);
+    }
+
     /**
      * @param string $name
      * @param array $items
@@ -38,6 +43,13 @@ class Todo
         $new_items[] = $name;
        // sort($new_items);
         $this->bot->pmc->set(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id, (string)json_encode($new_items));
+        return true;
+    }
+
+    public function addTodo(int $user_id, string $item, string $provider = 'tg'){
+        $items = $this->getUserTodos($user_id, $provider);
+        $items[] = $item;
+        $this->bot->pmc->set(self::PMC_TODO_USER_KEY . $provider . $user_id, (string)json_encode($items));
         return true;
     }
 

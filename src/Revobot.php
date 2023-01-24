@@ -238,7 +238,7 @@ class Revobot
         return Curl::post($url, [
             'chat_id' => $this->chat_id,
            'question' => $question,
-           'options' => '{"'.implode('","', $options).'"}',
+           'options' => json_encode($options),
         ]);
     }
 

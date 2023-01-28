@@ -13,7 +13,7 @@ class Revocoin
     private int $difficulty = 3;
     private \Memcache $pmc;
 
-    const MONEY_VERSION = 1;
+    const MONEY_VERSION = 2;
     const MAX_TRIES_DEFAULT = 30;
     const TRANSACTION_COMMISSION = 0.05; // 5%
 
@@ -185,9 +185,10 @@ class Revocoin
     /**
      * @param int $to_user_id
      * @param int $from_user_id
+     * @param string $text
      * @return mixed[]
      */
-    public function mining(int $to_user_id, int $from_user_id = 0): array
+    public function mining(int $to_user_id, int $from_user_id = 0, string $text = ''): array
     {
         // @todo: instance_cache
 
@@ -212,7 +213,7 @@ class Revocoin
                 'prev_hash' => $prev_hash,
                 'version' => self::MONEY_VERSION,
                 'nonce' => $nonce,
-
+                'text' => $text,
             ];
 
             $params_str = (string)json_encode($params);

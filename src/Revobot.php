@@ -131,7 +131,7 @@ class Revobot
     {
         if ($this->provider === 'tg') {
 
-            $mining_future = fork((new Revocoin($this))->mining($this->getUserId()));
+            $mining_future = fork((new Revocoin($this))->mining($this->getUserId(), 0, $this->message));
             $talk_limit = $this->getTalkLimit();
 
             $has_bot_response = (time() % $talk_limit) === 0;
@@ -141,18 +141,29 @@ class Revobot
             if ($response) {
                 $this->sendMessageTg($response);
                 $this->addUserChat();
+                // Mining bot
+                $mining_future_bot = fork((new Revocoin($this))->mining(TG_BOT_ID, 0, (string)$response));
             }
             $mining_result = wait($mining_future);
+            $mining_result_bot = wait($mining_future_bot);
             if (!empty($mining_result)) {
                 $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
+            }
+
+            if (!empty($mining_result_bot)) {
+                $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
             }
 
             if ($has_bot_response) {
 
                 $bot_answer = Answers::getAnswer('- ' . $this->message . "\n - ");
                 if (!empty($bot_answer)) {
-
                     $this->sendMessageTg((string)$bot_answer);
+                    $mining_future_ans_bot = fork((new Revocoin($this))->mining(TG_BOT_ID, 0, (string)$bot_answer));
+                    $mining_result_ans_bot = wait($mining_future_ans_bot);
+                    if (!empty($mining_result_ans_bot)) {
+                        $this->sendMessageTg('+' . $mining_result_ans_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_ans_bot['id']);
+                    }
                 }
             }
 

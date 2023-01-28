@@ -141,18 +141,28 @@ class Revobot
             if ($response) {
                 $this->sendMessageTg($response);
                 $this->addUserChat();
-                // Mining bot
-                $mining_future_bot = fork((new Revocoin($this))->mining(TG_BOT_ID, 0, (string)$response));
+
             }
             $mining_result = wait($mining_future);
-            $mining_result_bot = wait($mining_future_bot);
+
             if (!empty($mining_result)) {
                 $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
             }
+// Mining bot
+                $mining_future_bot = fork((new Revocoin($this))->mining(TG_BOT_ID, 0, (string)$response));
+                $mining_result_bot = wait($mining_future_bot);
 
-            if (!empty($mining_result_bot)) {
-                $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
-            }
+                if (!empty($mining_result_bot)) {
+                    $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
+                }
+
+                // Mining bot
+                $mining_future_bot = fork((new Revocoin($this))->mining(TG_BOT_ID, 0, (string)$response));
+                $mining_result_bot = wait($mining_future_bot);
+
+                if (!empty($mining_result_bot)) {
+                    $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
+                }
 
             if ($has_bot_response) {
 

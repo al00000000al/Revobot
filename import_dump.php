@@ -44,3 +44,4 @@ foreach ($file as $line) {
     }
 
 }
+echo "restored!";

@@ -1,2 +1,2 @@
 #!/bin/bash
-/var/lib/engine/pmemcached-binlog /var/lib/engine/pmemcached > /binlogdump.txt
+/usr/share/engine/bin/pmemcached-binlog /var/lib/engine/pmemcached > /binlogdump.txt

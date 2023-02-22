@@ -20,6 +20,9 @@ class Stat
             return 'Никого еще нет в рейтинге';
         }
 
+        // Add bot to stat
+        $chat = TG_BOT_ID + $chat;
+
         $stat_key = $this->getStatCacheKey();
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);
@@ -71,6 +74,10 @@ class Stat
      */
     private function getUsername(int $user_id): string
     {
+        if($user_id === TG_BOT_ID){
+            return '@Therevoluciabot';
+        }
+
         $chat_member = $this->bot->getChatMemberTg($user_id);
 
         if (!isset($chat_member['result'])) {

@@ -21,7 +21,7 @@ class Stat
         }
 
         // Add bot to stat
-        $chat = TG_BOT_ID + $chat;
+        $chat[] = -TG_BOT_ID;
 
         $stat_key = $this->getStatCacheKey();
 
@@ -74,7 +74,7 @@ class Stat
      */
     private function getUsername(int $user_id): string
     {
-        if($user_id === TG_BOT_ID){
+        if($user_id === -TG_BOT_ID){
             return '@Therevoluciabot';
         }
 

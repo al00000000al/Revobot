@@ -13,4 +13,5 @@ const TLGRM_TYPESENSE_KEY = 'search on site';
 
 const OPEN_WEATHER_MAP_API_KEY = '';
 
-
+const DL_VIDEO_API_URL = '';
+const DL_VIDEO_API_KEY = '';

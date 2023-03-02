@@ -4,6 +4,7 @@ namespace Revobot;
 
 use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
+use Revobot\Services\InstagramDownloader;
 use Revobot\Util\Curl;
 use Revobot\Util\Dummy;
 
@@ -148,21 +149,15 @@ class Revobot
             if (!empty($mining_result)) {
                 $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
             }
-// Mining bot
-                $mining_future_bot = fork((new Revocoin($this))->mining(-TG_BOT_ID, 0, (string)$response));
-                $mining_result_bot = wait($mining_future_bot);
-
-                if (!empty($mining_result_bot)) {
-                    $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
-                }
-
                 // Mining bot
+                if($response){
                 $mining_future_bot = fork((new Revocoin($this))->mining(-TG_BOT_ID, 0, (string)$response));
                 $mining_result_bot = wait($mining_future_bot);
 
                 if (!empty($mining_result_bot)) {
                     $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
                 }
+            }
 
             if ($has_bot_response) {
 
@@ -177,9 +172,12 @@ class Revobot
                 }
             }
 
-
+            if(InstagramDownloader::is_instagram_reels_url($this->message)){
+                InstagramDownloader::get($this->message, $this->chat_id);
+            }
         }
     }
+
 
 
     /**

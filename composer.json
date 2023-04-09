@@ -24,7 +24,8 @@
 
         "vkcom/kphp-polyfills": "^1.0.0",
       "ext-curl": "*",
-      "ext-json": "*"
+      "ext-json": "*",
+        "orhanerday/open-ai": "^4.7"
 
     }
 }

@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'ai','ии','alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','help','хэлп','хлеп','помощь','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','todo.done','done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
+        'ai','ии','alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','context','контекст','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','help','хэлп','хлеп','помощь','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','todo.done','done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -70,6 +70,10 @@ case 'комманда':
 case 'config':
 case 'конфиг':
 	$response = (new \Revobot\Commands\ConfigCmd($input, $bot))->exec();
+	break;
+case 'context':
+case 'контекст':
+	$response = (new \Revobot\Commands\ContextCmd($input, $bot))->exec();
 	break;
 case 'delete':
 case 'del':

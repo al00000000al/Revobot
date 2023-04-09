@@ -4,80 +4,48 @@ namespace Revobot\Commands;
 
 use Revobot\Neural\Answers;
 use Revobot\Revobot;
-use Revobot\Services\OpenAI;
+use Revobot\Services\OpenAIService;
 
 class AiCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['ai','ии'];
-    const IS_ENABLED = true;
-    const HELP_DESCRIPTION = 'Нейросеть';
+    public const KEYS = ['ai','ии'];
+    public const IS_ENABLED = true;
+    public const HELP_DESCRIPTION = 'Нейросеть';
+
+    private const PMC_USER_AI_KEY = 'pmc_user_ai_';
 
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription("Введите /ai текст\n\nДля сброса темы напишите /ai reset");
+        self::setDescription("Введите /ai текст");
     }
 
     public function exec(): string
     {
         if (!empty($this->input)) {
-            return Answers::getAnswer($this->input);
-            if ($this->input === 'reset') {
-                return self::reset();
-            }
-          //  return self::process();
+            $context = $this->getContext();
+if(!empty($context)) {
+    return OpenAIService::generate($this->input, $context);
+}else{
+    return OpenAIService::generate($this->input);
+}
         }
         return $this->description;
     }
 
-    private function getConversationKey(int $chat_id): string
-    {
-        return 'conversation_chat'.$chat_id;
-        //$this->bot->pmc->get($key)
+
+    private function getContext(){
+        $result = $this->bot->pmc->get($this->getKey());
+if(!$result) {
+    return "";
+}
+return $result;
     }
 
-    /**
-     * last conversation_id
-     * @param int $chat_id
-     * @return string
-     */
-    private function getLastConversation(int $chat_id): string
-    {
-        $conversation_id = $this->bot->pmc->get(self::getConversationKey($chat_id));
-        if (!$conversation_id) {
-            return '';
-        } else {
-            return $conversation_id;
-        }
-    }
-
-    private function setLastConversation(int $chat_id, string $conversation_id): bool
-    {
-        $this->bot->pmc->set(self::getConversationKey($chat_id), $conversation_id);
-        return true;
-    }
-
-    private function process()
-    {
-     //   return;
-    //    $conversation_id = self::getLastConversation(self::getChatId());
-     //   $response = (new OpenAI())->generate($this->input, $conversation_id);
-      //  if ($response) {
-            //$res_json = json_decode($response);
-      //  } else {
-            return "";
-       // }
-    }
-
-    private function reset()
-    {
-    }
-
-    private function getChatId()
-    {
-        return $this->bot->chat_id;
-    }
+    private function getKey(){
+        return self::PMC_USER_AI_KEY . $this->bot->provider . $this->bot->getUserId();
+}
 }

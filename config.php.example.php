@@ -15,3 +15,4 @@ const OPEN_WEATHER_MAP_API_KEY = '';
 
 const DL_VIDEO_API_URL = '';
 const DL_VIDEO_API_KEY = '';
+const OPENAI_API_KEY = '';

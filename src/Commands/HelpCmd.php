@@ -26,6 +26,7 @@ class HelpCmd extends BaseCmd
 /casino - Казино на ревокоены
 /chat - Случайный чат
 /cmd - Создать команду (20R)
+/context - Установить контекст нейросети
 /delete - Удалить команду
 /echo - Печатать
 /exchange - Курс

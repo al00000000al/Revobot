@@ -23,7 +23,6 @@ class TlgrmApp
                 return 'https://t.me/' . $link;
             }
         } elseif (isset($res['message'])) {
-            dbg_echo((string)$res['message']);
             return $link;
         }
         return $link;

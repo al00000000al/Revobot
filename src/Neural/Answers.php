@@ -17,7 +17,7 @@ class Answers
     {
         try {
             $text = DobroAI::get($input);
-        } catch (\Exception $e) {
+        } catch (\Exception $_) {
             $s = mt_rand(0, 100);
             if ($s < 0) {
                 $text = SberGPT3::generate($input);
@@ -43,7 +43,7 @@ class Answers
     {
         $message_new = substr($message, 0, 200);
 
-        if ($history == null) {
+        if ($history === null) {
             $history = '';
         } else {
             $history_arr = explode("\n", $history);

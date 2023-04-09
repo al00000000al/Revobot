@@ -13,7 +13,7 @@ class Utils
      */
     public static function replaceMe(int $user_id, string $input): string
     {
-        $input = str_replace(['me','my','мне','мое','мою','моё','меня'], $user_id.'', $input);
+        $input = str_replace(['me','my','мне','мое','мою','моё','меня'], (string)$user_id, $input);
         return (string)str_replace(['I ','я '], $user_id.' ', $input);
     }
 

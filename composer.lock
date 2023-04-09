@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71dacf6c8041d4fb838422e0c971b421",
+    "content-hash": "179d9b52631accfae99e07102821eb96",
     "packages": [
         {
             "name": "orhanerday/open-ai",
@@ -163,7 +163,61 @@
             "time": "2022-08-16T11:21:49+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "vkcom/noverify",
+            "version": "v0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VKCOM/noverify.git",
+                "reference": "4f51f91b339e205692c658914f284278dd03b2d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VKCOM/noverify/zipball/4f51f91b339e205692c658914f284278dd03b2d8",
+                "reference": "4f51f91b339e205692c658914f284278dd03b2d8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "php": ">=7.1"
+            },
+            "bin": [
+                "src/cmd/composer-get/bin/noverify-get"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NoVerify\\": "src/cmd/composer-get/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yuriy Nasretdinov",
+                    "email": "nasretdinov@gmail.com"
+                },
+                {
+                    "name": "Iskander Sharipov",
+                    "email": "quasilyte@gmail.com"
+                },
+                {
+                    "name": "Petr Makhnev",
+                    "email": "mr.makhneff@gmail.com"
+                }
+            ],
+            "description": "Pretty fast linter (code static analysis utility) for PHP",
+            "homepage": "https://github.com/VKCOM/noverify",
+            "support": {
+                "issues": "https://github.com/VKCOM/noverify/issues",
+                "source": "https://github.com/VKCOM/noverify/tree/v0.5.3"
+            },
+            "time": "2022-06-23T10:22:02+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

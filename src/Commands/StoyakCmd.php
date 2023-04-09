@@ -117,11 +117,8 @@ class StoyakCmd extends BaseCmd
 "Анализируем статистические данные о членах разных культур и этнических групп",
     ];
 
-    /**
-     * @param $input
-     * @param Revobot $bot
-     */
-    public function __construct($input, Revobot $bot)
+
+    public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
         $this->bot = $bot;
@@ -171,15 +168,15 @@ class StoyakCmd extends BaseCmd
     private function writeCalcText()
     {
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
-        sleep(3);
+        //sleep(3);
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
-        sleep(3);
+        //sleep(3);
         $this->bot->sendMessageTg("3");
-        sleep(3);
+        //sleep(3);
         $this->bot->sendMessageTg("2");
-        sleep(4);
+        //sleep(4);
         $this->bot->sendMessageTg("1...");
-        sleep(3);
+       // sleep(3);
     }
 
     private function getLastStoyak($chat_id)

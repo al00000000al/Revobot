@@ -9,9 +9,7 @@ class RandCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Случайное число';
 
-    /**
-     * @param $input
-     */
+
     public function __construct($input)
     {
         parent::__construct($input);
@@ -26,7 +24,7 @@ class RandCmd extends BaseCmd
         if (!empty($this->input)) {
             list($min, $max) = explode(' ', $this->input);
 
-            if ($min == null || $max == null || $min > $max) {
+            if ((int)$min > (int)$max) {
                 return $this->description;
             }
         } else {

@@ -34,7 +34,7 @@ class SendCmd extends BaseCmd
 
         if(substr($username, 0, 1) == '@') {
             $username = str_replace('@', '', $username);
-            $to_user_id = self::getId($username);
+            $to_user_id = $this->getId($username);
         }else{
             $to_user_id = (int)$username;
         }
@@ -47,7 +47,7 @@ class SendCmd extends BaseCmd
         if (!$result) {
             return $this->description;
         }
-        $amount = $amount - ($amount * Revocoin::TRANSACTION_COMMISSION);
+        $amount -= ($amount * Revocoin::TRANSACTION_COMMISSION);
         return '+' . $amount . ' R у ' . $username;
     }
 

@@ -37,7 +37,6 @@ class ChatCmd extends BaseCmd
                 $query = Strings::random(mt_rand(4, 5), self::CHARACTERS);
                 $res = TlgrmApp::search($query);
                 if (empty($res)) {
-                    dbg_echo($query."\n");
                     $tries++;
                 } else {
                     return $res;

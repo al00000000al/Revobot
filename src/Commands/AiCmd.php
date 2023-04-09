@@ -20,17 +20,17 @@ class AiCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription("Введите /ai текст");
+        $this->setDescription("Введите /ai текст");
     }
 
     public function exec(): string
     {
         if (!empty($this->input)) {
-            $context = $this->getContext();
+            $context = (string)$this->getContext();
 if(!empty($context)) {
-    return OpenAIService::generate($this->input, $context);
+    return OpenAIService::generate((string)$this->input, $context);
 }else{
-    return OpenAIService::generate($this->input);
+    return OpenAIService::generate((string)$this->input);
 }
         }
         return $this->description;

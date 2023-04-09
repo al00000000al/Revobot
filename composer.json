@@ -27,5 +27,8 @@
       "ext-json": "*",
         "orhanerday/open-ai": "^4.7"
 
+    },
+    "require-dev": {
+        "vkcom/noverify": "^0.5.3"
     }
 }

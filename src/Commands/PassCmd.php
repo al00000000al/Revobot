@@ -16,10 +16,7 @@ class PassCmd extends BaseCmd
     const HELP_DESCRIPTION = 'Пароль для переноса данных';
     private Revobot $bot;
 
-    /**
-     * @param $input
-     * @param Revobot $bot
-     */
+
     public function __construct($input, Revobot $bot)
     {
         parent::__construct($input);
@@ -39,8 +36,8 @@ class PassCmd extends BaseCmd
     }
 
     public function transfer(int $old_user_id, int $user_id, string $provider = 'tg'){
-        self::transferUserCommands($old_user_id, $user_id, $provider);
-        self::transferUserTodos($old_user_id, $user_id, $provider);
+        $this->transferUserCommands($old_user_id, $user_id, $provider);
+        $this->transferUserTodos($old_user_id, $user_id, $provider);
     }
 
     private function transferUserCommands(int $old_user_id, int $user_id, string $provider = 'tg'){

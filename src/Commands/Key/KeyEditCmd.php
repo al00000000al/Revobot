@@ -18,12 +18,12 @@ class KeyEditCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription('Введите /key.edit <ключ> <значение>');
+        $this->setDescription('Введите /key.edit <ключ> <значение>');
     }
 
     public function exec(): string
     {
-        if(!self::isAdmin($this->bot->getUserId())){
+        if(!$this->isAdmin($this->bot->getUserId())){
             return '';
         }
 
@@ -33,7 +33,7 @@ class KeyEditCmd extends BaseCmd
                 $key = $params[0];
                 $value = substr($this->input, strlen($key));
 
-                self::setKey($this->input, $value);
+                $this->setKey($this->input, $value);
                 return 'Ключ '.$key.'='.$value;
             }else{
                 return $this->description;

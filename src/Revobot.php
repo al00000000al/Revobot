@@ -85,7 +85,7 @@ class Revobot
      */
     public function getUserId(): int
     {
-        if ($this->provider == 'tg') {
+        if ($this->provider === 'tg') {
             if (isset($this->raw_data['from']['id'])) {
                 return (int)$this->raw_data['from']['id'];
             }
@@ -99,7 +99,7 @@ class Revobot
      */
     public function getUserNick(): string
     {
-        if ($this->provider == 'tg') {
+        if ($this->provider === 'tg') {
             if (isset($this->raw_data['from']['username'])) {
                 return (string)$this->raw_data['from']['username'];
             }

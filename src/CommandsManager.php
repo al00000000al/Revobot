@@ -206,7 +206,7 @@ case 'дн':
             default:
             $response = '';
         }
-        dbg_echo('cmd:' . $command . ',inp:' . $input . ',response: ' . $response . "\n");
+      //  dbg_echo('cmd:' . $command . ',inp:' . $input . ',response: ' . $response . "\n");
         return $response;
     }
 }

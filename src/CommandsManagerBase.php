@@ -21,9 +21,6 @@ class CommandsManagerBase
 
         list($command, $input) = static::extract($message);
 
-        if(0) {
-        dbg_echo($command . "\n");
-       }
 
         $result = CommandsManager::run($bot, $command, $input);
         if (empty($result)) {
@@ -52,7 +49,7 @@ class CommandsManagerBase
     {
         preg_match(self::CMD_REGEX, $message, $matches, PREG_OFFSET_CAPTURE);
         $command = mb_strtolower($matches[1][0], 'UTF-8');
-        $text = $matches[3][0] . "";
+        $text = (string)$matches[3][0];
         return [$command, $text];
     }
 }

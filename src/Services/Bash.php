@@ -29,7 +29,7 @@ class Bash
      */
     public static function fetch(): string
     {
-        return "" . Curl::get(self::URL . self::TYPES[mt_rand(0, count(self::TYPES) - 1)]);
+        return  (string) Curl::get(self::URL . self::TYPES[mt_rand(0, count(self::TYPES) - 1)]);
     }
 
     /**

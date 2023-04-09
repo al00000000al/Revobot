@@ -48,7 +48,7 @@ class DeleteCmd extends BaseCmd
                 (new Revocoin($this->bot))->transaction($price, $this->bot->getUserId(), -TG_BOT_ID);
                 $customCmd->deleteCommand($this->bot->getUserId(), $this->input);
                 $commission = $price * Revocoin::TRANSACTION_COMMISSION;
-                $price = $price - $commission;
+                $price -= $commission;
                 return '+' . $price . 'R у ' . $this->bot->getUserNick();
             }
 

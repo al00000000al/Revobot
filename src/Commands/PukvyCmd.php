@@ -11,9 +11,7 @@ class PukvyCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'риска миса';
 
-    /**
-     * @param $input
-     */
+
     public function __construct($input)
     {
         parent::__construct($input);

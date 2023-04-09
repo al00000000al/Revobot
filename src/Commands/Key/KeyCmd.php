@@ -17,17 +17,17 @@ class KeyCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription('Введите /key <ключ>');
+        $this->setDescription('Введите /key <ключ>');
     }
 
     public function exec(): string
     {
-        if(!self::isAdmin($this->bot->getUserId())){
+        if(!$this->isAdmin($this->bot->getUserId())){
             return '';
         }
 
         if(!empty($this->input)) {
-            return (string) print_r(self::getKey($this->input), true);
+            return (string) print_r($this->getKey($this->input), true);
         }
         return $this->description;
     }

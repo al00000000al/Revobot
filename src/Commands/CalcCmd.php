@@ -12,10 +12,8 @@ class CalcCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Калькулятор';
 
-    /**
-     * @param $input
-     */
-    public function __construct($input)
+
+    public function __construct(string $input)
     {
         parent::__construct($input);
         $this->setDescription('Введите /calc [выражение]');

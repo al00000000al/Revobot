@@ -54,9 +54,9 @@ function processFiles(){
 
 function get_dir_files( $dir, $recursive = true, $include_folders = false ){
 	if( ! is_dir($dir) )
-		return array();
+		return [];
 
-	$files = array();
+	$files = [];
 
 	$dir = rtrim( $dir, '/\\' ); // удалим слэш на конце
 

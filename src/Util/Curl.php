@@ -5,12 +5,6 @@ namespace Revobot\Util;
 class Curl
 {
 
-    /**
-     * @param $url
-     * @param $data
-     * @param mixed $options
-     * @return mixed
-     */
     public static function post($url, $data, $options = []){
 
         $curl_headers = (array)$options['headers'] ?? false;

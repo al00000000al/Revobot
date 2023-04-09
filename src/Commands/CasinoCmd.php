@@ -71,7 +71,7 @@ class CasinoCmd extends BaseCmd
                 -TG_BOT_ID
             );
             $commission = $new_amount * Revocoin::TRANSACTION_COMMISSION;
-            $new_amount = $new_amount - $commission;
+            $new_amount -= $commission;
 
             return '+' . $new_amount . ' R';
         }

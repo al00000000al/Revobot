@@ -9,10 +9,6 @@ class OpenAIService
 {
 
 
-    /**
-     * @param string $input
-     * @return string
-     */
     public static function generate(string $input, string $context = "Тебя зовут Люся. Пиши разговорным языком не больше 15-35 слов"): string
     {
 

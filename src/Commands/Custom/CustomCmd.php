@@ -60,7 +60,7 @@ class CustomCmd
      */
     public function isExistCustomCmd(string $command_name): bool
     {
-        if (!empty(self::getCustomCmd($command_name))) {
+        if (!empty($this->getCustomCmd($command_name))) {
             return true;
         }
         return false;

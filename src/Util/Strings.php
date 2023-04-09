@@ -7,20 +7,16 @@ class Strings
 
 
     /**
-     * @param $string
+     * @param string $string
      * @return string[]
      */
-    public static function stringToWords($string): array
+    public static function stringToWords(string $string): array
     {
         return explode(" ", $string);
     }
 
-    /**
-     * @param $string
-     * @return string|string[]|null
-     */
-    public static function cyrillicOnly($string){
-        return preg_replace('/[^а-яА-ЯёЁ]/ui', '', $string);
+    public static function cyrillicOnly(string $string) : string{
+        return (string) preg_replace('/[^а-яА-ЯёЁ]/ui', '', $string);
     }
 
     /**

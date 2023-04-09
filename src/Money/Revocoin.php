@@ -42,7 +42,7 @@ class Revocoin
     public function send(int $to_user_id, int $from_user_id, float $amount): bool
     {
         if ($this->bot->provider === 'tg') {
-            return self::transaction($amount, $to_user_id, $from_user_id);
+            return $this->transaction($amount, $to_user_id, $from_user_id);
         }
         return false;
     }
@@ -73,13 +73,13 @@ class Revocoin
 
 
     /**
-     * @param $block_id
-     * @param $prev_hash
+     * @param mixed $block_id
+     * @param mixed $prev_hash
      * @return bool
      */
     public function setLastBlock($block_id, $prev_hash): bool
     {
-        $this->pmc->set(self::PMC_MONEY_LAST_BLOCK_KEY, array($block_id, $prev_hash));
+        $this->pmc->set(self::PMC_MONEY_LAST_BLOCK_KEY, [$block_id, $prev_hash]);
         return true;
     }
 
@@ -109,7 +109,7 @@ class Revocoin
     public function validateBlock(string $hash): bool
     {
         if (substr($hash, 0, $this->difficulty) === str_repeat("0", $this->difficulty)) {
-            dbg_echo("Block mined: " . $hash . "\n");
+            //dbg_echo("Block mined: " . $hash . "\n");
             return true;
         }
         return false;
@@ -134,7 +134,7 @@ class Revocoin
         }
 
         if ($from_user_id !== 0) {
-            $from_user_balance = self::getBalance($from_user_id);
+            $from_user_balance = $this->getBalance($from_user_id);
             if ($from_user_balance < $amount) {
                 return false;
             }
@@ -143,11 +143,11 @@ class Revocoin
 
             // commission for transaction
             $commission = $amount * self::TRANSACTION_COMMISSION;
-            $amount = $amount - $commission;
+            $amount -= $commission;
             $this->updateBalance(-TG_BOT_ID, $this->getBalance(-TG_BOT_ID), $commission);
         }
 
-        $to_user_balance = (float)self::getBalance($to_user_id);
+        $to_user_balance = (float)$this->getBalance($to_user_id);
 
         $this->updateBalance($to_user_id, $to_user_balance, $amount);
         return true;
@@ -193,7 +193,7 @@ class Revocoin
         // @todo: instance_cache
 
         $prize_max_tries = self::MAX_TRIES_DEFAULT;
-        $last_block = self::getLastBlock();
+        $last_block = $this->getLastBlock();
         $block_id = (int)$last_block[0];
         $prev_hash = $last_block[1];
 
@@ -220,13 +220,13 @@ class Revocoin
 
             $hash = $this->generate($params_str);
 
-            if (self::validateBlock($hash)) {
+            if ($this->validateBlock($hash)) {
 
-                $result = self::transaction($prize, $to_user_id, $from_user_id);
+                $result = $this->transaction($prize, $to_user_id, $from_user_id);
 
                 if ($result) {
-                    self::saveBlock($next_id, $params_str);
-                    self::setLastBlock($next_id, $hash);
+                    $this->saveBlock($next_id, $params_str);
+                    $this->setLastBlock($next_id, $hash);
 
                     return ['id' => $next_id, 'amount' => $prize];
                 }

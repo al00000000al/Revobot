@@ -30,10 +30,6 @@ if($url === '/tg_bot' || $url === '/vk_bot'){
             $bot->setMessage((string)$data_arr['message']['text']);
             $bot->setRawData($data_arr['message']);
             $bot->run();
-
-            dbg_echo(json_encode($data_arr['message'])."\n");
         }
     }
 }
-
-

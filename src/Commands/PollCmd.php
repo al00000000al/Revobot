@@ -14,11 +14,8 @@ class PollCmd extends BaseCmd
     const HELP_DESCRIPTION = 'Создать опрос в чате';
     private Revobot $bot;
 
-    /**
-     * @param $input
-     * @param Revobot $bot
-     */
-    public function __construct($input, Revobot $bot)
+
+    public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
         $this->bot = $bot;

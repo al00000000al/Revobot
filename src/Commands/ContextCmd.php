@@ -18,7 +18,7 @@ class ContextCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription("Введите /context текст");
+        $this->setDescription("Введите /context текст");
     }
 
     public function exec(): string

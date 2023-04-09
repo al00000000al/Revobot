@@ -11,7 +11,7 @@ class WhenCmd extends BaseCmd
     const HELP_DESCRIPTION = 'Узнать когда';
 
     /**
-     * @param $input
+     * @param string $input
      */
     public function __construct($input)
     {

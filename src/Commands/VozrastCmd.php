@@ -20,34 +20,34 @@ class VozrastCmd extends BaseCmd
     public function exec(): string
     {
         if (!$this->input){
-            if(!self::hasKey())
+            if(!$this->hasKey())
             {
                 return $this->description;
             }
             else
             {
-                $byear = (int) self::getKey();
-                return self::calc($byear);
+                $byear = (int) $this->getKey();
+                return $this->calc($byear);
             }
         }
         $byear = (int) $this->input;
-        self::setKey($byear);
-        return self::calc($byear);
+        $this->setKey($byear);
+        return $this->calc($byear);
 
     }
 
     private function hasKey()
     {
-        return (bool) $this->bot->pmc->get(self::getYearKey($this->bot->getUserId())) != null;
+        return (bool) $this->bot->pmc->get($this->getYearKey($this->bot->getUserId())) !== null;
     }
 
     private function getKey()
     {
-       return (int) $this->bot->pmc->get(self::getYearKey($this->bot->getUserId()));
+       return (int) $this->bot->pmc->get($this->getYearKey($this->bot->getUserId()));
     }
 
     private function setKey($byear){
-        $this->bot->pmc->set(self::getYearKey($this->bot->getUserId()), $byear);
+        $this->bot->pmc->set($this->getYearKey($this->bot->getUserId()), $byear);
     }
 
     private function getYearKey(int $user_id)

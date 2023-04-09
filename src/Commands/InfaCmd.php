@@ -15,11 +15,8 @@ class InfaCmd extends BaseCmd
 
     private Revobot $bot;
 
-    /**
-     * @param $input
-     * @param Revobot $bot
-     */
-    public function __construct($input, Revobot $bot)
+
+    public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
         $this->bot = $bot;

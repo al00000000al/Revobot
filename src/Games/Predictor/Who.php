@@ -40,7 +40,7 @@ class Who extends PredictBase
 
     private function getUserFull(int $rate): array
     {
-        $rate = $rate + 1 * 12345;
+        $rate += 1 * 12345;
 
         $chat = $this->getChatUsers();
         if (!$chat) {
@@ -66,7 +66,7 @@ class Who extends PredictBase
      */
     private function getUser(int $rate): string
     {
-        $rate = $rate + 1 * 12345;
+        $rate += 1 * 12345;
 
         $chat = $this->getChatUsers();
         if (!$chat) {
@@ -77,7 +77,7 @@ class Who extends PredictBase
         $user_position = $rate % $chat_cnt;
 
         $i = 0;
-        foreach ($chat as $user => $id) {
+        foreach ($chat as $user => $_) {
             if ($i === $user_position) {
                 return (string)$user;
             }

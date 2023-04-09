@@ -57,10 +57,7 @@ class Words
 
     public const UNKNOWN_RATE = -2;
 
-    /**
-     * @param $number
-     * @return int
-     */
+
     public static function getRate($number): int
     {
         if (array_key_exists($number, Words::NUMBERS_RATE)) {

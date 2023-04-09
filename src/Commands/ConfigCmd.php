@@ -17,17 +17,17 @@ class ConfigCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        self::setDescription('Введите /config <ключ>');
+        $this->setDescription('Введите /config <ключ>');
     }
 
     public function exec(): string
     {
-        if(!self::isAdmin($this->bot->getUserId())){
+        if(!$this->isAdmin($this->bot->getUserId())){
             return '';
         }
 
         if(!empty($this->input)) {
-            return print_r(self::getKey($this->input), true);
+            return print_r($this->getKey($this->input), true);
         }
         return $this->description;
     }

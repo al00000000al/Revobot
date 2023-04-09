@@ -18,13 +18,9 @@ class YesNo extends PredictBase
     {
         $numbers = $this->wordsToNum();
         $avg = Math::avg($numbers);
-        return self::getString($avg);
+        return $this->getString($avg);
     }
 
-    /**
-     * @param $avg_rate
-     * @return string
-     */
     private function getString($avg_rate): string
     {
         switch ($avg_rate) {

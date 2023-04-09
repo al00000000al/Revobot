@@ -14,7 +14,7 @@ class WhoCmd extends BaseCmd
     private Revobot $bot;
 
     /**
-     * @param $input
+     * @param string $input
      * @param Revobot $bot
      */
     public function __construct($input, Revobot $bot)

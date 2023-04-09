@@ -40,9 +40,3 @@ cd build && ./restart.sh
 ```
 
 ---
-
-Микросервис для чата
-
-```
-cd microservice/chat && python3 app.py -p 5001 -H 127.0.0.1 &
-```

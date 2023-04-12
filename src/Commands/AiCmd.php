@@ -30,9 +30,14 @@ class AiCmd extends BaseCmd
             $user_input = (string)$this->input;
             $context = $this->getContext();
             $history = $this->getHistory();
+            $current_date = date('Y-m-d H:i:s');
+            $date_message = ". Текущая дата: {$current_date}";
+
             if(empty($context)){
-                $context = "null";
+                $context = "Ты полезный чат бот";
             }
+
+            $context .= $date_message;
             $answer = OpenAIService::generate($user_input, $context, $history);
 
             if(!empty($answer)){

@@ -43,7 +43,7 @@ class AiCmd extends BaseCmd
             if(!empty($answer)){
                 OpenAIService::addMessageToHistory($history, 'user', $user_input);
                 OpenAIService::addMessageToHistory($history, 'assistant', $answer);
-                self::setHistory($history);
+                $this->setHistory($history);
                 return $answer;
             }
         }

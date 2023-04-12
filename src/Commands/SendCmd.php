@@ -32,7 +32,7 @@ class SendCmd extends BaseCmd
 
         $username = $params[0];
 
-        if(substr($username, 0, 1) == '@') {
+        if($username[0] == '@') {
             $username = str_replace('@', '', $username);
             $to_user_id = $this->getId($username);
         }else{

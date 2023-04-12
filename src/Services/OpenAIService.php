@@ -19,12 +19,15 @@ class OpenAIService
             $messages += $history;
         }
         self::addMessageToHistory($messages, 'user', $input);
+        $model = isset($options['model']) ? (string)$options['model'] : 'gpt-3.5-turbo';
+        $temperature = isset($options['temperature']) ? (float)$options['temperature'] : 1.0;
+        $max_tokens = isset($options['max_tokens']) ? (int)$options['max_tokens'] : 300;
 
         $chat = $open_ai->chat([
-           'model' => $options['model'] ?? 'gpt-3.5-turbo',
+           'model' => $model,
            'messages' => $messages,
-           'temperature' => $options['temperature'] ?? 1.0,
-           'max_tokens' => $options['max_tokens'] ?? 300,
+           'temperature' => $temperature,
+           'max_tokens' => $max_tokens,
            'frequency_penalty' => 0,
            'presence_penalty' => 0,
         ]);
@@ -35,7 +38,7 @@ class OpenAIService
     }
 
     public static function addMessageToHistory(&$history, string $role, string $content) {
-        $history[] = array('role' => $role, 'content' => $content);
+        $history[] = ['role' => $role, 'content' => $content];
 
         // если количество сообщений больше 9, удаляем первые два сообщения
         if (count($history) > 9) {

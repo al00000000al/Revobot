@@ -206,7 +206,7 @@ class Revobot
     {
         $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
 
-        if (substr($response_text, 0, 1) == '@') {
+        if ($response_text[0] == '@') {
             $response_text = str_replace('@', '', $response_text);
         }
 

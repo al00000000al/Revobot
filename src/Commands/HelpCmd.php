@@ -40,6 +40,7 @@ class HelpCmd extends BaseCmd
 /pukvy - риска миса
 /vopros - Вопросы на коины
 /rand - Случайное число
+/reset - Сбросить историю
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
 /stat - Статистика R

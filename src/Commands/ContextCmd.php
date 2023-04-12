@@ -36,6 +36,7 @@ class ContextCmd extends BaseCmd
         $this->bot->pmc->set($this->getKey(), $context);
     }
 
+
     private function getKey(){
         return self::PMC_USER_AI_KEY . $this->bot->provider . $this->bot->getUserId();
 }

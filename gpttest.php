@@ -26,7 +26,7 @@ if(empty($context)){
 
 $context .= $date_message;
 $answer = OpenAIService::generate($input, $context, $history);
-$history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
+$history = OpenAIService::addMessageToHistory($history, 'user', $input);
 $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
 setHistory($history, $user_id);
 echo $answer .PHP_EOL;

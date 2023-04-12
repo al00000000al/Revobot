@@ -8,20 +8,17 @@ class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context, array $history, $options = []): string
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 1.0, $max_tokens = 300): string
     {
 
         $open_ai = new OpenAi(OPENAI_API_KEY);
 
         $messages  = [];
         self::addMessageToHistory($messages, 'system', $context);
-        if(!empty($history)) {
-            $messages += $history;
+        foreach($history as $message){
+            self::addMessageToHistory($messages, $message['role'], $message['context']);
         }
         self::addMessageToHistory($messages, 'user', $input);
-        $model = isset($options['model']) ? (string)$options['model'] : 'gpt-3.5-turbo';
-        $temperature = isset($options['temperature']) ? (float)$options['temperature'] : 1.0;
-        $max_tokens = isset($options['max_tokens']) ? (int)$options['max_tokens'] : 300;
 
         $chat = $open_ai->chat([
            'model' => $model,

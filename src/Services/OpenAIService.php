@@ -14,11 +14,11 @@ class OpenAIService
         $open_ai = new OpenAi(OPENAI_API_KEY);
 
         $messages  = [];
-        self::addMessageToHistory($messages, 'system', $context);
+        $messages = self::addMessageToHistory($messages, 'system', $context);
         foreach($history as $message){
-            self::addMessageToHistory($messages, (string)$message['role'], (string)$message['content']);
+            $messages = self::addMessageToHistory($messages, (string)$message['role'], (string)$message['content']);
         }
-        self::addMessageToHistory($messages, 'user', $input);
+        $messages = self::addMessageToHistory($messages, 'user', $input);
 
         $chat = $open_ai->chat([
            'model' => $model,

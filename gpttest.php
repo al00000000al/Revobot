@@ -1,32 +1,58 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
-use Orhanerday\OpenAi\OpenAi;
 
-const OPENAI_API_KEY = '';
+use Revobot\Services\OpenAIService;
+require 'config.php';
 
-$open_ai = new OpenAi(OPENAI_API_KEY);
+const PMC_USER_AI_KEY = 'pmc_user_ai_';
+const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
 
-$chat = $open_ai->chat([
-   'model' => 'gpt-3.5-turbo',
-   'messages' => [
-       [
-           "role" => "system",
-           "content" => "Ты Революся чат-бот в беседе СэдКэт"
-       ],
-       [
-           "role" => "user",
-           "content" => "что лучше ты или чат жпт?"
-       ],
-   ],
-   'temperature' => 1.0,
-   'max_tokens' => 100,
-   'frequency_penalty' => 0,
-   'presence_penalty' => 0,
-]);
+global $PMC;
+$PMC = new Memcache;
+$PMC->addServer('127.0.0.1', 11209);
 
-print_r($chat);
-// decode response
-$d = json_decode($chat);
-// Get Content
-echo($d->choices[0]->message->content);
+$user_id = 198239789;
+$context = getContext($user_id);
+$history = getHistory($user_id);
+$input = readline("Enter input:");
+
+$current_date = date('Y-m-d H:i:s');
+$date_message = ". Текущая дата: {$current_date}";
+
+if(empty($context)){
+    $context = "Ты полезный чат бот";
+}
+
+$context .= $date_message;
+$answer = OpenAIService::generate($input, $context, $history);
+$history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
+$history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+setHistory($history, $user_id);
+echo $answer .PHP_EOL;
+
+ function getContext($user_id){
+    global $PMC;
+    $result = (string) $PMC->get(getContextKey($user_id));
+    return $result;
+}
+
+ function getHistory($user_id){
+    global $PMC;
+    $result = (array) json_decode($PMC->get(getHistoryKey($user_id)), true);
+    return $result;
+}
+
+function setHistory(array $history, $user_id){
+    global $PMC;
+    $json_encoded = json_encode($history);
+    $PMC->set(getHistoryKey($user_id), $json_encoded);
+}
+
+ function getContextKey($user_id){
+    return PMC_USER_AI_KEY . 'tg' . $user_id;
+}
+
+ function getHistoryKey($user_id){
+    return PMC_USER_AI_HISTORY_KEY . 'tg' . $user_id;
+}

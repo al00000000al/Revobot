@@ -2,7 +2,6 @@
 
 namespace Revobot\Commands;
 
-use Revobot\Neural\Answers;
 use Revobot\Revobot;
 use Revobot\Services\OpenAIService;
 
@@ -41,8 +40,8 @@ class AiCmd extends BaseCmd
             $answer = OpenAIService::generate($user_input, $context, $history);
 
             if(!empty($answer)){
-                OpenAIService::addMessageToHistory($history, 'user', $user_input);
-                OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+                $history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
+                $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
                 $this->setHistory($history);
                 return $answer;
             }

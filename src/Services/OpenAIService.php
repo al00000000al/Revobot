@@ -2,33 +2,29 @@
 
 namespace Revobot\Services;
 
-use Revobot\Util\Curl;
 use Orhanerday\OpenAi\OpenAi;
 
 class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context = "Тебя зовут Люся. Пиши разговорным языком не больше 15-35 слов"): string
+    public static function generate(string $input, string $context, array $history, $options = []): string
     {
 
         $open_ai = new OpenAi(OPENAI_API_KEY);
 
         $messages  = [];
-        $messages[] = [
-            "role" => "system",
-            "content" => $context
-        ];
-        $messages[] = [
-            "role" => "user",
-            "content" => $input
-        ];
+        self::addMessageToHistory($messages, 'system', $context);
+        if(!empty($history)) {
+            $messages += $history;
+        }
+        self::addMessageToHistory($messages, 'user', $input);
 
         $chat = $open_ai->chat([
-           'model' => 'gpt-3.5-turbo',
+           'model' => $options['model'] ?? 'gpt-3.5-turbo',
            'messages' => $messages,
-           'temperature' => 1.0,
-           'max_tokens' => 300,
+           'temperature' => $options['temperature'] ?? 1.0,
+           'max_tokens' => $options['max_tokens'] ?? 300,
            'frequency_penalty' => 0,
            'presence_penalty' => 0,
         ]);
@@ -37,4 +33,13 @@ class OpenAIService
         // Get Content
         return (string)$d['choices'][0]['message']['content'];
     }
+
+    public static function addMessageToHistory(&$history, string $role, string $content) {
+        $history[] = array('role' => $role, 'content' => $content);
+
+        // если количество сообщений больше 9, удаляем первые два сообщения
+        if (count($history) > 9) {
+          array_splice($history, 0, 2);
+        }
+      }
 }

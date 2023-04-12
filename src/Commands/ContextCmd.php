@@ -27,6 +27,7 @@ class ContextCmd extends BaseCmd
             $this->setContext($this->input);
             return "Значение изменено";
         }
+        $this->setContext("");
         return $this->description;
     }
 

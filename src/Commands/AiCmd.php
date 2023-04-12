@@ -15,6 +15,7 @@ class AiCmd extends BaseCmd
     public const HELP_DESCRIPTION = 'Нейросеть';
 
     private const PMC_USER_AI_KEY = 'pmc_user_ai_';
+    private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
 
     public function __construct(string $input, Revobot $bot)
     {
@@ -26,26 +27,45 @@ class AiCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
-            $context = (string)$this->getContext();
-if(!empty($context)) {
-    return OpenAIService::generate((string)$this->input, $context);
-}else{
-    return OpenAIService::generate((string)$this->input);
-}
+            $user_input = (string)$this->input;
+            $context = $this->getContext();
+            $history = $this->getHistory();
+            if(empty($context)){
+                $context = "null";
+            }
+            $answer = OpenAIService::generate($user_input, $context, $history);
+
+            if(!empty($answer)){
+                OpenAIService::addMessageToHistory($history, 'user', $user_input);
+                OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+                self::setHistory($history);
+                return $answer;
+            }
         }
         return $this->description;
     }
 
 
     private function getContext(){
-        $result = $this->bot->pmc->get($this->getKey());
-if(!$result) {
-    return "";
-}
-return $result;
+        $result = (string) $this->bot->pmc->get($this->getContextKey());
+        return $result;
     }
 
-    private function getKey(){
+    private function getHistory(){
+        $result = (array) json_decode($this->bot->pmc->get($this->getHistoryKey()), true);
+        return $result;
+    }
+
+    private function setHistory(array $history){
+        $json_encoded = json_encode($history);
+        $this->bot->pmc->set($this->getHistoryKey(), $json_encoded);
+    }
+
+    private function getContextKey(){
         return self::PMC_USER_AI_KEY . $this->bot->provider . $this->bot->getUserId();
-}
+    }
+
+    private function getHistoryKey(){
+        return self::PMC_USER_AI_HISTORY_KEY . $this->bot->provider . $this->bot->getUserId();
+    }
 }

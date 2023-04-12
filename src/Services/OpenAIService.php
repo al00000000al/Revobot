@@ -16,7 +16,7 @@ class OpenAIService
         $messages  = [];
         self::addMessageToHistory($messages, 'system', $context);
         foreach($history as $message){
-            self::addMessageToHistory($messages, $message['role'], $message['context']);
+            self::addMessageToHistory($messages, (string)$message['role'], (string)$message['content']);
         }
         self::addMessageToHistory($messages, 'user', $input);
 
@@ -34,12 +34,13 @@ class OpenAIService
         return (string)$d['choices'][0]['message']['content'];
     }
 
-    public static function addMessageToHistory(&$history, string $role, string $content) {
+    public static function addMessageToHistory($history, string $role, string $content) {
         $history[] = ['role' => $role, 'content' => $content];
 
         // если количество сообщений больше 9, удаляем первые два сообщения
-        if (count($history) > 9) {
-          array_splice($history, 0, 2);
-        }
+if (count($history) > 9) {
+    array_splice($history, 0, 2);
+}
+return $history;
       }
 }

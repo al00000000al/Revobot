@@ -61,7 +61,7 @@ class PassCmd extends BaseCmd
         $randomString = bin2hex(openssl_random_pseudo_bytes(12));
         $hashedData = (string) substr(Hash::generate($user_id), 0, 12);
         $xor_key = Strings::xor($hashedData, $randomString);
-        $xor_user_id = Strings::xor(bin2hex($user_id), $randomString);
+        $xor_user_id = Strings::xor(dechex($user_id), $randomString);
         return $randomString.$xor_key.$xor_user_id;
     }
 
@@ -69,7 +69,7 @@ class PassCmd extends BaseCmd
         $randomString = (string) substr($recoveryPassword, 0, 12);
         $xor_key = (string) substr($recoveryPassword, 24, 12);
         $xor_user_id = (string) substr($recoveryPassword, 36);
-        $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
+        $expectedXorUserId = (int) hexdec(Strings::xor($xor_user_id, $randomString));
         $hashedData = substr(Hash::generate($expectedXorUserId), 0, 12);
         $expectedXorKey = Strings::xor($xor_key, $randomString);
         return ($expectedXorKey === $hashedData) && ($current_user_id !== $expectedXorUserId);
@@ -78,7 +78,7 @@ class PassCmd extends BaseCmd
     private function getUserFromPassword(string $recoveryPassword) {
         $randomString = (string) substr($recoveryPassword, 0, 12);
         $xor_user_id = (string) substr($recoveryPassword, 36);
-        $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
+        $expectedXorUserId = (int) hexdec(Strings::xor($xor_user_id, $randomString));
         return $expectedXorUserId;
     }
 

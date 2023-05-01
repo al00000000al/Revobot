@@ -58,7 +58,7 @@ class PassCmd extends BaseCmd
     }
 
     private function generateRestorePass(int $user_id) {
-        $randomString = bin2hex(random_bytes(12));
+        $randomString = bin2hex(openssl_random_pseudo_bytes(12));
         $hashedData = substr(Hash::generate($user_id), 0, 12);
         $binaryRandomString = ($randomString);
         $binaryHashedData = ($hashedData);

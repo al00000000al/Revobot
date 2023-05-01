@@ -59,18 +59,16 @@ class PassCmd extends BaseCmd
 
     private function generateRestorePass(int $user_id) {
         $randomString = bin2hex(openssl_random_pseudo_bytes(12));
-        $hashedData = substr(Hash::generate($user_id), 0, 12);
-        $binaryRandomString = ($randomString);
-        $binaryHashedData = ($hashedData);
-        $xor_key = Strings::xor($binaryHashedData, $binaryRandomString);
-        $xor_user_id = Strings::xor(bin2hex($user_id), $binaryRandomString);
+        $hashedData = (string) substr(Hash::generate($user_id), 0, 12);
+        $xor_key = Strings::xor($hashedData, $randomString);
+        $xor_user_id = Strings::xor(bin2hex($user_id), $randomString);
         return $randomString.$xor_key.$xor_user_id;
     }
 
     private function checkRecoveryPassword(string $recoveryPassword, int $current_user_id) : bool {
-        $randomString = substr($recoveryPassword, 0, 12);
-        $xor_key = substr($recoveryPassword, 24, 12);
-        $xor_user_id = substr($recoveryPassword, 36);
+        $randomString = (string) substr($recoveryPassword, 0, 12);
+        $xor_key = (string) substr($recoveryPassword, 24, 12);
+        $xor_user_id = (string) substr($recoveryPassword, 36);
         $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
         $hashedData = substr(Hash::generate($expectedXorUserId), 0, 12);
         $expectedXorKey = Strings::xor($xor_key, $randomString);
@@ -78,8 +76,8 @@ class PassCmd extends BaseCmd
     }
 
     private function getUserFromPassword(string $recoveryPassword) {
-        $randomString = substr($recoveryPassword, 0, 12);
-        $xor_user_id = substr($recoveryPassword, 36);
+        $randomString = (string) substr($recoveryPassword, 0, 12);
+        $xor_user_id = (string) substr($recoveryPassword, 36);
         $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
         return $expectedXorUserId;
     }
@@ -88,9 +86,9 @@ class PassCmd extends BaseCmd
         $myCustomCmd = new CustomCmd($this->bot);
         $commands = $myCustomCmd->getUserCommands($old_user_id, $provider);
         foreach($commands as $cmd){
-            $cmd_data = $myCustomCmd->getCustomCmd($cmd);
-            $myCustomCmd->deleteCommand($old_user_id, $cmd, $provider);
-            $myCustomCmd->addCommand($user_id, $cmd, $cmd_data['command_type'], $cmd_data['args'], $provider);
+            $cmd_data = (array)$myCustomCmd->getCustomCmd((string)$cmd);
+            $myCustomCmd->deleteCommand($old_user_id, (string)$cmd, $provider);
+            $myCustomCmd->addCommand($user_id, (string)$cmd, (int)$cmd_data['command_type'], (array)$cmd_data['args'], $provider);
         }
     }
 
@@ -104,12 +102,12 @@ class PassCmd extends BaseCmd
 
     private function transferUserTodos(int $old_user_id, int $user_id, $provider = 'tg'){
         $myTodo = new Todo($this->bot);
-        $todos = $myTodo->getUserTodos($old_user_id, $provider);
-        $user_todos = $myTodo->getUserTodos($user_id, $provider);
+        $todos = (array)$myTodo->getUserTodos($old_user_id, $provider);
+        $user_todos = (array)$myTodo->getUserTodos($user_id, $provider);
         $todos += $user_todos;
 
         foreach($todos as $todo){
-            $myTodo->addTodo($user_id, $todo, $provider);
+            $myTodo->addTodo($user_id, (string)$todo, $provider);
         }
 
     }

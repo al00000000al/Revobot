@@ -10,6 +10,7 @@ class StoyakCmd extends BaseCmd
 {
     const KEYS = ['stoyak','стояк'];
     const IS_ENABLED = true;
+    const IS_HIDDEN = true;
     const HELP_DESCRIPTION = 'Узнать';
 
     const PSINKA_ID = 176165416;

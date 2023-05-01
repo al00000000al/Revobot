@@ -30,7 +30,7 @@ function processFiles(){
     if(!$constants['IS_ENABLED']){
         continue;
     }
-        if(!isset($constants['IS_ADMIN_ONLY'])){
+        if(!isset($constants['IS_ADMIN_ONLY']) && !isset($constants['IS_HIDDEN'])){
             $help_str .= '/'.$constants['KEYS'][0].' - '.$constants['HELP_DESCRIPTION']."\n";
         }
         $commands = array_merge($commands, $constants['KEYS']);

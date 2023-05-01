@@ -44,7 +44,6 @@ class HelpCmd extends BaseCmd
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
 /stat - Статистика R
-/stoyak - Узнать
 /talk - Лимит на разговоров
 /time - Правильное время
 /todo - Список задач

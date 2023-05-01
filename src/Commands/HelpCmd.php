@@ -6,7 +6,7 @@ namespace Revobot\Commands;
 
 class HelpCmd extends BaseCmd
 {
-    const KEYS = ['help','хэлп','хлеп', 'помощь'];
+    const KEYS = ['help','хэлп','хлеп', 'помощь','start'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Помощь';
     /**

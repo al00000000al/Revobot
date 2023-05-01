@@ -3,6 +3,7 @@
 namespace Revobot\Commands;
 
 use Revobot\Games\Predictor\When;
+use Revobot\Services\OpenAIService;
 
 class WhenCmd extends BaseCmd
 {
@@ -25,6 +26,9 @@ class WhenCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
+            if (USE_AI_CMD) {
+                return OpenAIService::generate($this->input, "На все вопросы отвечай только датой и временем когда это событие может произойти или уже произошло, если запрос неприемлем, то пиши случайную дату", []);
+            }
             return (new When($this->input))->calc();
         }
         return $this->description;

@@ -7,6 +7,8 @@ use Revobot\Games\Predictor\Utils;
 use Revobot\Games\Predictor\YesNo;
 use Revobot\Games\Todo;
 use Revobot\Revobot;
+use Revobot\Util\Hash;
+use Revobot\Util\Strings;
 
 class PassCmd extends BaseCmd
 {
@@ -29,15 +31,57 @@ class PassCmd extends BaseCmd
      */
     public function exec(): string
     {
-        if((int)$this->bot->chat_id !== (int)$this->bot->getUserId()){
+        $user_id = (int) $this->bot->getUserId();
+        $chat_id = (int)$this->bot->chat_id;
+
+        if($chat_id !== $user_id){
             return "Эта комманда работает только в личном чате с ботом";
         }
-        return "не сегодня";
+        if(empty($this->input)){
+            return "Ваш код для переноса данных: \n\n" . $this->generateRestorePass($user_id);
+        }
+
+        if(! $this->checkRecoveryPassword($this->input, $user_id)){
+            return "Неверный код переноса или пользователь!";
+        }
+
+        $old_user_id = (int) self::getUserFromPassword($this->input);
+        self::transfer($old_user_id, $user_id, $this->bot->provider);
+
+        return "Данные успешно перенесены на ваш аккаунт!";
     }
 
     public function transfer(int $old_user_id, int $user_id, string $provider = 'tg'){
         $this->transferUserCommands($old_user_id, $user_id, $provider);
         $this->transferUserTodos($old_user_id, $user_id, $provider);
+        $this->transferUserMoney($old_user_id, $user_id, $provider);
+    }
+
+    private function generateRestorePass(int $user_id) {
+        $randomString = bin2hex(random_bytes(12));
+        $hashedData = substr(Hash::generate($user_id), 0, 12);
+        $binaryRandomString = ($randomString);
+        $binaryHashedData = ($hashedData);
+        $xor_key = Strings::xor($binaryHashedData, $binaryRandomString);
+        $xor_user_id = Strings::xor(bin2hex($user_id), $binaryRandomString);
+        return $randomString.$xor_key.$xor_user_id;
+    }
+
+    private function checkRecoveryPassword(string $recoveryPassword, int $current_user_id) : bool {
+        $randomString = substr($recoveryPassword, 0, 12);
+        $xor_key = substr($recoveryPassword, 24, 12);
+        $xor_user_id = substr($recoveryPassword, 36);
+        $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
+        $hashedData = substr(Hash::generate($expectedXorUserId), 0, 12);
+        $expectedXorKey = Strings::xor($xor_key, $randomString);
+        return ($expectedXorKey === $hashedData) && ($current_user_id !== $expectedXorUserId);
+    }
+
+    private function getUserFromPassword(string $recoveryPassword) {
+        $randomString = substr($recoveryPassword, 0, 12);
+        $xor_user_id = substr($recoveryPassword, 36);
+        $expectedXorUserId = (int) hex2bin(Strings::xor($xor_user_id, $randomString));
+        return $expectedXorUserId;
     }
 
     private function transferUserCommands(int $old_user_id, int $user_id, string $provider = 'tg'){
@@ -48,6 +92,14 @@ class PassCmd extends BaseCmd
             $myCustomCmd->deleteCommand($old_user_id, $cmd, $provider);
             $myCustomCmd->addCommand($user_id, $cmd, $cmd_data['command_type'], $cmd_data['args'], $provider);
         }
+    }
+
+    private function transferUserMoney(int $old_user_id, int $user_id, string $provider = 'tg') {
+        $from_coins = (int)$this->bot->pmc->get('money_'.$provider.$old_user_id);
+        $to_coins = (int)$this->bot->pmc->get('money_'.$provider.$user_id);
+        $result = $to_coins + $from_coins;
+        $this->bot->pmc->set('money_'.$provider.$user_id, $result);
+        $this->bot->pmc->set('money_'.$provider.$old_user_id, 0);
     }
 
     private function transferUserTodos(int $old_user_id, int $user_id, $provider = 'tg'){

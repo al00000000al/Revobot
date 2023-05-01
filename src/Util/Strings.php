@@ -37,4 +37,14 @@ class Strings
         return $randomString;
     }
 
+
+
+    public static function xor(string $a, string $b) {
+        $result = '';
+        for ($i = 0; $i < strlen($a); $i++) {
+            $result .= dechex(hexdec($a[$i]) ^ hexdec($b[$i]));
+        }
+        return $result;
+      }
+
 }

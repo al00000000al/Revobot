@@ -6,7 +6,6 @@ use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
 use Revobot\Services\InstagramDownloader;
 use Revobot\Util\Curl;
-use Revobot\Util\Dummy;
 
 class Revobot
 {

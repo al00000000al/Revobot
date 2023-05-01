@@ -2,6 +2,7 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Services\OpenAIService;
 use Revobot\Util\Hash;
 
 class OrCmd extends BaseCmd
@@ -25,6 +26,10 @@ class OrCmd extends BaseCmd
         $count_words = count($words);
         if ($count_words < 2) {
             return $this->description;
+        }
+
+        if (USE_AI_CMD) {
+            return OpenAIService::generate(implode(',', $words), "Выбери что-то одно из этого списка слов и напиши только это слово в ответе и все", []);
         }
 
         /** @var string[] $words_valid */

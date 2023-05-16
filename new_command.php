@@ -17,7 +17,7 @@ die("\nCreated new cmd {$cmd}!\n");
 
 function cmdTpl($cmd_class, $cmd, $description = '', $help_description = '') {
     return <<<PHP
-    <?php
+<?php
 
     namespace Revobot\Commands;
 

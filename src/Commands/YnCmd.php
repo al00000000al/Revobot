@@ -36,7 +36,11 @@ class YnCmd extends BaseCmd
         $input = Utils::replaceMe($this->bot->getUserId(), $input);
 
         if (USE_AI_CMD) {
-            return OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
+            $result = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
+
+            if (!strpos($result, "не знаю")) {
+                return $result;
+            }
         }
         return (new YesNo($input))->calc();
     }

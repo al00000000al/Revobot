@@ -38,8 +38,8 @@ class YnCmd extends BaseCmd
         if (USE_AI_CMD) {
             $result = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
 
-            $lower_res = strtolower($result);
-            if (!strpos($lower_res, "не знаю") && !strpos($lower_res, "оскорб")) {
+            $pattern = "/не знаю|оскорб|другой вопрос/i";
+            if (!preg_match($pattern, $result)) {
                 return $result;
             }
         }

@@ -6,7 +6,7 @@ use Revobot\Services\OpenAIService;
 
 class Gpt
 {
-    public static function generate(string $user_input, $pmc, int $user_id, string $provider, bool $clear_all = false) {
+    public static function generate(string $user_input, $pmc, int $user_id, string $provider, bool $clear_all = false, $model = 'gpt-3.5-turbo') {
         $GptPMC = new GptPMC($pmc, $user_id, $provider);
 
         if ($clear_all) {
@@ -15,11 +15,11 @@ class Gpt
 
         $save_history = !$clear_all;
 
-        return self::process($user_input, self::formatContext($GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history);
+        return self::process($user_input, self::formatContext($GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
     }
 
-    private static function process($user_input, $context, $history, $GptPMC, $save_history = true) {
-        $answer = OpenAIService::generate($user_input, $context, $history);
+    private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model) {
+        $answer = OpenAIService::generate($user_input, $context, $history, $model);
 
         if(!empty($answer)) {
             if ($save_history) {

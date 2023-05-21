@@ -7,6 +7,7 @@ class GptPMC
     private const PMC_USER_AI_KEY = 'pmc_user_ai_';
     private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
 
+     /** @var \Memcache */
     private $pmc;
     private int $user_id;
     private string $provider;

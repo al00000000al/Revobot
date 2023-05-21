@@ -15,6 +15,7 @@ class HelpCmd extends BaseCmd
     public function exec(): string
     {
         return "Список команд бота:
+/ai4 - gpt-4 (50R)
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
 /alias - Создать алиас (10R)

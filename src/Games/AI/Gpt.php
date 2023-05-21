@@ -18,7 +18,7 @@ class Gpt
         return self::process($user_input, self::formatContext($GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
     }
 
-    private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model) {
+    private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-3.5-turbo') {
         $answer = OpenAIService::generate($user_input, $context, $history, $model);
 
         if(!empty($answer)) {

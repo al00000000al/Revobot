@@ -24,7 +24,7 @@ class AiCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
-            return (new Gpt)::generate($this->input, $this->bot->pmc, $this->bot->getUserId(), $this->bot->provider);
+            return Gpt::generate($this->input, $this->bot->pmc, $this->bot->getUserId(), $this->bot->provider);
         }
         return $this->description;
     }

@@ -7,7 +7,7 @@ use Revobot\Revobot;
 
 class TodoDoneCmd extends BaseCmd
 {
-    const KEYS = ['todo.done','done','готово'];
+    const KEYS = ['done','todo.done','готово'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Отметить выполненым';
 

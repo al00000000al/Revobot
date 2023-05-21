@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'ai4','ии4','ai','ии','aii','иии','alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','clearall','очиститьвсе','cmd','кмд','команда','command','комманда','config','конфиг','context','контекст','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','reset','clear','flush','сброс','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','todo.done','done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
+        'alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','ai4','ии4','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','context','контекст','c','кнт','history','h','ист','история','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','done','todo.done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -19,19 +19,7 @@ class CommandsManager extends CommandsManagerBase
     public static function run(Revobot $bot, string $command, string $input): string
     {
         switch ($command) {
-            case 'ai4':
-case 'ии4':
-	$response = (new \Revobot\Commands\Ai4Cmd($input, $bot))->exec();
-	break;
-case 'ai':
-case 'ии':
-	$response = (new \Revobot\Commands\AiCmd($input, $bot))->exec();
-	break;
-case 'aii':
-case 'иии':
-	$response = (new \Revobot\Commands\AiiCmd($input, $bot))->exec();
-	break;
-case 'alias':
+            case 'alias':
 case 'алиас':
 	$response = (new \Revobot\Commands\AliasCmd($input, $bot))->exec();
 	break;
@@ -68,10 +56,6 @@ case 'chat':
 case 'чат':
 	$response = (new \Revobot\Commands\ChatCmd($input, $bot))->exec();
 	break;
-case 'clearall':
-case 'очиститьвсе':
-	$response = (new \Revobot\Commands\ClearAllCmd($input, $bot))->exec();
-	break;
 case 'cmd':
 case 'кмд':
 case 'команда':
@@ -82,10 +66,6 @@ case 'комманда':
 case 'config':
 case 'конфиг':
 	$response = (new \Revobot\Commands\ConfigCmd($input, $bot))->exec();
-	break;
-case 'context':
-case 'контекст':
-	$response = (new \Revobot\Commands\ContextCmd($input, $bot))->exec();
 	break;
 case 'delete':
 case 'del':
@@ -103,6 +83,44 @@ case 'exchange':
 case 'currency':
 case 'курс':
 	$response = (new \Revobot\Commands\ExchangeCmd($input))->exec();
+	break;
+case 'ai4':
+case 'ии4':
+	$response = (new \Revobot\Commands\Gpt\Ai4Cmd($input, $bot))->exec();
+	break;
+case 'ai':
+case 'ии':
+	$response = (new \Revobot\Commands\Gpt\AiCmd($input, $bot))->exec();
+	break;
+case 'aii':
+case 'иии':
+	$response = (new \Revobot\Commands\Gpt\AiiCmd($input, $bot))->exec();
+	break;
+case 'clearall':
+case 'сброс':
+	$response = (new \Revobot\Commands\Gpt\ClearAllCmd($input, $bot))->exec();
+	break;
+case 'clearcontext':
+case 'ксброс':
+case 'cc':
+	$response = (new \Revobot\Commands\Gpt\ClearContextCmd($input, $bot))->exec();
+	break;
+case 'clearhistory':
+case 'ch':
+case 'исброс':
+	$response = (new \Revobot\Commands\Gpt\ClearHistoryCmd($input, $bot))->exec();
+	break;
+case 'context':
+case 'контекст':
+case 'c':
+case 'кнт':
+	$response = (new \Revobot\Commands\Gpt\ContextCmd($input, $bot))->exec();
+	break;
+case 'history':
+case 'h':
+case 'ист':
+case 'история':
+	$response = (new \Revobot\Commands\Gpt\HistoryCmd($input, $bot))->exec();
 	break;
 case 'help':
 case 'хэлп':
@@ -158,12 +176,6 @@ case 'ранд':
 case 'рандом':
 	$response = (new \Revobot\Commands\RandCmd($input))->exec();
 	break;
-case 'reset':
-case 'clear':
-case 'flush':
-case 'сброс':
-	$response = (new \Revobot\Commands\ResetCmd($input, $bot))->exec();
-	break;
 case 'rsend':
 case 'рсенд':
 	$response = (new \Revobot\Commands\RsendCmd($input, $bot))->exec();
@@ -194,8 +206,8 @@ case 'туду':
 case 'задачи':
 	$response = (new \Revobot\Commands\TodoCmd($input, $bot))->exec();
 	break;
-case 'todo.done':
 case 'done':
+case 'todo.done':
 case 'готово':
 	$response = (new \Revobot\Commands\TodoDoneCmd($input, $bot))->exec();
 	break;

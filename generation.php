@@ -36,9 +36,10 @@ function processFiles(){
     }
         if(!isset($constants['IS_ADMIN_ONLY']) && !isset($constants['IS_HIDDEN'])){
             $help_str .= '/'.$constants['KEYS'][0].' - '.$constants['HELP_DESCRIPTION']."\n";
+            $tg_commands[] = ['command' => $constants['KEYS'][0], 'description' => $constants['HELP_DESCRIPTION']];
         }
         $commands = array_merge($commands, $constants['KEYS']);
-        $tg_commands[] = ['command' => $constants['KEYS'][0], 'description' => $constants['HELP_DESCRIPTION']];
+
 
         try {
             $start_params = array_column($reflector->getConstructor()->getParameters(), 'name');

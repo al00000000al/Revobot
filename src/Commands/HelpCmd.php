@@ -15,9 +15,6 @@ class HelpCmd extends BaseCmd
     public function exec(): string
     {
         return "Список команд бота:
-/ai4 - gpt-4 (50R)
-/ai - Нейросеть
-/aii - Очистить контекст и историю и ответить
 /alias - Создать алиас (10R)
 /alive - Состояние бота
 /answer - Ответить на вопрос
@@ -27,12 +24,18 @@ class HelpCmd extends BaseCmd
 /cancel - Отменить задачу
 /casino - Казино на ревокоены
 /chat - Случайный чат
-/clearall - очистить историю и контекст
 /cmd - Создать команду (20R)
-/context - Установить контекст нейросети
 /delete - Удалить команду
 /echo - Печатать
 /exchange - Курс
+/ai4 - gpt-4 (50R)
+/ai - Нейросеть
+/aii - Очистить контекст и историю и ответить
+/clearall - очистить историю и контекст
+/clearcontext - Установить контекст
+/clearhistory - Сбросить историю
+/context - Контекст
+/history - История
 /help - Помощь
 /id - Мой ид
 /infa - Вероятность события
@@ -43,14 +46,13 @@ class HelpCmd extends BaseCmd
 /pukvy - риска миса
 /vopros - Вопросы на коины
 /rand - Случайное число
-/reset - Сбросить историю
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
 /stat - Статистика R
 /talk - Лимит на разговоров
 /time - Правильное время
 /todo - Список задач
-/todo.done - Отметить выполненым
+/done - Отметить выполненым
 /vozrast - Сколько сегодня мне лет (нецелое)
 /weather - Моя погода
 /when - Узнать когда

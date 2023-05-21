@@ -1,7 +1,8 @@
 <?php
 
-namespace Revobot\Commands;
+namespace Revobot\Commands\Gpt;
 
+use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\Clear;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
@@ -9,7 +10,7 @@ use Revobot\Revobot;
 class ClearAllCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['clearall', 'очиститьвсе'];
+    public const KEYS = ['clearall', 'сброс'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'очистить историю и контекст';
 

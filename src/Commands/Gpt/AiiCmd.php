@@ -1,7 +1,8 @@
 <?php
 
-namespace Revobot\Commands;
+namespace Revobot\Commands\Gpt;
 
+use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\Gpt;
 use Revobot\Revobot;
 

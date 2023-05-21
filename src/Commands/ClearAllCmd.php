@@ -1,6 +1,9 @@
 <?php
 
 namespace Revobot\Commands;
+
+use Revobot\Games\AI\Clear;
+use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
 
 class ClearAllCmd extends BaseCmd
@@ -9,8 +12,6 @@ class ClearAllCmd extends BaseCmd
     public const KEYS = ['clearall', 'очиститьвсе'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'очистить историю и контекст';
-    private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
-    private const PMC_USER_AI_KEY = 'pmc_user_ai_';
 
     public function __construct(string $input, Revobot $bot)
     {
@@ -20,26 +21,9 @@ class ClearAllCmd extends BaseCmd
 
     public function exec(): string
     {
-        $this->deleteHistory();
-        $this->setContext("");
+        Clear::all(new GptPMC($this->bot->pmc, $this->bot->getUserId(), $this->bot->provider));
+
         return 'История и контекст сброшены!';
     }
 
-    private function deleteHistory()
-    {
-        $this->bot->pmc->delete($this->getHistoryKey());
-    }
-
-    private function setContext(string $context){
-        $this->bot->pmc->set($this->getContextKey(), $context);
-    }
-
-    private function getHistoryKey()
-    {
-        return self::PMC_USER_AI_HISTORY_KEY . $this->bot->provider . $this->bot->getUserId();
-    }
-
-    private function getContextKey(){
-        return self::PMC_USER_AI_KEY . $this->bot->provider . $this->bot->getUserId();
-    }
 }

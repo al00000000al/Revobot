@@ -4,9 +4,8 @@ namespace Revobot\Commands;
 
 use Revobot\Games\AI\Gpt;
 use Revobot\Revobot;
-use Revobot\Services\OpenAIService;
 
-class AiCmd extends BaseCmd
+class AiiCmd extends BaseCmd
 {
     private Revobot $bot;
 

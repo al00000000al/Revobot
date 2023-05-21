@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'ai','ии','aii','иии','alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','context','контекст','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','reset','clear','flush','сброс','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','todo.done','done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
+        'ai','ии','alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','clearall','очиститьвсе','cmd','кмд','команда','command','комманда','config','конфиг','context','контекст','delete','del','удалить','echo','эхо','excho','print','принт','exchange','currency','курс','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','reset','clear','flush','сброс','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','todo.done','done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -22,10 +22,6 @@ class CommandsManager extends CommandsManagerBase
             case 'ai':
 case 'ии':
 	$response = (new \Revobot\Commands\AiCmd($input, $bot))->exec();
-	break;
-case 'aii':
-case 'иии':
-	$response = (new \Revobot\Commands\AiiCmd($input, $bot))->exec();
 	break;
 case 'alias':
 case 'алиас':
@@ -63,6 +59,10 @@ case 'казино':
 case 'chat':
 case 'чат':
 	$response = (new \Revobot\Commands\ChatCmd($input, $bot))->exec();
+	break;
+case 'clearall':
+case 'очиститьвсе':
+	$response = (new \Revobot\Commands\ClearAllCmd($input, $bot))->exec();
 	break;
 case 'cmd':
 case 'кмд':

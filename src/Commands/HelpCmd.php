@@ -16,7 +16,6 @@ class HelpCmd extends BaseCmd
     {
         return "Список команд бота:
 /ai - Нейросеть
-/aii - очистить историю и контекст
 /alias - Создать алиас (10R)
 /alive - Состояние бота
 /answer - Ответить на вопрос
@@ -26,6 +25,7 @@ class HelpCmd extends BaseCmd
 /cancel - Отменить задачу
 /casino - Казино на ревокоены
 /chat - Случайный чат
+/clearall - очистить историю и контекст
 /cmd - Создать команду (20R)
 /context - Установить контекст нейросети
 /delete - Удалить команду

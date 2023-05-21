@@ -3,7 +3,7 @@
 namespace Revobot\Commands;
 use Revobot\Revobot;
 
-class СlearAllCmd extends BaseCmd
+class ClearAllCmd extends BaseCmd
 {
     private Revobot $bot;
     public const KEYS = ['clearall', 'очиститьвсе'];

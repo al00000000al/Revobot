@@ -22,11 +22,12 @@ class ContextCmd extends BaseCmd
     public function exec(): string
     {
         $GptPMC = new GptPMC($this->bot->pmc, $this->bot->getUserId(), $this->bot->provider);
-        if(!empty($this->input)) {
-            $GptPMC->setContext($this->input);
-            return "Контекст изменен";
+        if(empty($this->input)) {
+            return $GptPMC->getContext();
         }
-        return $GptPMC->getContext();
+        $GptPMC->setContext($this->input);
+        return "Контекст изменен";
+
     }
 
 }

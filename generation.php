@@ -1,6 +1,9 @@
 <?php
 
-require 'vendor/autoload.php';
+use Revobot\Util\Curl;
+
+require_once 'vendor/autoload.php';
+require_once 'config.php';
 
 define('COMMANDS_PATH', __DIR__ . '/src/Commands');
 
@@ -9,6 +12,7 @@ function processFiles(){
     $help_str = "";
     $switch = '';
     $commands = [];
+    $tg_commands = [];
     $f = get_dir_files(COMMANDS_PATH);
     foreach($f as $file){
         if(substr(basename($file), -7) !== 'Cmd.php'){
@@ -34,6 +38,7 @@ function processFiles(){
             $help_str .= '/'.$constants['KEYS'][0].' - '.$constants['HELP_DESCRIPTION']."\n";
         }
         $commands = array_merge($commands, $constants['KEYS']);
+        $tg_commands[] = ['command' => $constants['KEYS'][0], 'description' => $constants['HELP_DESCRIPTION']];
 
         try {
             $start_params = array_column($reflector->getConstructor()->getParameters(), 'name');
@@ -48,7 +53,12 @@ function processFiles(){
     $commandsManager = generateCommandsManager($commands_arr, $switch);
     file_put_contents(COMMANDS_PATH.'/HelpCmd.php', $helpCmd);
     file_put_contents(COMMANDS_PATH.'/../CommandsManager.php', $commandsManager);
+
     echo "generated: HelpCmd.php, CommandsManager.php\n";
+
+    $tg_json_cmd = json_encode($tg_commands);
+    updateTgCommands($tg_json_cmd);
+    echo "Updated tg commands\n";
 }
 
 
@@ -142,4 +152,10 @@ function generateSwitch($class, $commands, $start_params){
     $params = '$'. implode(', $', $start_params);
     $result .= "\t\$response = (new \\{$class}($params))->exec();\n\tbreak;\n";
     return $result;
+}
+
+function updateTgCommands(string $commands)
+{
+    $url = 'https://api.telegram.org/bot' . TG_KEY . '/setMyCommands';
+    return Curl::post($url, ['commands' => $commands]);
 }

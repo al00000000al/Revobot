@@ -6,7 +6,7 @@ use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
 
-class ClearContext extends BaseCmd
+class ClearContextCmd extends BaseCmd
 {
     private Revobot $bot;
     public const KEYS = ['clearcontext','ксброс','cc'];

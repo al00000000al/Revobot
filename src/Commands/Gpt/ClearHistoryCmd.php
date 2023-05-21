@@ -6,7 +6,7 @@ use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
 
-class ClearHistory extends BaseCmd
+class ClearHistoryCmd extends BaseCmd
 {
     private Revobot $bot;
 

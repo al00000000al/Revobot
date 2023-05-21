@@ -3,10 +3,10 @@
 namespace Revobot\Commands;
 use Revobot\Revobot;
 
-class AiiCmd extends BaseCmd
+class СlearAllCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['aii', 'иии'];
+    public const KEYS = ['clearall', 'очиститьвсе'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'очистить историю и контекст';
     private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';

@@ -2,6 +2,7 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Config;
 use Revobot\Games\Predictor\Utils;
 use Revobot\Games\Predictor\YesNo;
 use Revobot\Revobot;
@@ -35,7 +36,7 @@ class YnCmd extends BaseCmd
         $input = Utils::replaceDate($this->input);
         $input = Utils::replaceMe($this->bot->getUserId(), $input);
 
-        if (USE_AI_CMD) {
+        if ((bool) Config::get('use_ai_cmd')) {
             $result = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
 
             $pattern = "/не знаю|оскорб|другой вопрос/i";

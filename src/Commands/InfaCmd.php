@@ -2,6 +2,7 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Config;
 use Revobot\Games\Predictor\Percents;
 use Revobot\Games\Predictor\Utils;
 use Revobot\Revobot;
@@ -33,7 +34,7 @@ class InfaCmd extends BaseCmd
             return $this->description;
         }
 
-        if(USE_AI_CMD) {
+        if((bool) Config::get('use_ai_cmd')) {
            return OpenAIService::generate($this->input, "На любой текст или фразу ты представляешь вероятность этого события в цифрах, если это не представляется возможным или запрос неадекватный тогда пиши 0%. Нужно только число", []);
         } else {
         $input = Utils::replaceDate($this->input);

@@ -5,6 +5,7 @@ namespace Revobot\Commands;
 use Revobot\Commands\Custom\CustomCmd;
 use Revobot\Commands\Custom\Prices;
 use Revobot\Commands\Custom\Types;
+use Revobot\Config;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
 
@@ -46,8 +47,10 @@ class AliasCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_ALIAS, [$command]);
-        (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, -TG_BOT_ID, $this->bot->getUserId());
+        $user_id = $this->bot->getUserId();
+
+        $customCmd->addCommand($user_id, $command_name, Types::TYPE_ALIAS, [$command]);
+        (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, $this->bot->getTgBotId(), $user_id);
         return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
     }
 }

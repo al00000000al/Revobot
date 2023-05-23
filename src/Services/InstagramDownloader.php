@@ -2,12 +2,13 @@
 
 namespace Revobot\Services;
 
+use Revobot\Config;
 use Revobot\Util\Curl;
 
 class InstagramDownloader
 {
    public static function get(string $url, int $chat_id){
-        Curl::get(DL_VIDEO_API_URL.'?url='.urlencode($url).'&chat_id='.$chat_id.'&access_code='.DL_VIDEO_API_KEY);
+        Curl::get(Config::get('dl_video_api_url') . '?url='.urlencode($url).'&chat_id='.$chat_id.'&access_code=' . Config::get('dl_video_api_key'));
         return true;
    }
 

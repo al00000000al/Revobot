@@ -2,6 +2,8 @@
 // kphp -F --composer-root=$(pwd) --composer-no-dev index.php
 //  ./build/server -H 8088 --use-utf8 --workers-num 5  -q  &
 
+use Revobot\Config;
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 
@@ -23,7 +25,7 @@ if($url === '/tg_bot' || $url === '/vk_bot'){
         $chat_id = $data_arr['message']['chat']['id'];
         $bot = new Revobot\Revobot('tg');
         $bot->setChatId((int)$chat_id);
-        $bot->setTgKey(TG_KEY);
+        $bot->setTgKey(Config::get('tg_key'));
         $bot->setPmc($pmc);
 
         if(isset($data_arr['message']['text'])) {

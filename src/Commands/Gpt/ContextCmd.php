@@ -23,7 +23,11 @@ class ContextCmd extends BaseCmd
     {
         $GptPMC = new GptPMC($this->bot->pmc, $this->bot->getUserId(), $this->bot->provider);
         if(empty($this->input)) {
-            return $GptPMC->getContext();
+            $response = $GptPMC->getContext();
+            if (empty($response)) {
+                $response = "Пустой контекст";
+            }
+            return $response;
         }
         $GptPMC->setContext($this->input);
         return "Контекст изменен";

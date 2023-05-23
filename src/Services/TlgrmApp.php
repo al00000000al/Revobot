@@ -2,6 +2,7 @@
 
 namespace Revobot\Services;
 
+use Revobot\Config;
 use Revobot\Util\Curl;
 
 class TlgrmApp
@@ -46,7 +47,7 @@ class TlgrmApp
             'highlight_fields' => '_',
             'min_len_1typo' => 5,
             'min_len_2typo' => 8,
-            'x-typesense-api-key' => TLGRM_TYPESENSE_KEY,
+            'x-typesense-api-key' => Config::get('tlgrm_typesense_key'),
         ]);
         return json_decode(Curl::get(self::URL . $params), true);
     }

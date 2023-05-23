@@ -29,7 +29,8 @@ class DeleteCmd extends BaseCmd
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
-        $user_commands = $customCmd->getUserCommands($this->bot->getUserId());
+        $user_id = $this->bot->getUserId();
+        $user_commands = $customCmd->getUserCommands($user_id);
         if (!in_array($this->input, $user_commands, true)) {
             return 'Вы не можете удалить эту команду или такой нет';
         }
@@ -45,8 +46,8 @@ class DeleteCmd extends BaseCmd
                     $price = Prices::PRICE_TEXT;
             }
             if ($price > 0) {
-                (new Revocoin($this->bot))->transaction($price, $this->bot->getUserId(), -TG_BOT_ID);
-                $customCmd->deleteCommand($this->bot->getUserId(), $this->input);
+                (new Revocoin($this->bot))->transaction($price, $user_id, $this->bot->getTgBotId());
+                $customCmd->deleteCommand($user_id, $this->input);
                 $commission = $price * Revocoin::TRANSACTION_COMMISSION;
                 $price -= $commission;
                 return '+' . $price . 'R у ' . $this->bot->getUserNick();

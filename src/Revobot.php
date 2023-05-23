@@ -10,6 +10,7 @@ use Revobot\Util\Curl;
 class Revobot
 {
 
+
     public int $chat_id;
 
     public string $provider;
@@ -150,7 +151,7 @@ class Revobot
             }
                 // Mining bot
                 if($response){
-                $mining_future_bot = fork((new Revocoin($this))->mining(-TG_BOT_ID, 0, (string)$response));
+                $mining_future_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$response));
                 $mining_result_bot = wait($mining_future_bot);
 
                 if (!empty($mining_result_bot)) {
@@ -163,7 +164,7 @@ class Revobot
                 $bot_answer = Answers::getAnswer('- ' . $this->message . "\n - ");
                 if (!empty($bot_answer)) {
                     $this->sendMessageTg((string)$bot_answer);
-                    $mining_future_ans_bot = fork((new Revocoin($this))->mining(-TG_BOT_ID, 0, (string)$bot_answer));
+                    $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$bot_answer));
                     $mining_result_ans_bot = wait($mining_future_ans_bot);
                     if (!empty($mining_result_ans_bot)) {
                         $this->sendMessageTg('+' . $mining_result_ans_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_ans_bot['id']);
@@ -300,5 +301,9 @@ class Revobot
             $usernames_chat[$user_nick] = $user;
             $this->pmc->set(self::PMC_USERNAMES_CHAT_KEY . $this->provider . $this->chat_id, $usernames_chat);
         }
+    }
+
+    public function getTgBotId() {
+        return -(int) Config::get('tg_bot_id');
     }
 }

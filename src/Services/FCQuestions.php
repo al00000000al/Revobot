@@ -2,6 +2,7 @@
 
 namespace Revobot\Services;
 
+use Revobot\Config;
 use Revobot\Util\Curl;
 
 class FCQuestions
@@ -14,7 +15,7 @@ class FCQuestions
      */
     public static function get()
     {
-        $response = Curl::get(self::BASE_URL.FC_KEY);
+        $response = Curl::get(self::BASE_URL . Config::get('fc_key'));
         return json_decode($response, true);
     }
 }

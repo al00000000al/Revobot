@@ -49,8 +49,10 @@ class CommandCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $customCmd->addCommand($this->bot->getUserId(), $command_name, Types::TYPE_TEXT, [$text]);
-        (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, -TG_BOT_ID, $this->bot->getUserId());
+        $user_id = $this->bot->getUserId();
+
+        $customCmd->addCommand($user_id, $command_name, Types::TYPE_TEXT, [$text]);
+        (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, $this->bot->getTgBotId(), $user_id);
         return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_TEXT.'R';
     }
 }

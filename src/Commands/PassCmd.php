@@ -93,22 +93,23 @@ class PassCmd extends BaseCmd
     }
 
     private function transferUserMoney(int $old_user_id, int $user_id, string $provider = 'tg') {
-        $from_coins = (int)$this->bot->pmc->get('money_'.$provider.$old_user_id);
-        $to_coins = (int)$this->bot->pmc->get('money_'.$provider.$user_id);
+        $from_coins = (int)$this->bot->pmc->get(self::getMoneyKey($provider, $old_user_id));
+        $to_coins = (int)$this->bot->pmc->get(self::getMoneyKey($provider, $user_id));
         $result = $to_coins + $from_coins;
-        $this->bot->pmc->set('money_'.$provider.$user_id, $result);
-        $this->bot->pmc->set('money_'.$provider.$old_user_id, 0);
+        $this->bot->pmc->set(self::getMoneyKey($provider, $user_id), $result);
+        $this->bot->pmc->set(self::getMoneyKey($provider, $old_user_id), 0);
     }
 
     private function transferUserTodos(int $old_user_id, int $user_id, $provider = 'tg'){
         $myTodo = new Todo($this->bot);
         $todos = (array)$myTodo->getUserTodos($old_user_id, $provider);
-        //$user_todos = (array)$myTodo->getUserTodos($user_id, $provider);
-        //$todos = $user_todos;
 
         foreach($todos as $todo){
             $myTodo->addTodo($user_id, (string)$todo, $provider);
         }
+    }
 
+    private function getMoneyKey($provider, $user_id) {
+        return 'money_' . $provider . $user_id;
     }
 }

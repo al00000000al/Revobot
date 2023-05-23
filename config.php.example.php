@@ -1,21 +1,28 @@
 <?php
 
-const TG_KEY = '';
-const VK_KEY = '';
+$config['tg_key'] = '';
+$config['vk_key'] = '';
+$config['secret_key'] = '';
+$config['fc_key'] = '';
+$config['huggingface_key'] = '';
+$config['tlgrm_typesense_key'] = '';
+$config['open_weather_map_api_key'] = '';
+$config['openai_api_key'] = '';
 
-const SECRET_KEY = '';
-const TG_BOT_ADMINS = [];
-const TG_BOT_ID = 0;
-const FC_KEY = '';
-const HUGGINGFACE_KEY = '';
+$config['tg_bot_admins'] = [12345];
+$config['tg_bot_id'] = 12345;
 
-const TLGRM_TYPESENSE_KEY = 'search on site';
+$config['dl_video_api_url'] = 'https://';
+$config['dl_video_api_key'] = '';
 
-const OPEN_WEATHER_MAP_API_KEY = '';
-
-const DL_VIDEO_API_URL = '';
-const DL_VIDEO_API_KEY = '';
-const OPENAI_API_KEY = '';
 
 // openai in other commands:
-const USE_AI_CMD = false;
+$config['use_ai_cmd'] = false;
+
+//payments crystalpay
+$config = [
+    'crystalpay_login' => '',
+    'crystalpay_secret_key' => '',
+    'crystalpay_salt' => '',
+    'crystalpay_callback' => 'http://',
+];

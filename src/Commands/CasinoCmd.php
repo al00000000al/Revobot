@@ -26,7 +26,10 @@ class CasinoCmd extends BaseCmd
             return $this->description;
         }
 
-        $user_balance = (float)(new Revocoin($this->bot))->getBalance($this->bot->getUserId());
+        $user_id = $this->bot->getUserId();
+        $bot_id = $this->bot->getTgBotId();
+
+        $user_balance = (float)(new Revocoin($this->bot))->getBalance($user_id);
         // if input string all or все or всё - amount is user balance
         if ($this->input === 'all' || $this->input === 'все' || $this->input === 'всё') {
             $amount = $user_balance;
@@ -34,8 +37,8 @@ class CasinoCmd extends BaseCmd
             $amount = (float)$this->input;
         }
 
-        // get balance of TG_BOT_ID (bank)
-        $balance = (new Revocoin($this->bot))->getBalance(-TG_BOT_ID);
+        // get balance of tg bot (bank)
+        $balance = (new Revocoin($this->bot))->getBalance($bot_id);
 
 
         // check that amount is positive and user has enough money
@@ -60,15 +63,15 @@ class CasinoCmd extends BaseCmd
         if($new_amount == 0){
             (new Revocoin($this->bot))->transaction(
                 $old_amount,
-                -TG_BOT_ID,
-                $this->bot->getUserId()
+                $bot_id,
+                $user_id
             );
             return '-' . $old_amount . ' R';
         }else{
             (new Revocoin($this->bot))->transaction(
                 $new_amount,
-                $this->bot->getUserId(),
-                -TG_BOT_ID
+                $user_id,
+                $bot_id,
             );
             $commission = $new_amount * Revocoin::TRANSACTION_COMMISSION;
             $new_amount -= $commission;

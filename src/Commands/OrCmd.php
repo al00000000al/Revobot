@@ -2,6 +2,7 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Config;
 use Revobot\Services\OpenAIService;
 use Revobot\Util\Hash;
 
@@ -28,7 +29,7 @@ class OrCmd extends BaseCmd
             return $this->description;
         }
 
-        if (USE_AI_CMD) {
+        if ((bool) Config::get('use_ai_cmd')) {
             return OpenAIService::generate(implode(',', $words), "Выбери что-то одно из этого списка слов и напиши только это слово в ответе и все", []);
         }
 

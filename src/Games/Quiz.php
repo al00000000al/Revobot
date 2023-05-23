@@ -45,7 +45,7 @@ class Quiz
         $question = $this->getQuestion();
         if ((string)$question['answer'] === $answer) {
             $this->bot->pmc->delete(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . $this->bot->chat_id);
-            (new Revocoin($this->bot))->transaction(self::QUIZ_WIN_PRIZE, $this->bot->getUserId(), -TG_BOT_ID);
+            (new Revocoin($this->bot))->transaction(self::QUIZ_WIN_PRIZE, $this->bot->getUserId(), $this->bot->getTgBotId());
             $price = self::QUIZ_WIN_PRIZE;
             $this->bot->sendMessageTg("+" . $price . 'R у ' . $this->bot->getUserNick());
             $this->bot->sendMessageTg((string)$this->getQuestion()['question']);
@@ -53,7 +53,7 @@ class Quiz
         } else {
             $commission = self::QUIZ_LOSE_PRIZE * Revocoin::TRANSACTION_COMMISSION;
             $price = self::QUIZ_LOSE_PRIZE - $commission;
-            (new Revocoin($this->bot))->transaction(self::QUIZ_LOSE_PRIZE, -TG_BOT_ID, $this->bot->getUserId());
+            (new Revocoin($this->bot))->transaction(self::QUIZ_LOSE_PRIZE, $this->bot->getTgBotId(), $this->bot->getUserId());
             $this->bot->sendMessageTg("-" .$price . 'R у ' . $this->bot->getUserNick());
         }
     }

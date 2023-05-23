@@ -2,6 +2,7 @@
 
 namespace Revobot\Services\Huggingface;
 
+use Revobot\Config;
 use Revobot\Util\Curl;
 
 class SbermGPT
@@ -16,7 +17,7 @@ class SbermGPT
         ];
 
         $res = Curl::post(self::BASE_URL, (string)json_encode($data), ['headers' => [
-            'Authorization: Bearer ' . HUGGINGFACE_KEY
+            'Authorization: Bearer ' . Config::get('huggingface_key')
         ]]);
         if(isset($res[0]['generated_text'])){
             return (string)$res[0]['generated_text'];

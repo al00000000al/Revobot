@@ -2,6 +2,8 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Config;
+
 class BaseCmd
 {
     protected string $description = 'Base cmd';
@@ -59,6 +61,6 @@ class BaseCmd
      */
     public function isAdmin(int $user): bool
     {
-        return in_array($user, TG_BOT_ADMINS, true);
+        return in_array($user, Config::get('tg_bot_admins', true), true);
     }
 }

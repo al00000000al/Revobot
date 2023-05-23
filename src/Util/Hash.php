@@ -2,11 +2,13 @@
 
 namespace Revobot\Util;
 
+use Revobot\Config;
+
 class Hash
 {
     public static function generate(...$args)
     {
-        return hash('sha256', implode(':', $args) . SECRET_KEY);
+        return hash('sha256', implode(':', $args) . Config::get('secret_key'));
     }
 
     public static function verify($user_hash, ...$args){

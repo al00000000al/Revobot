@@ -5,7 +5,7 @@
 
 namespace Revobot\Commands;
 
-
+use Revobot\Config;
 use Revobot\Revobot;
 use Revobot\Util\Curl;
 
@@ -52,7 +52,7 @@ class WeatherCmd extends BaseCmd
 
     private function getWeather(string $city)
     {
-        return json_decode(Curl::get('https://api.openweathermap.org/data/2.5/weather?q=' . urlencode($city) . '&units=metric&lang=ru&appid=' . OPEN_WEATHER_MAP_API_KEY), true);
+        return json_decode(Curl::get('https://api.openweathermap.org/data/2.5/weather?q=' . urlencode($city) . '&units=metric&lang=ru&appid=' . Config::get('open_weather_map_api_key')), true);
     }
 
     private function getWeatherText($weather): string

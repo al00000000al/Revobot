@@ -26,6 +26,7 @@ class HelpCmd extends BaseCmd
 /chat - Случайный чат
 /cmd - Создать команду (20R)
 /delete - Удалить команду
+/donate - Купить ревокоины
 /echo - Печатать
 /exchange - Курс
 /ai4 - gpt-4 (50R)

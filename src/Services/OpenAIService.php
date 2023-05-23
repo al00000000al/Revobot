@@ -3,6 +3,7 @@
 namespace Revobot\Services;
 
 use Orhanerday\OpenAi\OpenAi;
+use Revobot\Config;
 
 class OpenAIService
 {
@@ -11,7 +12,7 @@ class OpenAIService
     public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 1.0, $max_tokens = 300): string
     {
 
-        $open_ai = new OpenAi(OPENAI_API_KEY);
+        $open_ai = new OpenAi(Config::get('openai_api_key'));
 
         $messages  = [];
         $messages = self::addMessageToHistory($messages, 'system', $context);

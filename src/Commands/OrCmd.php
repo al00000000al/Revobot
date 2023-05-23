@@ -29,7 +29,7 @@ class OrCmd extends BaseCmd
             return $this->description;
         }
 
-        if ((bool) Config::get('use_ai_cmd')) {
+        if ((bool) Config::getInt('use_ai_cmd')) {
             return OpenAIService::generate(implode(',', $words), "Выбери что-то одно из этого списка слов и напиши только это слово в ответе и все", []);
         }
 

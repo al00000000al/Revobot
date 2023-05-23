@@ -304,6 +304,6 @@ class Revobot
     }
 
     public function getTgBotId() {
-        return -(int) Config::get('tg_bot_id');
+        return -(int) Config::getInt('tg_bot_id');
     }
 }

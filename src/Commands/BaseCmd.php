@@ -61,6 +61,6 @@ class BaseCmd
      */
     public function isAdmin(int $user): bool
     {
-        return in_array($user, Config::get('tg_bot_admins', true), true);
+        return in_array($user, Config::getArr('tg_bot_admins'), true);
     }
 }

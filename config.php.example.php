@@ -1,5 +1,9 @@
 <?php
 
+global $config;
+
+$config = [];
+
 $config['tg_key'] = '';
 $config['vk_key'] = '';
 $config['secret_key'] = '';

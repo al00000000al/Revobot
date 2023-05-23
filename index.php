@@ -7,7 +7,6 @@ use Revobot\Config;
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 
-
 $url = $_SERVER['PHP_SELF'];
 if($url === '/tg_bot' || $url === '/vk_bot'){
     $data = file_get_contents('php://input');

@@ -210,11 +210,13 @@ class Revobot
             $response_text = str_replace('@', '', $response_text);
         }
 
-        Curl::post($url, [
+        $res = Curl::post($url, [
             'chat_id' => $this->chat_id,
             'text' => $response_text,
             'parse_mode' => $this->parse_mode,
         ]);
+
+        dbg_echo(implode(',', [implode(',', $res), $url, $this->chat_id, $response_text, $this->parse_mode]));
     }
 
 
@@ -304,6 +306,6 @@ class Revobot
     }
 
     public function getTgBotId() {
-        return -(int) Config::getInt('tg_bot_id');
+        return -Config::getInt('tg_bot_id');
     }
 }

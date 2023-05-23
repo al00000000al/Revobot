@@ -10,7 +10,7 @@ use Revobot\Revobot;
 class Ai4Cmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['ai4','ии4'];
+    public const KEYS = ['aich','иич'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'gpt-4 (50R)';
     public const PRICE = 50;
@@ -38,7 +38,8 @@ class Ai4Cmd extends BaseCmd
 
     public function hasMoney(int $user_id): bool
     {
-        $user_balance = (new Revocoin($this->bot))->getBalance($user_id);
-        return $user_balance >= self::PRICE;
+        $revocoin = new Revocoin($this->bot);
+        $user_balance = $revocoin->getBalance($user_id);
+        return (int)$user_balance >= self::PRICE;
     }
 }

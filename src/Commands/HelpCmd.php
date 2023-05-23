@@ -29,7 +29,7 @@ class HelpCmd extends BaseCmd
 /donate - Купить ревокоины
 /echo - Печатать
 /exchange - Курс
-/ai4 - gpt-4 (50R)
+/aich - gpt-4 (50R)
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
 /clearall - очистить историю и контекст

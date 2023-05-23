@@ -1,9 +1,5 @@
 <?php
 
-global $config;
-
-$config = [];
-
 $config['tg_key'] = '';
 $config['vk_key'] = '';
 $config['secret_key'] = '';
@@ -24,7 +20,7 @@ $config['dl_video_api_key'] = '';
 $config['use_ai_cmd'] = false;
 
 //payments crystalpay
-$config = [
+$config += [
     'crystalpay_login' => '',
     'crystalpay_secret_key' => '',
     'crystalpay_salt' => '',

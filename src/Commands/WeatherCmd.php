@@ -57,12 +57,16 @@ class WeatherCmd extends BaseCmd
 
     private function getWeatherText($weather): string
     {
-        $text = "Погода в {$weather['name']}:\n";
-        $text .= "Температура: {$weather['main']['temp']}°C\n";
-        $text .= "Давление: {$weather['main']['pressure']}hPa\n";
-        $text .= "Влажность: {$weather['main']['humidity']}%\n";
-        $text .= "Ветер: {$weather['wind']['speed']}м/с";
-        return $text;
+        return <<<TEXT
+Погода в {$weather['name']}:
+Температура: {$weather['main']['temp']}°C
+Ощущается как: {$weather['main']['feels_like']}°C
+Давление: {$weather['main']['pressure']}hPa
+Влажность: {$weather['main']['humidity']}%
+Ветер: {$weather['wind']['speed']}м/с
+
+{$weather['weather']['description']}
+TEXT;
     }
 
 }

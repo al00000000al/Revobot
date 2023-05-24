@@ -6,8 +6,8 @@ use Revobot\Services\OpenAIService;
 
 class Gpt
 {
-    public static function generate(string $user_input, $pmc, int $user_id, string $provider, bool $clear_all = false, $model = 'gpt-3.5-turbo') {
-        $GptPMC = new GptPMC($pmc, $user_id, $provider);
+    public static function generate(string $user_input, int $user_id, string $provider, bool $clear_all = false, $model = 'gpt-3.5-turbo') {
+        $GptPMC = new GptPMC($user_id, $provider);
 
         if ($clear_all) {
             Clear::all($GptPMC);

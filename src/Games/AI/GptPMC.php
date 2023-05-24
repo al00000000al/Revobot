@@ -12,7 +12,10 @@ class GptPMC
     private int $user_id;
     private string $provider;
 
-    public function __construct($pmc, int $user_id, string $provider = 'tg') {
+    public function __construct(int $user_id, string $provider = 'tg') {
+        /** @var \McMemcache $pmc */
+        $pmc = new \McMemcache();
+        $pmc->addServer('127.0.0.1', 11209);
         $this->pmc = $pmc;
         $this->user_id = $user_id;
         $this->provider = $provider;

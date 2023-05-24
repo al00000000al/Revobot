@@ -21,7 +21,7 @@ class ClearContextCmd extends BaseCmd
 
     public function exec(): string
     {
-        $GptPMC = new GptPMC($this->bot->pmc, $this->bot->getUserId(), $this->bot->provider);
+        $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
         $GptPMC->setContext("");
         return "Контекст удален";
     }

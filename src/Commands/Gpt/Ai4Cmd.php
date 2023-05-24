@@ -28,7 +28,7 @@ class Ai4Cmd extends BaseCmd
             if($this->hasMoney($this->bot->getUserId())) {
                 (new Revocoin($this->bot))->transaction(self::PRICE, $this->bot->getTgBotId(), $this->bot->getUserId());
                 return '-' . self::PRICE . " R\n"
-                . Gpt::generate($this->input, $this->bot->pmc, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-4');
+                . Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-4');
             } else {
                 return "Недостаточно ревокоинов на балансе";
             }

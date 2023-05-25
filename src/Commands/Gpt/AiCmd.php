@@ -39,7 +39,7 @@ class AiCmd extends BaseCmd
                 'provider' => $this->bot->provider,
                 'chat_id' => $this->bot->chat_id
               ]);
-              JobLauncher::start($job_request, 80.0);
+              JobLauncher::start($job_request, -1);
             return "";
         }
         return $this->description;

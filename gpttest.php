@@ -25,7 +25,7 @@ if(empty($context)){
 }
 
 $context .= $date_message;
-$answer = OpenAIService::generate($input, $context, $history);
+$answer = OpenAIService::generate($input, $context, $history, 'gpt-4');
 $history = OpenAIService::addMessageToHistory($history, 'user', $input);
 $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
 setHistory($history, $user_id);

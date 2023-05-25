@@ -168,16 +168,22 @@ class StoyakCmd extends BaseCmd
     }
     private function writeCalcText()
     {
+        $this->bot->sendTypeStatusTg();
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
         //sleep(3);
+        $this->bot->sendTypeStatusTg();
         $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
         //sleep(3);
+        $this->bot->sendTypeStatusTg();
         $this->bot->sendMessageTg("3");
         //sleep(3);
+        $this->bot->sendTypeStatusTg();
         $this->bot->sendMessageTg("2");
         //sleep(4);
+        $this->bot->sendTypeStatusTg();
         $this->bot->sendMessageTg("1...");
        // sleep(3);
+       $this->bot->sendTypeStatusTg();
     }
 
     private function getLastStoyak($chat_id)
@@ -244,7 +250,4 @@ class StoyakCmd extends BaseCmd
         return $username;
     }
 
-    private function isPsinkaInChat(int $chat_id){
-
-    }
 }

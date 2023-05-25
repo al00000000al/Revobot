@@ -25,6 +25,8 @@ class Gpt extends JobWorkerNoReply {
     self::sendMessageTg($response);
   }
 
+
+
   public function sendMessageTg(string $response_text)
   {
       $url = 'https://api.telegram.org/bot' . Config::get('tg_key') . '/sendMessage';

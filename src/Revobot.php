@@ -308,4 +308,12 @@ class Revobot
     public function getTgBotId() {
         return -Config::getInt('tg_bot_id');
     }
+
+    public function sendTypeStatusTg() {
+        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendChatAction';
+         Curl::post($url, [
+            'chat_id' => $this->chat_id,
+            'action' => 'typing',
+        ]);
+    }
 }

@@ -26,6 +26,7 @@ class Ai4Cmd extends BaseCmd
     {
         if (!empty($this->input)) {
             if($this->hasMoney($this->bot->getUserId())) {
+                $this->bot->sendTypeStatusTg();
                 (new Revocoin($this->bot))->transaction(self::PRICE, $this->bot->getTgBotId(), $this->bot->getUserId());
                 return '-' . self::PRICE . " R\n"
                 . Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-4');

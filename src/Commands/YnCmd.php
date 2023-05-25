@@ -37,6 +37,7 @@ class YnCmd extends BaseCmd
         $input = Utils::replaceMe($this->bot->getUserId(), $input);
 
         if ((bool) Config::getInt('use_ai_cmd')) {
+            $this->bot->sendTypeStatusTg();
             $result = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
 
             $pattern = "/не знаю|оскорб|другой вопрос/i";

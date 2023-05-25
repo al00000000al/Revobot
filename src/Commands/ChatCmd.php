@@ -32,6 +32,7 @@ class ChatCmd extends BaseCmd
     public function exec(): string
     {
         if ($this->bot->provider === 'tg') {
+            $this->bot->sendTypeStatusTg();
             $tries = 0;
             while ($tries < 5) {
                 $query = Strings::random(mt_rand(4, 5), self::CHARACTERS);

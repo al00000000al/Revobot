@@ -29,7 +29,7 @@ cd build && ./compile.sh
 Запуск:
 
 ```
- nohup ./kphp_out/server -H 8088 --use-utf8 --workers-num 5 -q --job-workers-ratio 0.5  >/dev/null 2>&1 &
+ nohup ./kphp_out/server -H 8088 --use-utf8 --workers-num 5 -q --job-workers-ratio 0.5 -t 120  >/dev/null 2>&1 &
 
 ```
 

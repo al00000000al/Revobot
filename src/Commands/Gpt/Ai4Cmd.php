@@ -43,7 +43,7 @@ class Ai4Cmd extends BaseCmd
                     'chat_id' => $this->bot->chat_id,
                     'model' => 'gpt-4'
                   ]);
-                  JobLauncher::start($job_request, 120);
+                JobLauncher::start($job_request, 120);
                 return '-' . self::PRICE . " R";
             } else {
                 return "Недостаточно ревокоинов на балансе";

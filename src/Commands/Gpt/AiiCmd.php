@@ -4,6 +4,8 @@ namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\Gpt;
+use Revobot\JobWorkers\JobLauncher;
+use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
 use Revobot\Revobot;
 
 class AiiCmd extends BaseCmd
@@ -26,7 +28,20 @@ class AiiCmd extends BaseCmd
     {
         if (!empty($this->input)) {
             $this->bot->sendTypeStatusTg();
-            return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, true);
+
+            if (!JobLauncher::isEnabled()) {
+                return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, true);
+            }
+
+            $job_request = new RequestsGpt([
+                'input' => $this->input,
+                'user_id' => $this->bot->getUserId(),
+                'provider' => $this->bot->provider,
+                'chat_id' => $this->bot->chat_id,
+                'clear_all' => true
+              ]);
+            JobLauncher::start($job_request, 120);
+            return "";
         }
         return $this->description;
     }

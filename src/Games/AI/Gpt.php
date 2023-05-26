@@ -13,7 +13,7 @@ class Gpt
             Clear::all($GptPMC);
         }
 
-        $save_history = !$clear_all;
+        $save_history = true;
 
         return self::process($user_input, self::formatContext($GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
     }

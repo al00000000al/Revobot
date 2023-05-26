@@ -37,9 +37,9 @@ class AiCmd extends BaseCmd
                 'input' => $this->input,
                 'user_id' => $this->bot->getUserId(),
                 'provider' => $this->bot->provider,
-                'chat_id' => $this->bot->chat_id
+                'chat_id' => $this->bot->chat_id,
               ]);
-              JobLauncher::start($job_request, 60);
+              JobLauncher::start($job_request, 120);
             return "";
         }
         return $this->description;

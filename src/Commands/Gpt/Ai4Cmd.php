@@ -4,8 +4,10 @@ namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
 use Revobot\Games\AI\Gpt;
+use Revobot\JobWorkers\JobLauncher;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
 
 class Ai4Cmd extends BaseCmd
 {
@@ -28,8 +30,21 @@ class Ai4Cmd extends BaseCmd
             if($this->hasMoney($this->bot->getUserId())) {
                 $this->bot->sendTypeStatusTg();
                 (new Revocoin($this->bot))->transaction(self::PRICE, $this->bot->getTgBotId(), $this->bot->getUserId());
-                return '-' . self::PRICE . " R\n"
-                . Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-4');
+
+                if (!JobLauncher::isEnabled()) {
+                    return '-' . self::PRICE . " R\n"
+                    . Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-4');
+                }
+
+                $job_request = new RequestsGpt([
+                    'input' => $this->input,
+                    'user_id' => $this->bot->getUserId(),
+                    'provider' => $this->bot->provider,
+                    'chat_id' => $this->bot->chat_id,
+                    'model' => 'gpt-4'
+                  ]);
+                  JobLauncher::start($job_request, 120);
+                return '-' . self::PRICE . " R";
             } else {
                 return "Недостаточно ревокоинов на балансе";
             }

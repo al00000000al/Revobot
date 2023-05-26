@@ -21,7 +21,7 @@ class Gpt extends JobWorkerNoReply {
 
 
   function handleRequest(): void {
-    $response = AIGpt::generate((string)$this->options['input'], (int) $this->options['user_id'], (string) $this->options['provider']);
+    $response = AIGpt::generate((string)$this->options['input'], (int) $this->options['user_id'], (string) $this->options['provider'], (bool)$this->options['clear_all'] ?? false, (string)$this->options['model'] ?? 'gpt-3.5-turbo');
     self::sendMessageTg($response);
   }
 
@@ -35,12 +35,11 @@ class Gpt extends JobWorkerNoReply {
           $response_text = str_replace('@', '', $response_text);
       }
 
-      $res = Curl::post($url, [
+      Curl::post($url, [
           'chat_id' => (int) $this->options['chat_id'],
           'text' => $response_text,
       ]);
 
-      dbg_echo(implode(',', [implode(',', $res), $url, (int) $this->options['chat_id'], $response_text]));
   }
 
 

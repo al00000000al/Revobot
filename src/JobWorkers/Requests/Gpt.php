@@ -5,6 +5,7 @@ namespace Revobot\JobWorkers\Requests;
 use Revobot\Config;
 use Revobot\Games\AI\Gpt as AIGpt;
 use Revobot\JobWorkers\JobWorkerNoReply;
+use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 
 class Gpt extends JobWorkerNoReply {
@@ -27,19 +28,12 @@ class Gpt extends JobWorkerNoReply {
 
 
 
-  public function sendMessageTg(string $response_text)
-  {
-      $url = 'https://api.telegram.org/bot' . Config::get('tg_key') . '/sendMessage';
+  public function sendMessageTg(string $response_text) {
+    if ($response_text[0] == '@') {
+        $response_text = str_replace('@', '', $response_text);
+    }
 
-      if ($response_text[0] == '@') {
-          $response_text = str_replace('@', '', $response_text);
-      }
-
-      Curl::post($url, [
-          'chat_id' => (int) $this->options['chat_id'],
-          'text' => $response_text,
-      ]);
-
+    Tg::sendMessage((int) $this->options['chat_id'], $response_text);
   }
 
 

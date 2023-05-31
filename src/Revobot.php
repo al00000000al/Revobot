@@ -5,6 +5,7 @@ namespace Revobot;
 use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
 use Revobot\Services\InstagramDownloader;
+use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 
 class Revobot
@@ -200,67 +201,35 @@ class Revobot
 
     /**
      * @param string $response_text
-     * @todo
      */
     public function sendMessageTg(string $response_text)
     {
-        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendMessage';
-
         if ($response_text[0] == '@') {
             $response_text = str_replace('@', '', $response_text);
         }
-
-        $res = Curl::post($url, [
-            'chat_id' => $this->chat_id,
-            'text' => $response_text,
-            'parse_mode' => $this->parse_mode,
-        ]);
-
-        dbg_echo(implode(',', [implode(',', $res), $url, $this->chat_id, $response_text, $this->parse_mode]));
+        Tg::sendMessage($this->chat_id, $response_text);
     }
 
 
     /**
      * @param int $user_id
      * @return mixed
-     * @todo
      */
-    public function getChatMemberTg(int $user_id)
-    {
-
-        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/getChatMember';
-        return Curl::post($url, [
-            'chat_id' => $this->chat_id,
-            'user_id' => $user_id,
-        ]);
+    public function getChatMemberTg(int $user_id) {
+        return Tg::getChatMember($this->chat_id, (string) $user_id);
     }
 
 
     /**
      * @param string $username
      * @return mixed
-     * @todo
      */
-    public function getChatMemberByUsernameTg(string $username)
-    {
-
-        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/getChatMember';
-        return Curl::post($url, [
-            'chat_id' => $this->chat_id,
-            'user_id' => $username,
-        ]);
+    public function getChatMemberByUsernameTg(string $username) {
+        return Tg::getChatMember($this->chat_id, $username);
     }
 
-    public function sendPollTg(string $question, array $options)
-    {
-        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendPoll';
-     //   $opts = (string) json_encode($options);
-
-        return Curl::post($url, [
-            'chat_id' => $this->chat_id,
-           'question' => $question,
-           'options' => json_encode($options),
-        ]);
+    public function sendPollTg(string $question, array $options) {
+        return Tg::sendPoll($this->chat_id, $question, $options);
     }
 
 
@@ -310,10 +279,6 @@ class Revobot
     }
 
     public function sendTypeStatusTg() {
-        $url = 'https://api.telegram.org/bot' . $this->tg_key . '/sendChatAction';
-         Curl::post($url, [
-            'chat_id' => $this->chat_id,
-            'action' => 'typing',
-        ]);
+        Tg::sendChatAction($this->chat_id, 'typing');
     }
 }

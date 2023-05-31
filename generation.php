@@ -1,7 +1,6 @@
 <?php
 
-use Revobot\Config;
-use Revobot\Util\Curl;
+use Revobot\Services\Providers\Tg;
 
 require_once 'vendor/autoload.php';
 require_once 'config.php';
@@ -158,6 +157,5 @@ function generateSwitch($class, $commands, $start_params){
 
 function updateTgCommands(string $commands)
 {
-    $url = 'https://api.telegram.org/bot' . Config::get('tg_key') . '/setMyCommands';
-    return Curl::post($url, ['commands' => $commands]);
+    return Tg::setMyCommands($commands);
 }

@@ -20,9 +20,6 @@ class Stat
             return 'Никого еще нет в рейтинге';
         }
 
-        // Add bot to stat
-        $chat[] = $this->bot->getTgBotId();
-
         $stat_key = $this->getStatCacheKey();
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);

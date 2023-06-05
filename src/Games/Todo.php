@@ -91,11 +91,11 @@ class Todo
     }
 
     public function incUserDoneTasks() {
-        return $this->bot->pmc->incr(self::PMC_TODO_DONE_USER_KEY . $this->provider . $this->user_id, 1);
+        return $this->bot->pmc->increment(self::PMC_TODO_DONE_USER_KEY . $this->provider . $this->user_id, 1);
     }
 
     public function incUserCanceledTasks() {
-        return $this->bot->pmc->incr(self::PMC_TODO_CANCELED_USER_KEY . $this->provider . $this->user_id, 1);
+        return $this->bot->pmc->increment(self::PMC_TODO_CANCELED_USER_KEY . $this->provider . $this->user_id, 1);
     }
 
     public function getUserDoneTasks() {

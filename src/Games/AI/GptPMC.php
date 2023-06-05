@@ -10,36 +10,35 @@ class GptPMC
     private int $user_id;
     private string $provider;
 
+    /** @var  \Memcache $pmc */
+    private $pmc;
+
     public function __construct(int $user_id, string $provider = 'tg') {
         global $pmc;
-
+        $this->pmc = $pmc;
         $this->user_id = $user_id;
         $this->provider = $provider;
     }
 
     public function getContext() {
-        global $pmc;
-        return (string) $pmc->get(self::getContextKey($this->user_id, $this->provider));
+
+        return (string) $this->pmc->get(self::getContextKey($this->user_id, $this->provider));
     }
 
     public function setContext(string $context) {
-        global $pmc;
-        $pmc->set(self::getContextKey($this->user_id, $this->provider), $context);
+        $this->pmc->set(self::getContextKey($this->user_id, $this->provider), $context);
     }
 
     public function getHistory() {
-        global $pmc;
-        return (array) json_decode($pmc->get(self::getHistoryKey($this->user_id, $this->provider)), true);
+        return (array) json_decode($this->pmc->get(self::getHistoryKey($this->user_id, $this->provider)), true);
     }
 
     public function setHistory(array $history) {
-        global $pmc;
-        $pmc->set(self::getHistoryKey($this->user_id, $this->provider),  json_encode($history));
+        $this->pmc->set(self::getHistoryKey($this->user_id, $this->provider),  json_encode($history));
     }
 
     public function deleteHistory() {
-        global $pmc;
-        $pmc->delete(self::getHistoryKey($this->user_id, $this->provider));
+        $this->pmc->delete(self::getHistoryKey($this->user_id, $this->provider));
     }
 
     private static function getContextKey(int $user_id, string $provider) {

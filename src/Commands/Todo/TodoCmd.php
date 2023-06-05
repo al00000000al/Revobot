@@ -25,8 +25,10 @@ class TodoCmd extends BaseCmd
     {
         $todo = new Todo($this->bot);
         $user_todos = $todo->loadUserTodos();
+        $done_todos_count = $todo->getUserDoneTasks();
+        $canceled_todos_count = $todo->getUserCanceledTasks();
         if (empty($this->input)) {
-            return $todo->formatUserTodos($user_todos) . "\n\n" . $this->description;
+            return Todo::responseList(Todo::formatUserTodos($user_todos), $done_todos_count, $canceled_todos_count, $this->description);
         }
         $todos = explode(';', $this->input);
         foreach ($todos as $item) {

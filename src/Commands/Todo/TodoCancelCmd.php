@@ -7,7 +7,7 @@ namespace Revobot\Commands;
 use Revobot\Games\Todo;
 use Revobot\Revobot;
 
-class CancelCmd extends BaseCmd
+class TodoCancelCmd extends BashCmd
 {
     const KEYS = ['cancel','отмена','передумал'];
     const IS_ENABLED = true;
@@ -31,12 +31,14 @@ class CancelCmd extends BaseCmd
 
         $todo = new Todo($this->bot);
         $user_todos = $todo->loadUserTodos();
-        $result = $todo->deleteUserTodo($numbers, $user_todos);
+        list($result, $tasks) = Todo::process($todo, $numbers, $user_todos);
+
         if (!$result) {
-            return 'Такой задачи нет';
+            return Todo::responseNoTask($numbers);
         } else {
-            $user_todos = $todo->loadUserTodos();
-            return 'Задача отменена!' ."\n\n" . $todo->formatUserTodos($user_todos);
+            $user_todos_list = Todo::formatUserTodos($todo->loadUserTodos());
+            $todo->incUserCanceledTasks();
+            return Todo::reponseCancel($numbers, $user_todos_list, $tasks);
         }
     }
 }

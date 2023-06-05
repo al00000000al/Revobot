@@ -7,6 +7,8 @@ use Revobot\Config;
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 
+global $pmc;
+
 if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
     handleKphpJobWorkerRequest();
 } else {
@@ -18,6 +20,7 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
         if(!$data_arr) {
             return;
         }
+
 
 
         $pmc = new Memcache();
@@ -40,6 +43,10 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
 }
 
 function handleKphpJobWorkerRequest() {
+    global $pmc;
+
+    $pmc = new Memcache();
+    $pmc->addServer('127.0.0.1', 11209);
     $kphp_job_request = kphp_job_worker_fetch_request();
     if (!$kphp_job_request) {
       warning("Couldn't fetch a job worker request");

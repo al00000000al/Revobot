@@ -2,11 +2,10 @@
 
 namespace Revobot\Services\Providers;
 
-use Revobot\Commands\BaseCmd;
 use Revobot\Config;
 use Revobot\Util\Curl;
 
-class Tg extends BaseCmd {
+class Tg extends Base {
 
     public const API_URL = 'https://api.telegram.org/bot';
 

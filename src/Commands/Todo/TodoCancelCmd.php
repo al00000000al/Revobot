@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Revobot\Commands;
+namespace Revobot\Commands\Todo;
 
-
+use Revobot\Commands\BaseCmd;
 use Revobot\Games\Todo;
 use Revobot\Revobot;
 
-class TodoCancelCmd extends BashCmd
+class TodoCancelCmd extends BaseCmd
 {
     const KEYS = ['cancel','отмена','передумал'];
     const IS_ENABLED = true;

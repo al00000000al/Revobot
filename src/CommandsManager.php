@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','cancel','отмена','передумал','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','donate','донат','echo','эхо','excho','print','принт','exchange','currency','курс','aich','иич','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','context','контекст','c','кнт','history','h','ист','история','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','todo','туду','задачи','done','todo.done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
+        'alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','casino','казино','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','donate','донат','echo','эхо','excho','print','принт','exchange','currency','курс','aich','иич','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','context','контекст','c','кнт','history','h','ист','история','help','хэлп','хлеп','помощь','start','id','ид','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -42,11 +42,6 @@ case 'баш':
 case 'calc':
 case 'калк':
 	$response = (new \Revobot\Commands\CalcCmd($input))->exec();
-	break;
-case 'cancel':
-case 'отмена':
-case 'передумал':
-	$response = (new \Revobot\Commands\CancelCmd($input, $bot))->exec();
 	break;
 case 'casino':
 case 'казино':
@@ -205,15 +200,20 @@ case 'тайм':
 case 'время':
 	$response = (new \Revobot\Commands\TimeCmd($input, $bot))->exec();
 	break;
+case 'cancel':
+case 'отмена':
+case 'передумал':
+	$response = (new \Revobot\Commands\Todo\TodoCancelCmd($input, $bot))->exec();
+	break;
 case 'todo':
 case 'туду':
 case 'задачи':
-	$response = (new \Revobot\Commands\TodoCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\Todo\TodoCmd($input, $bot))->exec();
 	break;
 case 'done':
 case 'todo.done':
 case 'готово':
-	$response = (new \Revobot\Commands\TodoDoneCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\Todo\TodoDoneCmd($input, $bot))->exec();
 	break;
 case 'vozrast':
 case 'возраст':

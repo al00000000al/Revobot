@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Revobot\Commands;
+namespace Revobot\Commands\Todo;
 
+use Revobot\Commands\BaseCmd;
 use Revobot\Games\Todo;
 use Revobot\Revobot;
 

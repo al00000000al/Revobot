@@ -21,7 +21,6 @@ class HelpCmd extends BaseCmd
 /balance - Узнать свой баланс
 /bash - Случайная шутка
 /calc - Калькулятор
-/cancel - Отменить задачу
 /casino - Казино на ревокоены
 /chat - Случайный чат
 /cmd - Создать команду (20R)
@@ -52,6 +51,7 @@ class HelpCmd extends BaseCmd
 /stat - Статистика R
 /talk - Лимит на разговоров
 /time - Правильное время
+/cancel - Отменить задачу
 /todo - Список задач
 /done - Отметить выполненым
 /vozrast - Сколько сегодня мне лет (нецелое)

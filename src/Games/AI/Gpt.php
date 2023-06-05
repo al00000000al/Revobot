@@ -21,16 +21,12 @@ class Gpt
     private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-3.5-turbo') {
         $answer = OpenAIService::generate($user_input, $context, $history, $model);
 
-        if(!empty($answer)) {
-            if ($save_history) {
-                $history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
-                $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
-                $GptPMC->setHistory($history);
-            }
-            return $answer;
+        if ($save_history) {
+            $history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
+            $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+            $GptPMC->setHistory($history);
         }
-
-        return "Неудалось выполнить запрос к апи";
+        return $answer;
     }
 
     private static function formatContext(string $context) {

@@ -32,6 +32,7 @@ class OpenAIService
 
         $d = (array)json_decode($chat, true);
         // Get Content
+        print_r($d);
         return (string)$d['choices'][0]['message']['content'];
     }
 

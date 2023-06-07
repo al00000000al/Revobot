@@ -29,9 +29,9 @@ class AiCmd extends BaseCmd
         if (!empty($this->input)) {
             $this->bot->sendTypeStatusTg();
 
-            // if (!JobLauncher::isEnabled()) {
-            //     return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider);
-            //   }
+            if (!JobLauncher::isEnabled()) {
+                return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider);
+              }
 
               $job_request = new RequestsGpt([
                 'input' => $this->input,

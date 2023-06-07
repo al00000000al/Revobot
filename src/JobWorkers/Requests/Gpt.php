@@ -22,7 +22,7 @@ class Gpt extends JobWorkerNoReply {
 
 
   function handleRequest(): void {
-    $response = AIGpt::generate((string)$this->options['input'], (int) $this->options['user_id'], (string) $this->options['provider'], (bool)$this->options['clear_all'] ?? false, (string)$this->options['model'] ?? 'gpt-3.5-turbo');
+    $response = AIGpt::generate((string)$this->options['input'], (int) $this->options['user_id'], (string) $this->options['provider'], (bool)$this->options['clear_all'], (string)$this->options['model']);
     $this->sendMessageTg($response);
   }
 

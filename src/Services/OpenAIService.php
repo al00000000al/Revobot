@@ -9,7 +9,7 @@ class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 1.0, $max_tokens = 300): string
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.9, $max_tokens = 500): string
     {
 
         $open_ai = new OpenAi(Config::get('openai_api_key'));
@@ -26,13 +26,13 @@ class OpenAIService
            'messages' => $messages,
            'temperature' => $temperature,
            'max_tokens' => $max_tokens,
-           'frequency_penalty' => 0,
-           'presence_penalty' => 0,
+           'frequency_penalty' => 0.5,
+           'presence_penalty' => 0.6,
         ]);
 
         $d = (array)json_decode($chat, true);
         // Get Content
-        print_r($d);
+      //  print_r($d);
         return (string)$d['choices'][0]['message']['content'];
     }
 

@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ../
-php generate.php
+php generation.php
 kphp  --composer-root=$(pwd) -F index.php

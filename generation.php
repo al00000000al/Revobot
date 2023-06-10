@@ -6,6 +6,12 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 
 define('COMMANDS_PATH', __DIR__ . '/src/Commands');
+define('BUILD_PATH', __DIR__.'/build.txt');
+
+
+$aliveCmd = generateAliveCmd(incBuild(getBuild()));
+file_put_contents(COMMANDS_PATH.'/AliveCmd.php', $aliveCmd);
+echo "Update build number in AliveCmd.php and build.txt\n";
 
 processFiles();
 function processFiles(){
@@ -109,6 +115,51 @@ class HelpCmd extends BaseCmd
 }
 PHP;
 }
+
+function getBuild() {
+    $v = file_get_contents(BUILD_PATH);
+    return (int)$v;
+}
+
+function incBuild($build) {
+    $build++;
+    file_put_contents(BUILD_PATH, $build);
+    return $build;
+}
+
+
+function generateAliveCmd($build) {
+    return <<<PHP
+<?php
+
+    namespace Revobot\Commands;
+
+    use Revobot\Revobot;
+
+    class AliveCmd extends BaseCmd
+    {
+        private Revobot \$bot;
+
+        const KEYS = ['alive','алив'];
+        const IS_ENABLED = true;
+        const HELP_DESCRIPTION = 'Состояние бота';
+
+        public function __construct(string \$input, Revobot \$bot) {
+            parent::__construct(\$input);
+            \$this->bot = \$bot;
+        }
+
+        /**
+         * @return string
+         */
+        public function exec(): string {
+            \$pmc_v = \$this->bot->pmc->getVersion();
+            return "Жив! PMC: \$pmc_v, Bot build: $build";
+        }
+    }
+PHP;
+}
+
 
 function generateCommandsManager($commands, $switch){
     return <<<TEXT

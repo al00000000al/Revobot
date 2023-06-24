@@ -2,6 +2,7 @@
 
 namespace Revobot;
 
+use Revobot\Games\AI\Gpt;
 use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
 use Revobot\Services\InstagramDownloader;
@@ -175,6 +176,15 @@ class Revobot
 
             if(InstagramDownloader::is_instagram_reels_url($this->message)){
                 InstagramDownloader::get($this->message, $this->chat_id);
+            }
+
+            // ответ на сообщение бота
+            if (isset($this->raw_data['reply_to_message'])) {
+                $source_text = $this->raw_data['reply_to_message']['text'];
+                $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
+                if($from_id === Config::getInt('tg_bot_id')) {
+                    $this->sendMessageTg(Gpt::generate($source_text, $this->getUserId(), $this->provider));
+                }
             }
         }
     }

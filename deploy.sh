@@ -17,4 +17,4 @@ zip -r $ZIP_NAME . -x ".git/*" "tests/*"  "build/*" "vendor/*" "*.zip" ".github*
 scp -i $SSH_KEY -P $SSH_PORT $ZIP_NAME $SSH_USER@$SSH_HOST:$SSH_DIR
 
 # Connect to remote server and extract ZIP archive
-ssh -i $SSH_KEY -p $SSH_PORT $SSH_USER@$SSH_HOST "cd $SSH_DIR; unzip -o $ZIP_NAME; rm $ZIP_NAME; php generation.php; cd build; ./compile.sh"
+ssh -i $SSH_KEY -p $SSH_PORT $SSH_USER@$SSH_HOST "cd $SSH_DIR; unzip -o $ZIP_NAME; rm $ZIP_NAME; php generation.php; cd build; ./compile.sh; ./restart.sh"

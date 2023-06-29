@@ -9,3 +9,4 @@ message.txt
 binlogdump.txt
 .DS_Store
 *.zip
+.env

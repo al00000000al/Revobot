@@ -13,6 +13,8 @@ class Tg extends Base {
         return self::_makeRequest('sendMessage', [
             'chat_id' => $chat_id,
             'text' => $text,
+            'parse_mode' => 'markdown',
+            'disable_web_page_preview' => true,
         ]);
     }
 

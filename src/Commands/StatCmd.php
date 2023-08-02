@@ -13,14 +13,15 @@ class StatCmd extends BaseCmd
 
     private Revobot $bot;
 
-    public function __construct(string $input, Revobot $bot)
-    {
+    public function __construct(string $input, Revobot $bot) {
         parent::__construct($input);
         $this->bot = $bot;
     }
 
-    public function exec(): string
-    {
+    public function exec(): string {
+        global $parse_mode;
+        $parse_mode = 'markdown';
+
         $this->bot->sendTypeStatusTg();
         return (new Stat($this->bot))->get();
     }

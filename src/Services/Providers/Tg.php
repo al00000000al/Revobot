@@ -9,11 +9,11 @@ class Tg extends Base {
 
     public const API_URL = 'https://api.telegram.org/bot';
 
-    public static function sendMessage(int $chat_id, string $text) {
+    public static function sendMessage(int $chat_id, string $text, string $parse_mode = null) {
         return self::_makeRequest('sendMessage', [
             'chat_id' => $chat_id,
             'text' => $text,
-            'parse_mode' => 'markdown',
+            'parse_mode' => $parse_mode,
             'disable_web_page_preview' => true,
         ]);
     }

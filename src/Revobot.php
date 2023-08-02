@@ -139,10 +139,13 @@ class Revobot
 
             $has_bot_response = (time() % $talk_limit) === 0;
 
+            global $parse_mode;
+            $parse_mode = null;
+
             $response = CommandsManager::process($this);
 
             if ($response) {
-                $this->sendMessageTg($response);
+                $this->sendMessageTg($response, $parse_mode);
                 $this->addUserChat();
 
             }

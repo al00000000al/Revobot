@@ -28,11 +28,11 @@ class Gpt extends JobWorkerNoReply {
 
 
 
-  public function sendMessageTg(string $response_text) {
+  public function sendMessageTg(string $response_text, $parse_mode = null) {
     if ($response_text[0] == '@') {
         $response_text = str_replace('@', '', $response_text);
     }
-    $res = Tg::sendMessage((int) $this->options['chat_id'], $response_text);
+    $res = Tg::sendMessage((int) $this->options['chat_id'], $response_text, $parse_mode);
     dbg_echo(implode(',', [implode(',', $res), (int) $this->options['chat_id'], $response_text]));
   }
 

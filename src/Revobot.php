@@ -216,12 +216,12 @@ class Revobot
     /**
      * @param string $response_text
      */
-    public function sendMessageTg(string $response_text)
+    public function sendMessageTg(string $response_text, string $parse_mode = null)
     {
         if ($response_text[0] == '@') {
             $response_text = str_replace('@', '', $response_text);
         }
-        Tg::sendMessage($this->chat_id, $response_text);
+        Tg::sendMessage($this->chat_id, $response_text, $parse_mode);
     }
 
 

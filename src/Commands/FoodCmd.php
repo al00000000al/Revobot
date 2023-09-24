@@ -3,6 +3,7 @@
     namespace Revobot\Commands;
 
     use Revobot\Config;
+use Revobot\Util\Curl;
 
     class FoodCmd extends BaseCmd
     {
@@ -19,7 +20,7 @@
 
         public function exec(): string
         {
-           $response = (string) file_get_contents(Config::get('food_api').'?key='.Config::get('food_api_key'));
+           $response = (string) Curl::get(Config::get('food_api').'?key='.Config::get('food_api_key'));
            return $response;
         }
     }

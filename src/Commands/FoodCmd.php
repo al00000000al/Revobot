@@ -20,7 +20,12 @@ use Revobot\Util\Curl;
 
         public function exec(): string
         {
-           $response = (string) Curl::get(Config::get('food_api').'?key='.Config::get('food_api_key').'&rnd='.mt_rand(0, 999999));
+           $user_options = $this->input;
+           $response = (string) Curl::get(
+            Config::get('food_api').'?'.
+            http_build_query(['key' => Config::get('food_api_key'), 'rnd' => mt_rand(0, 999999), 'user' => $user_options])
+        );
+
            return $response;
         }
     }

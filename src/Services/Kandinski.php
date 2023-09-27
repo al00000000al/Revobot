@@ -10,27 +10,27 @@ class Kandinski
 
     public static function generate($query) {
 
-// URL, на который будет отправлен запрос
-$url = 'https://api.fusionbrain.ai/web/api/v1/text2image/run?model_id=1';
+        // URL, на который будет отправлен запрос
+        $url = 'https://api.fusionbrain.ai/web/api/v1/text2image/run?model_id=1';
 
-// Данные для отправки
-$params = json_encode([
-    'type' => 'GENERATE',
-    'style' => 'DEFAULT',
-    'width' => 1024,
-    'height' => 1024,
-    'generateParams' => array(
-        'query' => 'test'
-    )
-]);
+        // Данные для отправки
+        $params = json_encode([
+            'type' => 'GENERATE',
+            'style' => 'DEFAULT',
+            'width' => 1024,
+            'height' => 1024,
+            'generateParams' => array(
+                'query' => 'test'
+            )
+        ]);
 
-// Формирование данных в формат multipart/form-data
-$boundary = "----WebKitFormBoundaryJOk1LBPxGRdRO02u";
-$postFields = "--{$boundary}\r\nContent-Disposition: form-data; name=\"params\"\r\nContent-Type: application/json\r\n\r\n" . ($params) . "\r\n";
-$postFields .= "--{$boundary}--";
+        // Формирование данных в формат multipart/form-data
+        $boundary = "----WebKitFormBoundaryJOk1LBPxGRdRO02u";
+        $postFields = "--{$boundary}\r\nContent-Disposition: form-data; name=\"params\"\r\nContent-Type: application/json\r\n\r\n" . ($params) . "\r\n";
+        $postFields .= "--{$boundary}--";
 
-$response = Curl::post($url, $postFields, ['headers' => [ "Content-Type: multipart/form-data; boundary={$boundary}",
-"Content-Length: " . strlen($postFields)]]);
+        $response = Curl::post($url, $postFields, ['headers' => [ "Content-Type: multipart/form-data; boundary={$boundary}",
+        "Content-Length: " . strlen($postFields)]]);
 
         $uuid = $response['uuid'];
         return self::getImage($uuid);
@@ -43,10 +43,9 @@ $response = Curl::post($url, $postFields, ['headers' => [ "Content-Type: multipa
             sleep(1);
         }
         if($data['status'] === 'DONE'){
-            $tmpfile = tmpfile();
-            $tmpfile_path = stream_get_meta_data($tmpfile)['uri'];
-            self::base64_to_jpeg($data['images'][0], $tmpfile_path);
-            return $tmpfile_path;
+            $path =  'photo'.time().'.jpg';
+            self::base64_to_jpeg($data['images'][0], 'photo'.time().'.jpg');
+            return $path;
         }
     }
 

@@ -27,10 +27,10 @@ class Tg extends Base {
         ]);
     }
 
-    public static function sendPhoto(int $chat_id, string $photo, string $caption = '', bool $is_file = false) {
+    public static function sendPhoto(int $chat_id, string $photo, string $caption = '') {
         return self::_makeRequest('sendPhoto', [
             'chat_id' => $chat_id,
-            'photo' => $is_file ? new CURLFile($photo) : $photo,
+            'photo' => '@' . realpath($photo),
             'caption' => $caption,
         ]);
     }

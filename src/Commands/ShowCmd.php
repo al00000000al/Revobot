@@ -29,9 +29,13 @@
             json_encode([
                 'prompt' => $this->input,
                 'n' => 1,
-                'size' => '1024x1024',
+                'size' => '512x512',
             ]),
             ['headers' => ['Authorization: Bearer '.Config::get('openai_api_key'), 'Content-Type: application/json']]);
+
+            if(isset($data['error'])) {
+                return $data['error']['message'];
+            }
 
             if(isset($data['data']) && isset($data['data'][0]['url'])) {
                 $photo = (string)$data['data'][0]['url'];

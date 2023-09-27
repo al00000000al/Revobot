@@ -2,6 +2,7 @@
 
 namespace Revobot\Services\Providers;
 
+use CURLFile;
 use Revobot\Config;
 use Revobot\Util\Curl;
 
@@ -26,13 +27,15 @@ class Tg extends Base {
         ]);
     }
 
-    public static function sendPhoto(int $chat_id, string $photo, string $caption = '') {
+    public static function sendPhoto(int $chat_id, string $photo, string $caption = '', bool $is_file = false) {
         return self::_makeRequest('sendPhoto', [
             'chat_id' => $chat_id,
-            'photo' => $photo,
+            'photo' => $is_file ? new CURLFile($photo) : $photo,
             'caption' => $caption,
         ]);
     }
+
+
 
     public static function sendChatAction(int $chat_id, string $action) {
         return self::_makeRequest('sendChatAction', [

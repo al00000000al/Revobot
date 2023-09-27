@@ -3,7 +3,8 @@
     namespace Revobot\Commands;
     use Revobot\Config;
     use Revobot\Revobot;
-    use Revobot\Services\Providers\Tg;
+use Revobot\Services\Kandinski;
+use Revobot\Services\Providers\Tg;
     use Revobot\Util\Curl;
 
     class ShowCmd extends BaseCmd
@@ -25,6 +26,10 @@
             if (empty($this->input)){
                 return $this->description;
             }
+            $photo = Kandinski::generate($this->input);
+            Tg::sendPhoto($this->bot->chat_id, $photo, $this->input, true);
+
+            /*
             $data = Curl::post('https://api.openai.com/v1/images/generations',
             json_encode([
                 'prompt' => $this->input,
@@ -33,15 +38,15 @@
             ]),
             ['headers' => ['Authorization: Bearer '.Config::get('openai_api_key'), 'Content-Type: application/json']]);
 
-            if(isset($data['error'])) {
-                return $data['error']['message'];
+            if(isset($data['error']['message'])) {
+                return (string)$data['error']['message'];
             }
 
             if(isset($data['data']) && isset($data['data'][0]['url'])) {
                 $photo = (string)$data['data'][0]['url'];
                 Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
             }
-
+            */
             return '';
         }
     }

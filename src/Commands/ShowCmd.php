@@ -33,8 +33,8 @@
             ]),
             ['headers' => ['Authorization: Bearer '.Config::get('openai_api_key')]]);
 
-            if(isset($data['data']) && isset($data['data']['url'])) {
-                $photo = (string)$data['data']['url'];
+            if(isset($data['data']) && isset($data['data'][0]['url'])) {
+                $photo = (string)$data['data'][0]['url'];
                 Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
             }
 

@@ -26,6 +26,14 @@ class Tg extends Base {
         ]);
     }
 
+    public static function sendPhoto(int $chat_id, string $photo, string $caption = '') {
+        return self::_makeRequest('sendPhoto', [
+            'chat_id' => $chat_id,
+            'photo' => $photo,
+            'caption' => $caption,
+        ]);
+    }
+
     public static function sendChatAction(int $chat_id, string $action) {
         return self::_makeRequest('sendChatAction', [
             'chat_id' => $chat_id,

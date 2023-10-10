@@ -20,7 +20,7 @@ class Kandinski
             'width' => 1024,
             'height' => 1024,
             'generateParams' => array(
-                'query' => 'test'
+                'query' => $query
             )
         ]);
 
@@ -33,10 +33,10 @@ class Kandinski
         "Content-Length: " . strlen($postFields)]]);
 
         $uuid = $response['uuid'];
-        return self::getImage($uuid);
+        return (string) self::getImage($uuid);
     }
 
-    private static function getImage($uuid){
+    private static function getImage($uuid) {
         $data = json_decode(Curl::get(self::API_PATH. 'status/'.$uuid), true);
         while($data['status'] === 'INITIAL') {
             $data = json_decode(Curl::get(self::API_PATH. 'status/'.$uuid), true);
@@ -47,6 +47,7 @@ class Kandinski
             self::base64_to_jpeg($data['images'][0], 'photo'.time().'.jpg');
             return $path;
         }
+        return '';
     }
 
     private static function base64_to_jpeg($base64_string, $output_file) {

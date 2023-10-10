@@ -32,7 +32,7 @@ class Tg extends Base {
             'chat_id' => $chat_id,
             'photo' => '@' . realpath($photo),
             'caption' => $caption,
-        ]);
+        ], ['headers' => ['Content-Type:multipart/form-data']]);
     }
 
 
@@ -61,7 +61,7 @@ class Tg extends Base {
         return self::API_URL . Config::get('tg_key') . '/' . $cmd;
     }
 
-    private static function _makeRequest(string $cmd, array $data = []){
-        return Curl::post(self::_getApiUrl($cmd), $data);
+    private static function _makeRequest(string $cmd, array $data = [], $options = []){
+        return Curl::post(self::_getApiUrl($cmd), $data, $options);
     }
 }

@@ -27,7 +27,7 @@ use Revobot\Services\Providers\Tg;
                 return $this->description;
             }
             $photo = Kandinski::generate($this->input);
-            Tg::sendPhoto($this->bot->chat_id, $photo, $this->input, true);
+            Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
 
             /*
             $data = Curl::post('https://api.openai.com/v1/images/generations',

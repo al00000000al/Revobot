@@ -30,7 +30,7 @@ class AiCmd extends BaseCmd
             $this->bot->sendTypeStatusTg();
 
             if (!JobLauncher::isEnabled()) {
-                return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider);
+                return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, 'gpt-4');
               }
 
               $job_request = new RequestsGpt([
@@ -38,6 +38,7 @@ class AiCmd extends BaseCmd
                 'user_id' => $this->bot->getUserId(),
                 'provider' => $this->bot->provider,
                 'chat_id' => $this->bot->chat_id,
+                'model' => 'gpt-4'
               ]);
             JobLauncher::start($job_request, 120);
             return "";

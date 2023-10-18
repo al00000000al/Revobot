@@ -13,7 +13,7 @@ while (true) {
     $queue = $pmc->get('queue') ?? [];
 
     foreach ($queue as $taskData) {
-        if ($taskData['command'] === 'тяжелая_операция') {
+        if ($taskData['command'] === 'ai') {
             // Выполните тяжелую операцию с данными $taskData['data']
             // Здесь можно использовать свой код для обработки операции
             // ...

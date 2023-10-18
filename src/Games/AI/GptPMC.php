@@ -6,6 +6,7 @@ class GptPMC
 {
     private const PMC_USER_AI_KEY = 'pmc_user_ai_';
     private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
+    private const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
 
     private int $user_id;
     private string $provider;
@@ -37,6 +38,10 @@ class GptPMC
         $this->pmc->set(self::getHistoryKey($this->user_id, $this->provider),  json_encode($history));
     }
 
+    public function setInput(string $message) {
+        $this->pmc->set(self::getInputKey($this->user_id, $this->provider),  ($message));
+    }
+
     public function deleteHistory() {
         $this->pmc->delete(self::getHistoryKey($this->user_id, $this->provider));
     }
@@ -47,6 +52,10 @@ class GptPMC
 
     private static function getHistoryKey(int $user_id, string $provider) {
         return self::PMC_USER_AI_HISTORY_KEY . $provider . $user_id;
+    }
+
+    private static function getInputKey(int $user_id, string $provider) {
+        return self::PMC_USER_AI_INPUT_KEY . $provider . $user_id;
     }
 
 }

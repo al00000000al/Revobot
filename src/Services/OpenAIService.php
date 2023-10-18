@@ -9,7 +9,7 @@ class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.9, $max_tokens = 500): string
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.9, $max_tokens = 300): string
     {
 
         $open_ai = new OpenAi(Config::get('openai_api_key'));

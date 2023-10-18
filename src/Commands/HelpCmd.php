@@ -48,6 +48,7 @@ class HelpCmd extends BaseCmd
 /rand - Случайное число
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
+/show - AI image generate DALL-E
 /stat - Статистика R
 /talk - Лимит на разговоров
 /time - Правильное время

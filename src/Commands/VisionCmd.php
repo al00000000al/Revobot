@@ -21,13 +21,12 @@ class VisionCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(!isset($this->bot->raw_data['photo']) || !isset($this->bot->raw_data['reply_to_message']['photo'])){
-            return $this->description;
-        }
         if(isset($this->bot->raw_data['photo'])) {
             $photo = array_last_value($this->bot->raw_data['photo']);
-        } else {
+        } elseif(isset($this->bot->raw_data['reply_to_message']['photo'])) {
             $photo = array_last_value($this->bot->raw_data['reply_to_message']['photo']);
+        } else {
+            return $this->description;
         }
 
         $file_id = (string)$photo['file_id'];

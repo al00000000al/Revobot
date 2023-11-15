@@ -21,10 +21,15 @@ class VisionCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(!isset($this->bot->raw_data['photo'])){
+        if(!isset($this->bot->raw_data['photo']) || !isset($this->bot->raw_data['reply_to_message']['photo'])){
             return $this->description;
         }
-        $photo = array_last_value($this->bot->raw_data['photo']);
+        if(isset($this->bot->raw_data['photo'])) {
+            $photo = array_last_value($this->bot->raw_data['photo']);
+        } else {
+            $photo = array_last_value($this->bot->raw_data['reply_to_message']['photo']);
+        }
+
         $file_id = (string)$photo['file_id'];
 
         $fileInfo = Tg::getFile($file_id);

@@ -9,10 +9,21 @@ use Revobot\Util\Curl;
 class Tg extends Base {
 
     public const API_URL = 'https://api.telegram.org/bot';
+    public const API_FILE_URL = 'https://api.telegram.org/file/bot';
 
     public static function sendMessage(int $chat_id, string $text, string $parse_mode = null) {
         return self::_makeRequest('sendMessage', [
             'chat_id' => $chat_id,
+            'text' => $text,
+            'parse_mode' => $parse_mode,
+            'disable_web_page_preview' => true,
+        ]);
+    }
+
+    public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = null) {
+        return self::_makeRequest('editMessageText', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
             'text' => $text,
             'parse_mode' => $parse_mode,
             'disable_web_page_preview' => true,
@@ -55,6 +66,16 @@ class Tg extends Base {
         return self::_makeRequest('setMyCommands', [
             'commands' => $commands,
         ]);
+    }
+
+    public static function getFile(string $file_id) {
+        return self::_makeRequest('getFile', [
+            'file_id' => $file_id,
+        ]);
+    }
+
+    public static function file(string $file_path) {
+        return Curl::get(self::API_FILE_URL.Config::get('tg_key'). '/' . $file_path);
     }
 
     private static function _getApiUrl(string $cmd){

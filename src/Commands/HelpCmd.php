@@ -55,6 +55,7 @@ class HelpCmd extends BaseCmd
 /cancel - Отменить задачу
 /todo - Список задач
 /done - Отметить выполненым
+/vision - send image
 /vozrast - Сколько сегодня мне лет (нецелое)
 /weather - Моя погода
 /when - Узнать когда

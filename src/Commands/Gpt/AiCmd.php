@@ -29,7 +29,7 @@ class AiCmd extends BaseCmd
     {
         if (!empty($this->input)) {
             $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
-            $save_history = true;
+            $save_history = 1;
             $chat_id = (int)$this->bot->chat_id;
             $user_id = (int)$this->bot->getUserId();
             $input = $this->input;

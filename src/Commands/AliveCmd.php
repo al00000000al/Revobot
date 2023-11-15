@@ -22,6 +22,6 @@
          */
         public function exec(): string {
             $pmc_v = $this->bot->pmc->getVersion();
-            return "Жив! PMC: $pmc_v, Bot build: 156";
+            return "Жив! PMC: $pmc_v, Bot build: 158";
         }
     }

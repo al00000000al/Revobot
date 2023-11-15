@@ -54,7 +54,7 @@ class GptPMC
         return self::PMC_USER_AI_HISTORY_KEY . $provider . $user_id;
     }
 
-    private static function getInputKey(int $user_id, string $provider) {
+    public static function getInputKey(int $user_id, string $provider) {
         return self::PMC_USER_AI_INPUT_KEY . $provider . $user_id;
     }
 

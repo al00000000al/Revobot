@@ -17,6 +17,8 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
     if($url === '/tg_bot' || $url === '/vk_bot') {
         $data = file_get_contents('php://input');
 
+        dbg_echo($data);
+
         $data_arr = json_decode($data, true);
         if(!$data_arr) {
             return;
@@ -36,6 +38,15 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
 
             if(isset($data_arr['message']['text'])) {
                 $bot->setMessage((string)$data_arr['message']['text']);
+                $bot->setRawData($data_arr['message']);
+                $bot->run();
+            }
+            if(isset($data_arr['message']['photo'])) {
+                if(isset($data_arr['message']['caption'])){
+                    $bot->setMessage((string)$data_arr['message']['caption']);
+                } else {
+                    $bot->setMessage('');
+                }
                 $bot->setRawData($data_arr['message']);
                 $bot->run();
             }

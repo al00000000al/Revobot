@@ -183,18 +183,24 @@ class Revobot
             // }
 
             // ответ на сообщение бота
+            $user_id = $this->getUserId();
+            $chat_id = $this->chat_id;
+
             if (isset($this->raw_data['reply_to_message'])) {
                 $source_text = (string)$this->raw_data['reply_to_message']['text'];
                 $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
                 if($from_id === Config::getInt('tg_bot_id') && !empty($source_text)) {
-                    $user_id = $this->getUserId();
                     $save_history = 1;
-                    $chat_id = $this->chat_id;
                     $this->pmc->set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                     exec("php /home/opc/www/revobot/gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
                     // $this->sendTypeStatusTg();
                     // $this->sendMessageTg(Gpt::generate($this->message, $this->getUserId(), $this->provider));
                 }
+            }
+
+            if($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
+                $response = (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
+                $this->sendMessageTg($response, $parse_mode);
             }
 
             // if(isset($this->raw_data['photo'])){

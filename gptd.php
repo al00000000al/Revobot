@@ -6,6 +6,9 @@ use Revobot\Services\OpenAIService;
 use Revobot\Services\Providers\Tg;
 
 require 'config.php';
+global $NeedProxy;
+
+$NeedProxy = true;
 
 const PMC_USER_AI_KEY = 'pmc_user_ai_';
 const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
@@ -37,6 +40,9 @@ if(empty($context)){
 }
 
 $context .= $date_message;
+
+
+
 $answer = OpenAIService::generate($input, $context, $history, 'gpt-3.5-turbo');
 if($save_history){
     $history = OpenAIService::addMessageToHistory($history, 'user', $input);
@@ -83,4 +89,23 @@ function setHistory(array $history, $user_id){
 
 function getInputKey($user_id){
     return PMC_USER_AI_INPUT_KEY . 'tg' . $user_id;
+}
+
+// Функция для получения случайного прокси с pubproxy.com
+function getRandomProxy() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if ($response) {
+        $data = json_decode($response, true);
+        if (isset($data['data'][0]['ipPort'])) {
+            return $data['data'][0]['ipPort'];
+        }
+    }
+
+    return null;
 }

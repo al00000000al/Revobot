@@ -31,4 +31,23 @@ class Curl
         curl_close($ch);
         return $output;
     }
+
+     // Функция для получения случайного прокси с pubproxy.com
+    public static function getRandomProxy() {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy?https=true&type=http&post=true");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response) {
+            $data = json_decode($response, true);
+            if (isset($data['data'][0]['ipPort'])) {
+                return $data['data'][0]['ipPort'];
+            }
+        }
+
+        return null;
+    }
 }

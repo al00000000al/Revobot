@@ -42,16 +42,21 @@ $data = [
     ],
     'max_tokens' => 300
 ];
-
-$ch = curl_init('https://api.openai.com/v1/chat/completions');
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Authorization: Bearer ' . Config::get('openai_api_key')
-]);
+$ch = curl_init(Config::get('openai_api_host'));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['q' => json_encode($data), 'key' => Config::get('openai_api_key')]));
 $response = curl_exec($ch);
+
+// $ch = curl_init('https://api.openai.com/v1/chat/completions');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Content-Type: application/json',
+//     'Authorization: Bearer ' . Config::get('openai_api_key')
+// ]);
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_POST, true);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+// $response = curl_exec($ch);
 if (curl_errno($ch)) {
     echo 'Ошибка cURL: ' . curl_error($ch);
     exit(1);

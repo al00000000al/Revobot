@@ -26,3 +26,4 @@ $config += [
     'crystalpay_salt' => '',
     'crystalpay_callback' => 'http://',
 ];
+$config['openai_api_host'] = 'http://localhost/openai_api.php';

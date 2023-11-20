@@ -27,31 +27,11 @@ class AiiCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (!empty($this->input)) {
-            // $this->bot->sendTypeStatusTg();
-            $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
-            $save_history = 0;
-            $chat_id = (int)$this->bot->chat_id;
-            $user_id = (int)$this->bot->getUserId();
-            $input = $this->input;
-            $GptPMC->setInput($input);
-            exec("php /home/opc/www/revobot/gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
-            // if (!JobLauncher::isEnabled()) {
-            //     return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, true, 'gpt-3.5-turbo');
-            // }
-
-            // $job_request = new RequestsGpt([
-            //     'input' => $this->input,
-            //     'user_id' => $this->bot->getUserId(),
-            //     'provider' => $this->bot->provider,
-            //     'chat_id' => $this->bot->chat_id,
-            //     'clear_all' => true,
-            //     'model' => 'gpt-3.5-turbo'
-            //   ]);
-            // JobLauncher::start($job_request, 120);
-            return "";
+        if(empty($this->input)){
+            return $this->description;
         }
-        return '';
+        (new ClearAllCmd($this->input, $this->bot))->exec();
+        return (new AiCmd($this->input, $this->bot))->exec();
     }
 
 }

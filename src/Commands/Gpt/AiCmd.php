@@ -3,6 +3,7 @@
 namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
+use Revobot\Config;
 use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
 use Revobot\JobWorkers\JobLauncher;
@@ -28,13 +29,14 @@ class AiCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
+            $base_path = Config::get('base_path');
             $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
             $save_history = 1;
             $chat_id = (int)$this->bot->chat_id;
             $user_id = (int)$this->bot->getUserId();
             $input = $this->input;
             $GptPMC->setInput($input);
-            exec("php /home/opc/www/revobot/gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+            exec("php {$base_path}gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
 
             // if (!JobLauncher::isEnabled()) {
             //     return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-3.5-turbo');

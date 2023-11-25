@@ -27,3 +27,5 @@ $config += [
     'crystalpay_callback' => 'http://',
 ];
 $config['openai_api_host'] = 'http://localhost/openai_api.php';
+
+$config['base_path'] = '/home/opc/www/revobot/';

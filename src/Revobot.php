@@ -192,9 +192,8 @@ class Revobot
                 if($from_id === Config::getInt('tg_bot_id') && !empty($source_text)) {
                     $save_history = 1;
                     $this->pmc->set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
-                    exec("php /home/opc/www/revobot/gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
-                    // $this->sendTypeStatusTg();
-                    // $this->sendMessageTg(Gpt::generate($this->message, $this->getUserId(), $this->provider));
+                    $base_path = Config::get('base_path');
+                    exec("php {$base_path}gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
                 }
             }
 
@@ -202,23 +201,6 @@ class Revobot
                 $response = (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
                 $this->sendMessageTg($response, $parse_mode);
             }
-
-            // if(isset($this->raw_data['photo'])){
-            //     $photo_count = count($this->raw_data['photo']);
-            //     $photo = $this->raw_data['photo'][$photo_count-1];
-            //     $file_id = (string)$photo['file_id'];
-            //     dbg_echo($file_id);
-
-            //     $fileInfo = Tg::getFile($file_id);
-            //     if(isset($fileInfo['result']['file_path'])){
-            //         $filePath = (string)$fileInfo['result']['file_path'];
-            //         dbg_echo($filePath);
-
-            //         file_put_contents('/home/opc/www/revobot/temp.jpg', Tg::file($filePath));
-            //         $chat_id = (int)$this->chat_id;
-            //         exec("php /home/opc/www/revobot/gptdv.php $chat_id > /dev/null 2>&1 &");
-            //     }
-            // }
 
         }
     }

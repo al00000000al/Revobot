@@ -19,8 +19,8 @@ if ($argc < 1) {
 
 $chat_id = (int)$argv[1];
 
-
-$imageContent = file_get_contents('/home/opc/www/revobot/temp.jpg');
+$base_path = Config::get('base_path');
+$imageContent = file_get_contents($base_path.'temp.jpg');
 $base64Image = base64_encode($imageContent);
 
 $data = [

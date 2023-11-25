@@ -7,6 +7,7 @@ use Revobot\Services\Providers\Tg;
 
 require 'config.php';
 
+const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
 
 global $PMC;
 $PMC = new Memcache;
@@ -18,10 +19,13 @@ if ($argc < 1) {
 }
 
 $chat_id = (int)$argv[1];
+$user_id = (int)$argv[2];
 
-
-$imageContent = file_get_contents('/home/opc/www/revobot/temp.jpg');
+$base_path = Config::get('base_path');
+$imageContent = file_get_contents($base_path.'temp.jpg');
 $base64Image = base64_encode($imageContent);
+
+$input = getInput($user_id) ?? 'Что тут? Напиши очень кратко';
 
 $data = [
     'model' => 'gpt-4-vision-preview',
@@ -31,7 +35,7 @@ $data = [
             'content' => [
                 [
                     'type' => 'text',
-                    'text' => "Че тут? Напиши очень кратко"
+                    'text' => $input
                 ],
                 [
                     'type' => 'image_url',
@@ -49,19 +53,6 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['q' => json_encode($data), 'key' => Config::get('openai_api_key')]));
 $response = curl_exec($ch);
 
-/*
-
-$ch = curl_init('https://api.openai.com/v1/chat/completions');
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Authorization: Bearer ' . Config::get('openai_api_key')
-]);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-$response = curl_exec($ch);
-*/
-
 if (curl_errno($ch)) {
     echo 'Ошибка cURL: ' . curl_error($ch);
     exit(1);
@@ -74,4 +65,14 @@ if(isset($decodedResponse['choices'][0]['message']['content'])){
     $answer = $decodedResponse['choices'][0]['message']['content'];
     echo $answer .PHP_EOL;
     Tg::sendMessage($chat_id, $answer);
+}
+
+
+function getInput($user_id){
+    global $PMC;
+    $result = (string)($PMC->get(getInputKey($user_id)));
+    return $result;
+}
+function getInputKey($user_id){
+    return PMC_USER_AI_INPUT_KEY . 'tg' . $user_id;
 }

@@ -57,6 +57,9 @@ class WeatherCmd extends BaseCmd
 
     private function getWeatherText($weather): string
     {
+        if($weather['cod'] == 404) {
+            return "Такого города нет";
+        }
         return <<<TEXT
 Погода в {$weather['name']}:
 Температура: {$weather['main']['temp']}°C

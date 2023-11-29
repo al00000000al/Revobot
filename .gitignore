@@ -10,3 +10,4 @@ binlogdump.txt
 .DS_Store
 *.zip
 .env
+channels.json

@@ -21,7 +21,8 @@ class TlgrmApp
             $count = (int)$res['found'];
             if ($count > 0 && isset($res['hits'][0]['document']['link'])) {
                 $link = (string)$res['hits'][0]['document']['link'];
-                return 'https://t.me/' . $link;
+                $name = (string)$res['hits'][0]['document']['name'];
+                return $name. ' @' . $link;
             }
         } elseif (isset($res['message'])) {
             return $link;

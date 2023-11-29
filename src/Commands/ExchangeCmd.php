@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Revobot\Commands;
-
 
 use Revobot\Util\Curl;
 
 class ExchangeCmd extends BaseCmd
 {
-
-    const KEYS = ['exchange','currency','курс',];
+    const KEYS = ['exchange', 'currency', 'курс'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Курс';
 
@@ -26,29 +23,32 @@ class ExchangeCmd extends BaseCmd
         }
         $input = explode(' ', $this->input);
 
-        if(count($input) != 2){
+        if (count($input) != 2) {
             return $this->description;
         }
 
-        $amount = (float)$input[0];
-        $currency = (string)$input[1];
+        $amount = (float) $input[0];
+        $currency = strtoupper((string) $input[1]);
 
-        $params = http_build_query([
-            'from' => $currency,
-            'to' => 'RUB',
-        ]);
+        // Получение текущей даты для запроса
+        $date = date('d/m/Y');
 
-        $res = Curl::get('https://api.exchangerate.host/convert?' . $params);
-        $out = (array)json_decode($res, true);
+        // URL API Центрального Банка России
+        $apiUrl = 'https://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $date;
 
-        if (!isset($out['result'])) {
+        $res = Curl::get($apiUrl);
+
+        // Использование регулярного выражения для извлечения курса
+        $pattern = '/<CharCode>' . $currency . '<\/CharCode>.*?<Value>(.*?)<\/Value>/s';
+        if (preg_match($pattern, $res, $matches)) {
+            $value = str_replace(',', '.', $matches[1]);
+            $rate = floatval($value);
+        } else {
             return 'Не удалось получить курс валют';
         }
 
-        $result = $amount * (float)$out['result'];
+        $result = $amount * $rate;
 
-        return $amount . ' ' . $currency . ' - ' . $result . 'руб.';
+        return $amount . ' ' . $currency . ' = ' . $result . ' RUB';
     }
-
-
 }

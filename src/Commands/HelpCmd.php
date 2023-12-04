@@ -22,12 +22,14 @@ class HelpCmd extends BaseCmd
 /bash - Случайная шутка
 /calc - Калькулятор
 /casino - Казино на ревокоены
+/channel - Случайный канал
 /chat - Случайный чат
 /cmd - Создать команду (20R)
 /delete - Удалить команду
 /donate - Купить ревокоины
 /echo - Печатать
 /exchange - Курс
+/fuckyou - Бот не отвечает 4ч на команды
 /aich - gpt-4 (50R)
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
@@ -38,6 +40,7 @@ class HelpCmd extends BaseCmd
 /history - История
 /help - Помощь
 /id - Мой ид
+/idead - умрешь ли ты от того что на фото
 /infa - Вероятность события
 /mycommands - Мои комманды
 /or - Выбрать что-то одно

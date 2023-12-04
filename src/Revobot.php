@@ -2,6 +2,7 @@
 
 namespace Revobot;
 
+use Revobot\Commands\FuckYouCmd;
 use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Money\Revocoin;
@@ -135,6 +136,12 @@ class Revobot
     {
         if ($this->provider === 'tg') {
 
+            $need_reply = (bool)($this->pmc->get('fk_'.$this->provider.$this->getUserId()));
+
+            if(!empty($need_reply)) {
+                return;
+            }
+
             $mining_future = fork((new Revocoin($this))->mining($this->getUserId(), 0, $this->message));
             $talk_limit = $this->getTalkLimit();
 
@@ -142,6 +149,8 @@ class Revobot
 
             global $parse_mode;
             $parse_mode = null;
+
+
 
             $response = CommandsManager::process($this);
 

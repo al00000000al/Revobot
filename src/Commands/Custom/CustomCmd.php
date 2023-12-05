@@ -167,6 +167,8 @@ class CustomCmd
                         } else {
                             return '';
                         }
+                    } else {
+                        return $result;
                     }
                 case Types::TYPE_TEXT:
                     $string = (string)$custom_cmd['args'][0];

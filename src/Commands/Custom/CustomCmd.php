@@ -147,14 +147,27 @@ class CustomCmd
     /**
      * @return string
      */
-    public function run(): string
+    public function run($round = 0): string
     {
         list($command, $input) = CommandsManager::extract($this->bot->message);
         $custom_cmd = $this->getCustomCmd($command);
+
         if($custom_cmd && isset($custom_cmd['command_type'])) {
             switch((int)($custom_cmd['command_type'])){
                 case Types::TYPE_ALIAS:
-                    return CommandsManager::run($this->bot, (string)$custom_cmd['args'][0], $input);
+                    $command_name = (string)$custom_cmd['args'][0];
+                    $result = (string) CommandsManager::run($this->bot, $command_name, $input);
+                    if (empty($result)) {
+                         // Возможно это alias alias
+                        if($round < 3) {
+                            $new_message = str_replace('@Therevoluciabot', '', $this->bot->message);
+                            $new_message = str_replace('/'.$command, '/'.$command_name, $this->bot->message);
+                            $this->bot->setMessage($new_message);
+                            return $this->run($round + 1);
+                        } else {
+                            return '';
+                        }
+                    }
                 case Types::TYPE_TEXT:
                     $string = (string)$custom_cmd['args'][0];
                     return (new EchoCmd($string))->exec();

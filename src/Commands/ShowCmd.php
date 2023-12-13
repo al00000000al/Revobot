@@ -26,8 +26,9 @@ use Revobot\Services\Providers\Tg;
             if (empty($this->input)){
                 return $this->description;
             }
-            $photo = Kandinski::generate($this->input);
-            Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
+            return "нет";
+            // $photo = Kandinski::generate($this->input);
+            // Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
 
             /*
             $data = Curl::post('https://api.openai.com/v1/images/generations',

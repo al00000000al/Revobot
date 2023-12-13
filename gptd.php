@@ -75,7 +75,7 @@ function getInput($user_id){
 function setHistory(array $history, $user_id){
     global $PMC;
     $json_encoded = json_encode($history);
-    $PMC->set(getHistoryKey($user_id), $json_encoded);
+    $PMC->set(getHistoryKey($user_id), $json_encoded, 0, );
 }
 
  function getContextKey($user_id){

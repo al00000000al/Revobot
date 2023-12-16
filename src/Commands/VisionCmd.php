@@ -36,6 +36,7 @@ class VisionCmd extends BaseCmd
         }
 
         $file_id = (string)$photo['file_id'];
+        $message_id = $this->bot->raw_data['message_id'];
 
         if(!empty($this->input)){
             $input = $this->input;
@@ -53,7 +54,7 @@ class VisionCmd extends BaseCmd
             $filePath = (string)$fileInfo['result']['file_path'];
             file_put_contents($base_path.'temp.jpg', Tg::file($filePath));
             $chat_id = (int)$this->bot->chat_id;
-            exec("php {$base_path}gptdv.php $chat_id $user_id > /dev/null 2>&1 &");
+            exec("php {$base_path}gptdv.php $chat_id $user_id $message_id > /dev/null 2>&1 &");
         }
 
         return '';

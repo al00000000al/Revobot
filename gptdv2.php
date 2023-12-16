@@ -18,6 +18,7 @@ if ($argc < 1) {
 }
 
 $chat_id = (int)$argv[1];
+$message_id = (int)$argv[2];
 
 $base_path = Config::get('base_path');
 $imageContent = file_get_contents($base_path.'temp.jpg');
@@ -68,5 +69,5 @@ curl_close($ch);
 if(isset($decodedResponse['choices'][0]['message']['content'])){
     $answer = $decodedResponse['choices'][0]['message']['content'];
     echo $answer .PHP_EOL;
-    Tg::sendMessage($chat_id, $answer);
+    Tg::sendMessage($chat_id, $answer, 'markdown');
 }

@@ -34,9 +34,10 @@ class AiCmd extends BaseCmd
             $save_history = 1;
             $chat_id = (int)$this->bot->chat_id;
             $user_id = (int)$this->bot->getUserId();
+            $message_id = $this->bot->raw_data['message_id'];
             $input = $this->input;
             $GptPMC->setInput($input);
-            exec("php {$base_path}gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+            exec("php {$base_path}gptd.php $user_id $save_history $chat_id $message_id > /dev/null 2>&1 &");
 
             // if (!JobLauncher::isEnabled()) {
             //     return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-3.5-turbo');

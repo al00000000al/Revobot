@@ -26,6 +26,7 @@ if ($argc < 3) {
 $user_id = (int)$argv[1];
 $save_history = (bool)$argv[2];
 $chat_id = (int)$argv[3];
+$message_id = (int)$argv[4];
 
 // $user_id = 198239789;
 $context = getContext($user_id);
@@ -52,7 +53,7 @@ if($save_history){
 
 
 echo $answer .PHP_EOL;
-Tg::sendMessage($chat_id, $answer);
+Tg::sendMessage($chat_id, $answer, 'markdown');
 
  function getContext($user_id){
     global $PMC;

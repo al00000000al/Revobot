@@ -69,5 +69,5 @@ curl_close($ch);
 if(isset($decodedResponse['choices'][0]['message']['content'])){
     $answer = $decodedResponse['choices'][0]['message']['content'];
     echo $answer .PHP_EOL;
-    Tg::sendMessage($chat_id, $answer, 'markdown');
+    Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
 }

@@ -53,7 +53,7 @@ if($save_history){
 
 
 echo $answer .PHP_EOL;
-Tg::sendMessage($chat_id, $answer, 'markdown');
+Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
 
  function getContext($user_id){
     global $PMC;

@@ -3,6 +3,7 @@
     namespace Revobot\Commands;
     use Revobot\Config;
     use Revobot\Revobot;
+use Revobot\Services\Dalle;
 use Revobot\Services\Kandinski;
 use Revobot\Services\Providers\Tg;
     use Revobot\Util\Curl;
@@ -13,8 +14,7 @@ use Revobot\Services\Providers\Tg;
         const IS_ENABLED = true;
         const HELP_DESCRIPTION = 'AI image generate DALL-E';
         private Revobot $bot;
-        const MODEL = 'dall-e-3';
-        const SIZE = '512x512';
+
 
         public function __construct(string $input, Revobot $bot)
         {
@@ -29,23 +29,11 @@ use Revobot\Services\Providers\Tg;
                 return $this->description;
             }
 
-            $data = Curl::post('https://api.openai.com/v1/images/generations',
-            json_encode([
-                'prompt' => $this->input,
-                'n' => 1,
-                'size' => self::SIZE,
-                'model' => self::MODEL
-            ]),
-            ['headers' => ['Authorization: Bearer '.Config::get('openai_api_key'), 'Content-Type: application/json']]);
-
-            if(isset($data['error']['message'])) {
-                return (string)$data['error']['message'];
+            list($status, $result) = Dalle::generate($this->input);
+            if($status === -1) {
+                return $result;
             }
-
-            if(isset($data['data']) && isset($data['data'][0]['url'])) {
-                $photo = (string)$data['data'][0]['url'];
-                Tg::sendPhoto($this->bot->chat_id, $photo, $this->input);
-            }
+            Tg::sendPhoto($this->bot->chat_id, $result, $this->input);
 
             return '';
         }

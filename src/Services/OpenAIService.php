@@ -31,16 +31,6 @@ class OpenAIService
         ]), 'key' => Config::get('openai_api_key')]));
         $chat = curl_exec($ch);
 
-        // $chat = $open_ai->chat([
-        //    'model' => $model,
-        //    'messages' => $messages,
-        //    'temperature' => $temperature,
-        //    'max_tokens' => $max_tokens,
-        //    'temperature' => $temperature,
-        //    'frequency_penalty' => 0.5,
-        //    'presence_penalty' => 0.6,
-        // ]);
-
         $d = (array)json_decode($chat, true);
 
         return (string)$d['choices'][0]['message']['content'];
@@ -50,9 +40,10 @@ class OpenAIService
         $history[] = ['role' => $role, 'content' => $content];
 
         // если количество сообщений больше 9, удаляем первые два сообщения
-if (count($history) > 9) {
-    array_splice($history, 0, 2);
-}
-return $history;
+        if (count($history) > 9) {
+            array_splice($history, 0, 2);
+        }
+        return $history;
       }
+
 }

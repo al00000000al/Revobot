@@ -24,6 +24,7 @@ class HelpCmd extends BaseCmd
 /casino - Казино на ревокоены
 /channel - Случайный канал
 /chat - Случайный чат
+/chatid - get chat id
 /cmd - Создать команду (20R)
 /delete - Удалить команду
 /donate - Купить ревокоины

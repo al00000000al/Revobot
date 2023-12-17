@@ -39,15 +39,21 @@ class Tg extends Base {
         ]);
     }
 
-    public static function sendPhoto(int $chat_id, string $photo, string $caption = '') {
+    public static function sendPhoto(int $chat_id, string $photo, string $caption = '', $options = []) {
         $is_url = substr($photo, 0, 4) === 'http';
         if(!$is_url) {
-            $photo = '@' . realpath($photo);
+            #ifndef KPHP
+            $photo =  new CURLFile(realpath($photo));
+            #endif
+            if(0) {
+                $photo = '@' . realpath($photo);
+            }
         }
         return self::_makeRequest('sendPhoto', [
             'chat_id' => $chat_id,
             'photo' => $photo,
             'caption' => $caption,
+            ...$options,
         ], ['headers' => ['Content-Type:multipart/form-data']]);
     }
 

@@ -16,6 +16,9 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
     handleKphpJobWorkerRequest();
 } else {
     $url = $_SERVER['PHP_SELF'];
+
+    $pmc = new Memcache();
+    $pmc->addServer('127.0.0.1', 11209);
     if($url === '/tg_bot' || $url === '/vk_bot') {
         $data = file_get_contents('php://input');
 
@@ -25,11 +28,6 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
         if(!$data_arr) {
             return;
         }
-
-
-
-        $pmc = new Memcache();
-        $pmc->addServer('127.0.0.1', 11209);
 
         if($url === '/tg_bot' && isset($data_arr['message']['chat']['id'])) {
             $chat_id = $data_arr['message']['chat']['id'];
@@ -52,6 +50,24 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
                 $bot->setRawData($data_arr['message']);
                 $bot->run();
             }
+        }
+    } else if(substr($url, 0, 8) === '/sd_task') {
+        if(isset($_GET['key'])) {
+           if($_GET['key'] === Config::get('stable_diffusion_task_key')) {
+            header('Content-Type: application/json');
+            $items = $pmc->get('stable_diffusion_#');
+            if(!empty($items)) {
+                $key = array_key_first($items);
+                $pmc->delete('stable_diffusion_'.$key);
+                echo json_encode($items[$key]);
+            } else {
+                echo '[]';
+            }
+            exit;
+           } else {
+            echo 'no access';
+            exit;
+           }
         }
     }
 }

@@ -23,7 +23,7 @@ $input = (string)$PMC->get('dalle_input'.$user_id);
 if(!$input) {
     die;
 }
-list($status, $result) = Dalle::generate($this->input);
+list($status, $result) = Dalle::generate($input);
 if($status === -1) {
     Tg::send($result, $chat_id);
 } else {

@@ -47,7 +47,20 @@ class Tg extends Base {
         ], ['headers' => ['Content-Type:multipart/form-data']]);
     }
 
-
+    public static function sendDocument(int $chat_id, string $document) {
+#ifndef KPHP
+        return self::_makeRequest('sendDocument', [
+            'chat_id' => $chat_id,
+            'document' => new CURLFile(realpath($document)),
+        ], ['headers' => ['Content-Type:multipart/form-data']]);
+#endif
+if(0) {
+        return self::_makeRequest('sendDocument', [
+            'chat_id' => $chat_id,
+            'document' => '@'.(realpath($document)),
+        ], ['headers' => ['Content-Type:multipart/form-data']]);
+}
+    }
 
     public static function sendChatAction(int $chat_id, string $action) {
         return self::_makeRequest('sendChatAction', [
@@ -86,4 +99,5 @@ class Tg extends Base {
     private static function _makeRequest(string $cmd, array $data = [], $options = []){
         return Curl::post(self::_getApiUrl($cmd), $data, $options);
     }
+
 }

@@ -11,3 +11,6 @@ binlogdump.txt
 *.zip
 .env
 channels.json
+temp.txt
+history_*.md
+history.txt

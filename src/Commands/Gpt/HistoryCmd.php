@@ -3,8 +3,10 @@
 namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
+use Revobot\Config;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
+use Revobot\Services\Providers\Tg;
 
 class HistoryCmd extends BaseCmd
 {
@@ -21,15 +23,11 @@ class HistoryCmd extends BaseCmd
 
     public function exec(): string
     {
-        $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
-
-        $history = $GptPMC->getHistory();
-
-        $result = '';
-        foreach ($history as $item) {
-            $result .= '- '.$item['role'] .': '.$item['content']."\n";
-        }
-        return $result;
+        $base_path = Config::get('base_path');
+        $chat_id = (int)$this->bot->chat_id;
+        $user_id = (int)$this->bot->getUserId();
+        exec("cd {$base_path} && php tg_sendfile.php $chat_id $user_id");
+        return '';
     }
 
 }

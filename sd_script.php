@@ -23,7 +23,7 @@ function sdGenerate($taskData) {
     $imageApiUrl = "http://127.0.0.1:7860/sdapi/v1/txt2img";
 
     $payload = array(
-        "prompt" => $taskData['prompt'].' <lora:lcm-lora-sdv1-5:1>',
+        "prompt" => $taskData['prompt'].' <lora:lcm-lora-sdv1-5:1> <lora:add_detail:1>',
         "steps" => 8,
         "sampler_name" => 'LCM',
         'cfg_scale' => 1,
@@ -39,7 +39,7 @@ function sdGenerate($taskData) {
         Tg::sendPhoto($chat_id, $output, $prompt, ['has_spoiler' => 1]);
         // @unlink($output);
     } else {
-        echo "Ошибка: изображение не найдено в ответе.";
+        echo "Пока ничего нет";
     }
 
 }

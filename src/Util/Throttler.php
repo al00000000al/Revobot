@@ -2,22 +2,22 @@
 
 namespace Revobot\Util;
 
+use Revobot\Revobot;
+
 class Throttler
 {
     const PMC_THROTTLE_KEY = 'throttle_';
 
-    public static function check($user_id, $section = 'global', $max_per_minute = 60) {
-        global $pmc;
-
+    public static function check(Revobot $bot, $user_id, $section = 'global', $max_per_minute = 60) {
         $key = self::getKey($user_id, $section);
-        $value = (int)$pmc->get($key);
+        $value = (int)$bot->pmc->get($key);
 
         if ($value === 0) {
-            $pmc->set($key, 1, 60);
+            $bot->pmc->set($key, 1, 60);
         } elseif ($value >= $max_per_minute) {
             return false;
         } else {
-            $pmc->increment($key);
+            $bot->pmc->increment($key);
         }
 
         return true;

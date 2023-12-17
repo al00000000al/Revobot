@@ -31,5 +31,5 @@ foreach ($history as $item) {
 file_put_contents(__DIR__.'/history_'.$user_id.'.md', $result);
 
 $res = Tg::sendDocument($chat_id, 'history_'.$user_id.'.md');
-@unlink(__DIR__.'/history_'.$user_id.'.md');
+@unlink(__DIR__.'/history_'.$user_id.'_'.time().'.md');
 echo print_r($res);

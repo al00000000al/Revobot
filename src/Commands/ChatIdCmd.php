@@ -18,6 +18,6 @@
 
         public function exec(): string
         {
-            return $this->bot->chat_id;
+            return (string)$this->bot->chat_id;
         }
     }

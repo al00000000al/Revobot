@@ -40,9 +40,13 @@ class Tg extends Base {
     }
 
     public static function sendPhoto(int $chat_id, string $photo, string $caption = '') {
+        $is_url = substr($photo, 0, 4) === 'http';
+        if(!$is_url) {
+            $photo = '@' . realpath($photo);
+        }
         return self::_makeRequest('sendPhoto', [
             'chat_id' => $chat_id,
-            'photo' => '@' . realpath($photo),
+            'photo' => $photo,
             'caption' => $caption,
         ], ['headers' => ['Content-Type:multipart/form-data']]);
     }

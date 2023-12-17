@@ -1,12 +1,11 @@
 <?php
 
     namespace Revobot\Commands;
-    use Revobot\Config;
-    use Revobot\Revobot;
-use Revobot\Services\Dalle;
-use Revobot\Services\Kandinski;
-use Revobot\Services\Providers\Tg;
-    use Revobot\Util\Curl;
+
+use Revobot\Config;
+use Revobot\Revobot;
+    use Revobot\Services\Dalle;
+    use Revobot\Services\Providers\Tg;
 
     class ShowCmd extends BaseCmd
     {
@@ -28,13 +27,11 @@ use Revobot\Services\Providers\Tg;
             if (empty($this->input)){
                 return $this->description;
             }
-
-            list($status, $result) = Dalle::generate($this->input);
-            if($status === -1) {
-                return $result;
-            }
-            Tg::sendPhoto($this->bot->chat_id, $result, $this->input);
-
+            $user_id = $this->bot->getUserId();
+            $chat_id = $this->bot->chat_id;
+            $base_path = Config::get('base_path');
+            $this->bot->pmc->set('dalle_input'.$user_id, $this->input);
+            exec("php {$base_path}dalle.php $user_id $chat_id > /dev/null 2>&1 &");
             return '';
         }
     }

@@ -1,11 +1,17 @@
 <?php
 
-if(isset($_POST['q']) && isset($_POST['key'])) {
+if(isset($_POST['q'], $_POST['key'])) {
     $ch = curl_init();
     $key = $_POST['key'];
     $data = @json_decode($_POST['q'], true);
     $data2 = json_encode($data);
-    curl_setopt($ch, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
+    $is_dalle = isset($_POST['dalle']);
+    if($is_dalle) {
+        curl_setopt($ch, CURLOPT_URL, "https://api.openai.com/v1/images/generations");
+    } else {
+        curl_setopt($ch, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
+    }
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

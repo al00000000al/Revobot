@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','donate','донат','echo','эхо','excho','print','принт','exchange','currency','курс','food','fuckyou','идинахуй','пошланахуй','aich','иич','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','context','контекст','c','кнт','history','h','ист','история','help','хэлп','хлеп','помощь','start','id','ид','idead','яумру','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','vision','чтотам','прочитай','чтоделать','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
+        'alias','алиас','alive','алив','answer','ответ','balance','баланс','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','cmd','кмд','команда','command','комманда','config','конфиг','delete','del','удалить','donate','донат','echo','эхо','excho','print','принт','exchange','currency','курс','food','fuckyou','идинахуй','пошланахуй','aich','иич','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','context','контекст','c','кнт','dellast','d','делпослед','history','h','ист','история','help','хэлп','хлеп','помощь','start','id','ид','idead','яумру','infa','инфа','key','ключ','key.edit','mycommands','моикомманды','or','ili','или','pass','пароль','poll','опрос','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','stat','стат','stoyak','стояк','talk','толк','time','тайм','время','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','vision','чтотам','прочитай','чтоделать','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -126,6 +126,11 @@ case 'контекст':
 case 'c':
 case 'кнт':
 	$response = (new \Revobot\Commands\Gpt\ContextCmd($input, $bot))->exec();
+	break;
+case 'dellast':
+case 'd':
+case 'делпослед':
+	$response = (new \Revobot\Commands\Gpt\DelLastCmd($input, $bot))->exec();
 	break;
 case 'history':
 case 'h':

@@ -37,6 +37,7 @@ class HelpCmd extends BaseCmd
 /clearcontext - Установить контекст
 /clearhistory - Сбросить историю
 /context - Контекст
+/dellast - Удалить свое последнее сообщение из истории
 /history - История
 /help - Помощь
 /id - Мой ид

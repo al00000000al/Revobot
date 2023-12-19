@@ -13,7 +13,7 @@ class AliasCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['alias','алиас'];
+    const KEYS = ['alias', 'алиас'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Создать алиас (10R)';
 
@@ -26,7 +26,7 @@ class AliasCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (empty($this->input)){
+        if (empty($this->input)) {
             return $this->description;
         }
         $text_arr = explode(' ', $this->input);
@@ -35,15 +35,19 @@ class AliasCmd extends BaseCmd
         $customCmd = new CustomCmd($this->bot);
         $command = (string)$text_arr[0];
 
+        if ($command === 'execute') {
+            return 'Нельзя создавать алиасы к execute';
+        }
+
         if (!$customCmd->isValidCommand($command_name)) {
             return 'Недопустимое имя';
         }
 
-        if(!$customCmd->hasMoney(Types::TYPE_ALIAS) || empty($command_name)){
+        if (!$customCmd->hasMoney(Types::TYPE_ALIAS) || empty($command_name)) {
             return 'Недостаточно ревокоинов.';
         }
 
-        if($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)){
+        if ($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)) {
             return 'Такая команда уже есть.';
         }
 
@@ -51,6 +55,6 @@ class AliasCmd extends BaseCmd
 
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_ALIAS, [$command]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, $this->bot->getTgBotId(), $user_id);
-        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_ALIAS.'R';
+        return 'Команда /' . $command_name . ' создана! ' . "\n" . '-' . Prices::PRICE_ALIAS . 'R';
     }
 }

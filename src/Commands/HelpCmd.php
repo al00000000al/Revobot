@@ -30,6 +30,7 @@ class HelpCmd extends BaseCmd
 /donate - Купить ревокоины
 /echo - Печатать
 /exchange - Курс
+/execute - lua script
 /fuckyou - Бот не отвечает 4ч на команды
 /aich - gpt-4 (50R)
 /ai - Нейросеть
@@ -54,6 +55,7 @@ class HelpCmd extends BaseCmd
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
 /show - AI image generate DALL-E
+/stable - create image
 /stat - Статистика R
 /talk - Лимит на разговоров
 /time - Правильное время

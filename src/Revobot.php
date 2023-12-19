@@ -2,6 +2,7 @@
 
 namespace Revobot;
 
+use KLua\KLua;
 use Revobot\Commands\FuckYouCmd;
 use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
@@ -118,7 +119,7 @@ class Revobot
     public function getTalkLimit(): int
     {
         $response = (int) $this->pmc->get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
-        if(!$response){
+        if (!$response) {
             return self::DEFAULT_TALK_LIMIT;
         }
         return $response;
@@ -136,9 +137,9 @@ class Revobot
     {
         if ($this->provider === 'tg') {
 
-            $need_reply = (bool)($this->pmc->get('fk_'.$this->provider.$this->getUserId()));
+            $need_reply = (bool)($this->pmc->get('fk_' . $this->provider . $this->getUserId()));
 
-            if(!empty($need_reply)) {
+            if (!empty($need_reply)) {
                 return;
             }
 
@@ -150,22 +151,23 @@ class Revobot
             global $parse_mode;
             $parse_mode = null;
 
-
+            KLua::registerFunction1('tg_send', function ($string) {
+                return Tg::sendMessage($this->chat_id, (string) $string);
+            });
 
             $response = CommandsManager::process($this);
 
             if ($response && !empty($response)) {
                 $this->sendMessageTg($response, $parse_mode);
                 $this->addUserChat();
-
             }
             $mining_result = wait($mining_future);
 
             if (!empty($mining_result)) {
                 $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
             }
-                // Mining bot
-                if($response){
+            // Mining bot
+            if ($response) {
                 $mining_future_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$response));
                 $mining_result_bot = wait($mining_future_bot);
 
@@ -198,7 +200,7 @@ class Revobot
             if (isset($this->raw_data['reply_to_message'])) {
                 $source_text = (string)$this->raw_data['reply_to_message']['text'];
                 $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
-                if($from_id === Config::getInt('tg_bot_id') && !empty($source_text)) {
+                if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text)) {
                     $save_history = 1;
                     $this->pmc->set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                     $base_path = Config::get('base_path');
@@ -206,11 +208,10 @@ class Revobot
                 }
             }
 
-            if($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
+            if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
                 $response = (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
                 $this->sendMessageTg($response, $parse_mode);
             }
-
         }
     }
 
@@ -250,7 +251,8 @@ class Revobot
      * @param int $user_id
      * @return mixed
      */
-    public function getChatMemberTg(int $user_id) {
+    public function getChatMemberTg(int $user_id)
+    {
         return Tg::getChatMember($this->chat_id, (string) $user_id);
     }
 
@@ -259,11 +261,13 @@ class Revobot
      * @param string $username
      * @return mixed
      */
-    public function getChatMemberByUsernameTg(string $username) {
+    public function getChatMemberByUsernameTg(string $username)
+    {
         return Tg::getChatMember($this->chat_id, $username);
     }
 
-    public function sendPollTg(string $question, array $options) {
+    public function sendPollTg(string $question, array $options)
+    {
         return Tg::sendPoll($this->chat_id, $question, $options);
     }
 
@@ -309,11 +313,13 @@ class Revobot
         }
     }
 
-    public function getTgBotId() {
+    public function getTgBotId()
+    {
         return -Config::getInt('tg_bot_id');
     }
 
-    public function sendTypeStatusTg() {
+    public function sendTypeStatusTg()
+    {
         Tg::sendChatAction($this->chat_id, 'typing');
     }
 }

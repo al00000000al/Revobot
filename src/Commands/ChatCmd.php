@@ -5,9 +5,7 @@ namespace Revobot\Commands;
 use Revobot\Config;
 use Revobot\Revobot;
 use Revobot\Services\Providers\Tg;
-use Revobot\Services\TlgrmApp;
 use Revobot\Util\Curl;
-use Revobot\Util\Strings;
 
 class ChatCmd extends BaseCmd
 {

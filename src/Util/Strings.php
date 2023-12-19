@@ -66,4 +66,13 @@ class Strings
         $cleaned_string = preg_replace($pattern, '', $original_string);
         return $cleaned_string;
     }
+
+    public static function img2base64($path)
+    {
+        if (!file_exists($path)) {
+            return '';
+        }
+        $data = file_get_contents($path);
+        return 'data:image/jpg;base64,' . base64_encode($data);
+    }
 }

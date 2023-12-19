@@ -4,6 +4,7 @@ namespace Revobot\Commands;
 
 use Revobot\Config;
 use Revobot\Revobot;
+use Revobot\Services\Providers\Tg;
 use Revobot\Services\TlgrmApp;
 use Revobot\Util\Curl;
 use Revobot\Util\Strings;
@@ -12,7 +13,7 @@ class ChatCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['chat','чат'];
+    const KEYS = ['chat', 'чат'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Случайный чат';
 
@@ -38,22 +39,28 @@ class ChatCmd extends BaseCmd
 
             while ($tries < 10) {
                 $chat = (string)$this->getChat();
-                if(!empty($chat)) {
-                    $result = (string)$this->verifyLink($chat);
-                    if(strlen($result) > 0) {
-                        return $result;
+                if (!empty($chat)) {
+                    $result = $this->verifyLink($chat);
+                    if ($result) {
+                        list($link, $chatTitle, $chatDescription, $chatImage) = $result;
+                        if (isset($chatImage)) {
+                            Tg::sendPhoto($this->bot->chat_id, (string)$chatImage, implode("\n", [$link, $chatTitle, $chatDescription]));
+                            return "";
+                        } else {
+                            return implode("\n", [$link, $chatTitle, $chatDescription]);
+                        }
                     }
                 }
                 $tries++;
             }
-
         }
         return $chat;
     }
 
-    private function getChat() {
-        $file_path = Config::get('base_path').'/channels.json';
-        if(!file_exists($file_path)) {
+    private function getChat()
+    {
+        $file_path = Config::get('base_path') . '/channels.json';
+        if (!file_exists($file_path)) {
             $data = file_get_contents('https://web.archive.org/cdx/search/cdx?url=https://t.me/joinchat/*&output=text&fl=original&collapse=urlkey');
             file_put_contents($file_path, $data);
         }
@@ -78,20 +85,33 @@ class ChatCmd extends BaseCmd
         return $selectedLine;
     }
 
-    private function verifyLink($link) {
+    function verifyLink($link)
+    {
         $html = Curl::get(trim($link));
-        // $tmp_path = Config::get('base_path').'/test_tmp.txt';
-        // file_put_contents($tmp_path, $html);
+        $tmp_path = Config::get('base_path') . '/test_tmp.txt';
+        file_put_contents($tmp_path, $html);
         $re = '/<meta property="og:title" content="([^"]+)"/';
         preg_match($re, $html, $matches, PREG_OFFSET_CAPTURE, 0);
         $chatTitle = "Join group chat on Telegram";
-        if(isset($matches[1][0])){
+        if (isset($matches[1][0])) {
             $chatTitle = $matches[1][0];
         }
         if ($chatTitle == "Join group chat on Telegram") {
-            return '';
+            return null;
         } else {
-            return $chatTitle.' '. $link;
+            $re = '/<meta property="og:description" content="([^"]+)"/';
+            preg_match($re, $html, $matches, PREG_OFFSET_CAPTURE, 0);
+            $chatDescription = '';
+            if (isset($matches[1][0])) {
+                $chatDescription = $matches[1][0];
+            }
+            $re = '/<meta property="og:image" content="([^"]+)"/';
+            preg_match($re, $html, $matches, PREG_OFFSET_CAPTURE, 0);
+            $chatImage = '';
+            if (isset($matches[1][0])) {
+                $chatImage = $matches[1][0];
+            }
+            return [$link, $chatTitle, $chatDescription, $chatImage];
         }
     }
 }

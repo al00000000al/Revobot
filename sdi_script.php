@@ -37,14 +37,14 @@ function sdiGenerate($taskData)
     $prompt = Strings::cleanCommandArguments($prompt);
     list($options, $prompt) = sdiSafe($prompt, $options);
     if (!isset($options['steps']) || (int)$options['steps'] > 50 || (int)$options['steps'] <= 1) {
-        $options['steps'] = 12;
+        $options['steps'] = 8;
     }
     if (isset($options['width'])) {
         if ((int)$options['width'] > 1024 || (int)$options['width'] < 8) {
-            $options['width'] = 512;
+            $options['width'] = 600;
         }
     } else {
-        $options['width'] = 512;
+        $options['width'] = 600;
     }
     if (isset($options['height'])) {
         if ((int)$options['height'] > 1024 || (int)$options['height'] < 8) {
@@ -54,11 +54,12 @@ function sdiGenerate($taskData)
         $options['height'] = 512;
     }
 
+    $prompt = Strings::transliterate($prompt);
     $payload = array(
         "prompt" => $prompt . '  <lora:LCM_LoRA_Weights_SD15:1> <lora:detail_slider_v4:1> <lora:add_sharpness:2>',
-        'negative_prompt' => $options['negative_prompt'],
+        'negative_prompt' => $options['negative_prompt'] . ' realisticvision-negative-embedding',
         "sampler_name" => 'LCM',
-        'cfg_scale' => 1.4,
+        'cfg_scale' => 1,
         'sampler_index' => 'LCM',
         'init_images' => [Strings::img2base64($input)],
         'denoising_strength' => 0.5,

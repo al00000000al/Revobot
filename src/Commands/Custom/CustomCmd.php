@@ -6,6 +6,7 @@ use Revobot\Commands\EchoCmd;
 use Revobot\CommandsManager;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class CustomCmd
 {
@@ -72,7 +73,7 @@ class CustomCmd
      */
     public function getCustomCmd(string $command_name): array
     {
-        $result = $this->bot->pmc->get(self::PMC_COMMAND_KEY . sha1($command_name));
+        $result = PMC::get(self::PMC_COMMAND_KEY . sha1($command_name));
         if (empty($result)) {
             return [];
         }
@@ -100,7 +101,7 @@ class CustomCmd
      */
     public function getUserCommands(int $user_id, string $provider = 'tg'): array
     {
-        $result = $this->bot->pmc->get(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id);
+        $result = PMC::get(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id);
         if (empty($result)) {
             return [];
         }
@@ -128,8 +129,8 @@ class CustomCmd
             'created_at' => time(),
         ];
 
-        $this->bot->pmc->set(self::PMC_COMMAND_KEY . sha1($command_name), $command);
-        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
+        PMC::set(self::PMC_COMMAND_KEY . sha1($command_name), $command);
+        PMC::set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
     }
 
     /**
@@ -138,9 +139,9 @@ class CustomCmd
      */
     public function deleteCommand(int $user_id, string $command_name, string $provider = 'tg')
     {
-        $this->bot->pmc->delete(self::PMC_COMMAND_KEY . sha1($command_name));
+        PMC::delete(self::PMC_COMMAND_KEY . sha1($command_name));
         $user_commands = array_diff($this->getUserCommands($user_id), [$command_name]);
-        $this->bot->pmc->set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
+        PMC::set(self::PMC_USER_COMMANDS_KEY . $provider . '_' . $user_id, $user_commands);
     }
 
 

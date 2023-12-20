@@ -39,12 +39,13 @@ class PMC
     /**
      * @param string $key
      * @param mixed $value
+     * @param int $flags
      * @param int $expiration
      * @return bool
      */
-    public static function set($key, $value, $expiration = 0)
+    public static function set($key, $value, $flags = 0, $expiration = 0)
     {
-        return self::getInstance()->set($key, $value, 0, $expiration);
+        return self::getInstance()->set($key, $value, $flags, $expiration);
     }
 
     /**
@@ -62,5 +63,29 @@ class PMC
     public static function getVersion()
     {
         return self::getInstance()->getVersion();
+    }
+
+    /**
+     * Увеличивает числовое значение ключа на указанное число.
+     * Если ключ не существует, он будет создан с начальным значением $increment.
+     *
+     * @param string $key
+     * @param int $increment
+     * @return mixed
+     */
+    public static function increment($key, $increment = 1)
+    {
+        $memcache = self::getInstance();
+
+        // Попытка инкремента
+        $result = $memcache->increment($key, $increment);
+
+        // Если ключ не существует, создаем его с начальным значением $increment
+        if ($result === false) {
+            $memcache->set($key, $increment);
+            return $increment;
+        }
+
+        return $result;
     }
 }

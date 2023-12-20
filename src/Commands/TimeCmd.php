@@ -3,13 +3,14 @@
 namespace Revobot\Commands;
 
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class TimeCmd extends BaseCmd
 {
-    const KEYS = ['time','тайм','время'];
+    const KEYS = ['time', 'тайм', 'время'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Правильное время';
-    private const PMC_USER_TIMEZONE_KEY = "user_timezone_";//.$provider.$user_id
+    private const PMC_USER_TIMEZONE_KEY = "user_timezone_"; //.$provider.$user_id
     private const DATE_FORMAT = 'Y-m-d H:i:s';
     const MSK_TZ = 3;
 
@@ -27,9 +28,9 @@ class TimeCmd extends BaseCmd
         $tz = null;
         if (!empty($this->input)) {
             $tz = (string)$this->input;
-            $this->bot->pmc->set($this->getKey(), $tz);
+            PMC::set($this->getKey(), $tz);
         } else {
-            $result = $this->bot->pmc->get($this->getKey());
+            $result = PMC::get($this->getKey());
         }
 
         if (isset($result)) {
@@ -40,7 +41,6 @@ class TimeCmd extends BaseCmd
         }
 
         return date(self::DATE_FORMAT, time() + ((int)$tz - self::MSK_TZ) * 60 * 60);
-
     }
 
     /**

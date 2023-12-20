@@ -4,6 +4,7 @@ namespace Revobot\Money;
 
 use Revobot\Revobot;
 use Revobot\Util\Hash;
+use Revobot\Util\PMC;
 
 class Revocoin
 {
@@ -11,7 +12,6 @@ class Revocoin
 
     private Revobot $bot;
     private int $difficulty = 3;
-    private \Memcache $pmc;
 
     const MONEY_VERSION = 2;
     const MAX_TRIES_DEFAULT = 30;
@@ -30,7 +30,6 @@ class Revocoin
     public function __construct(Revobot $bot)
     {
         $this->bot = $bot;
-        $this->pmc = $bot->pmc;
     }
 
     /**
@@ -53,7 +52,7 @@ class Revocoin
      */
     public function getMaxTries(): int
     {
-        $prize_max_tries = (int)$this->pmc->get(self::PMC_MONEY_TRIES_KEY);
+        $prize_max_tries = (int)PMC::get(self::PMC_MONEY_TRIES_KEY);
         if ($prize_max_tries === 0) {
             $prize_max_tries = self::MAX_TRIES_DEFAULT;
         }
@@ -65,7 +64,7 @@ class Revocoin
      */
     public function getLastBlock(): array
     {
-        $last_block = $this->pmc->get(self::PMC_MONEY_LAST_BLOCK_KEY);
+        $last_block = PMC::get(self::PMC_MONEY_LAST_BLOCK_KEY);
 
         list($block_id, $prev_hash) = $last_block;
         return [$block_id, $prev_hash];
@@ -79,7 +78,7 @@ class Revocoin
      */
     public function setLastBlock($block_id, $prev_hash): bool
     {
-        $this->pmc->set(self::PMC_MONEY_LAST_BLOCK_KEY, [$block_id, $prev_hash]);
+        PMC::set(self::PMC_MONEY_LAST_BLOCK_KEY, [$block_id, $prev_hash]);
         return true;
     }
 
@@ -99,7 +98,7 @@ class Revocoin
      */
     public function saveBlock(int $id, string $params)
     {
-        $this->pmc->set(self::PMC_MONEY_BLOCK_KEY . $this->bot->provider . $id, $params);
+        PMC::set(self::PMC_MONEY_BLOCK_KEY . $this->bot->provider . $id, $params);
     }
 
     /**
@@ -125,11 +124,11 @@ class Revocoin
     public function transaction(float $amount, int $to_user_id, int $from_user_id = 0): bool
     {
 
-        if($amount < 0){
+        if ($amount < 0) {
             return false;
         }
 
-        if($to_user_id === $from_user_id) {
+        if ($to_user_id === $from_user_id) {
             return false;
         }
 
@@ -159,7 +158,7 @@ class Revocoin
      */
     public function getBalance(int $user): float
     {
-        return (float)($this->pmc->get(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user));
+        return (float)(PMC::get(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user));
     }
 
 
@@ -172,7 +171,7 @@ class Revocoin
     public function updateBalance(int $user, float $old_balance, float $balance): bool
     {
         $new_balance = $old_balance + $balance;
-        $this->pmc->set(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user, $new_balance);
+        PMC::set(self::PMC_MONEY_USER_BALANCE_KEY . $this->bot->provider . $user, $new_balance);
         return true;
     }
 
@@ -232,7 +231,6 @@ class Revocoin
                 }
 
                 return [];
-
             }
             $prize /= 1.5;
         }

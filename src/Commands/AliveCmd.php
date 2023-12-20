@@ -3,6 +3,7 @@
     namespace Revobot\Commands;
 
     use Revobot\Revobot;
+    use Revobot\Util\PMC;
 
     class AliveCmd extends BaseCmd
     {
@@ -21,7 +22,7 @@
          * @return string
          */
         public function exec(): string {
-            $pmc_v = $this->bot->pmc->getVersion();
-            return "Жив! PMC: $pmc_v, Bot build: 169";
+            $pmc_v = PMC::getVersion();
+            return "Жив! PMC: $pmc_v, Bot build: 171";
         }
     }

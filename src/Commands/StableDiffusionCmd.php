@@ -5,6 +5,7 @@ namespace Revobot\Commands;
 use Revobot\Config;
 use Revobot\Revobot;
 use Revobot\Services\Providers\Tg;
+use Revobot\Util\PMC;
 
 class StableDiffusionCmd extends BaseCmd
 {
@@ -43,12 +44,10 @@ class StableDiffusionCmd extends BaseCmd
             $base_path = Config::get('base_path');
             if (isset($file_info['result']['file_path'])) {
                 $file_path = (string)$file_info['result']['file_path'];
-                $this->bot->pmc
-                    ->set(self::PMC_KEY . '_' . $user_id, ['chat_id' => $chat_id, 'user_id' => $user_id, 'prompt' => $this->input, 'photo' => $file_path]);
+                PMC::set(self::PMC_KEY . '_' . $user_id, ['chat_id' => $chat_id, 'user_id' => $user_id, 'prompt' => $this->input, 'photo' => $file_path]);
             }
         } else {
-            $this->bot->pmc
-                ->set(self::PMC_KEY . '_' . $user_id, ['chat_id' => $chat_id, 'user_id' => $user_id, 'prompt' => $this->input]);
+            PMC::set(self::PMC_KEY . '_' . $user_id, ['chat_id' => $chat_id, 'user_id' => $user_id, 'prompt' => $this->input]);
         }
 
 

@@ -4,16 +4,15 @@ namespace Revobot\Money;
 
 use Revobot\Commands\StoyakCmd;
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class StatStoyak
 {
     private Revobot $bot;
-    private \Memcache $pmc;
 
     public function __construct(Revobot $bot)
     {
         $this->bot = $bot;
-        $this->pmc = $bot->pmc;
     }
 
     public function get(): string
@@ -30,7 +29,7 @@ class StatStoyak
             $users = [];
             $usernames = [];
             foreach ($chat as $user) {
-                $users[$user] = (int) $this->pmc->get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
+                $users[$user] = (int) PMC::get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
                 $usernames[$user] = $this->getUsername((int)$user);
             }
 
@@ -55,7 +54,7 @@ class StatStoyak
 
         $i = 1;
         foreach ($users as $user_id => $amount) {
-            if($amount == 0){
+            if ($amount == 0) {
                 continue;
             }
             if (array_key_exists($user_id, $usernames)) {

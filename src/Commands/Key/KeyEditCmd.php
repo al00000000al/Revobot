@@ -4,6 +4,7 @@ namespace Revobot\Commands\Key;
 
 use Revobot\Commands\BaseCmd;
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class KeyEditCmd extends BaseCmd
 {
@@ -23,19 +24,19 @@ class KeyEditCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(!$this->isAdmin($this->bot->getUserId())){
+        if (!$this->isAdmin($this->bot->getUserId())) {
             return '';
         }
 
-        if(!empty($this->input)) {
+        if (!empty($this->input)) {
             $params = explode(' ', $this->input);
-            if(count($params) > 1) {
+            if (count($params) > 1) {
                 $key = $params[0];
                 $value = substr($this->input, strlen($key));
 
                 $this->setKey($this->input, $value);
-                return 'Ключ '.$key.'='.$value;
-            }else{
+                return 'Ключ ' . $key . '=' . $value;
+            } else {
                 return $this->description;
             }
         }
@@ -49,8 +50,6 @@ class KeyEditCmd extends BaseCmd
      */
     private function setKey(string $key, $value): bool
     {
-        return $this->bot->pmc->set($key, $value);
+        return PMC::set($key, $value);
     }
-
-
 }

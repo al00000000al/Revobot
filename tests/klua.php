@@ -11,13 +11,11 @@ use KLua\KLuaConfig;
 use KLua\KLuaException;
 use Revobot\Commands\Custom\Types;
 use Revobot\Services\Providers\Tg;
+use Revobot\Util\PMC;
 
 if (KPHP_COMPILER_VERSION) {
     KLua::loadFFI();
 }
-
-$pmc = new Memcache();
-$pmc->addServer('127.0.0.1', 11209);
 
 
 // Note: it's not advised to set the memory limit that is too low.
@@ -39,9 +37,7 @@ $lua_config->alloc_hook = function ($alloc_size) {
 KLua::init($lua_config);
 
 KLua::registerFunction1('r_process_func', function ($command_name) {
-    /** @var McMemcache $pmc */
-    global $pmc;
-    $custom_cmd = $pmc->get('custom_cmd_' . sha1($command_name));
+    $custom_cmd = PMC::get('custom_cmd_' . sha1($command_name));
     if ($custom_cmd && isset($custom_cmd['command_type'])) {
         if ((int)($custom_cmd['command_type']) == Types::TYPE_TEXT) {
             $string = (string)$custom_cmd['args'][0];

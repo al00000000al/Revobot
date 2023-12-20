@@ -12,11 +12,6 @@ if ($argc < 1) {
     exit(1);
 }
 
-
-global $pmc;
-$pmc = new Memcache();
-$pmc->addServer('127.0.0.1', 11209);
-
 $chat_id = (int)$argv[1];
 $user_id = (int)$argv[2];
 
@@ -25,11 +20,11 @@ $history = $GptPMC->getHistory();
 
 $result = '';
 foreach ($history as $item) {
-    $result .= '- '.$item['role'] .': '.$item['content']."\n";
+    $result .= '- ' . $item['role'] . ': ' . $item['content'] . "\n";
 }
 
-file_put_contents(__DIR__.'/history_'.$user_id.'.md', $result);
+file_put_contents(__DIR__ . '/history_' . $user_id . '.md', $result);
 
-$res = Tg::sendDocument($chat_id, 'history_'.$user_id.'.md');
-@unlink(__DIR__.'/history_'.$user_id.'_'.time().'.md');
+$res = Tg::sendDocument($chat_id, 'history_' . $user_id . '.md');
+@unlink(__DIR__ . '/history_' . $user_id . '_' . time() . '.md');
 echo print_r($res);

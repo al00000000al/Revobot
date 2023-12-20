@@ -3,12 +3,13 @@
 namespace Revobot\Commands;
 
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class ConfigCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['config','конфиг'];
+    const KEYS = ['config', 'конфиг'];
     const IS_ENABLED = true;
     const IS_ADMIN_ONLY = true;
     const HELP_DESCRIPTION = 'Конфиг';
@@ -22,19 +23,18 @@ class ConfigCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(!$this->isAdmin($this->bot->getUserId())){
+        if (!$this->isAdmin($this->bot->getUserId())) {
             return '';
         }
 
-        if(!empty($this->input)) {
+        if (!empty($this->input)) {
             return print_r($this->getKey($this->input), true);
         }
         return $this->description;
     }
 
-    private function getKey($key){
-        return $this->bot->pmc->get($key);
+    private function getKey($key)
+    {
+        return PMC::get($key);
     }
-
-
 }

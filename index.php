@@ -15,7 +15,7 @@ if (KPHP_COMPILER_VERSION) {
     KLua::loadFFI();
 }
 
-global $pmc, $NeedProxy;
+global $NeedProxy;
 
 $NeedProxy = false;
 
@@ -52,7 +52,6 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
             $bot = new Revobot\Revobot('tg');
             $bot->setChatId((int)$chat_id);
             $bot->setTgKey(Config::get('tg_key'));
-            // $bot->setPmc($pmc);
 
             if (isset($data_arr['message']['text'])) {
                 $bot->setMessage((string)$data_arr['message']['text']);

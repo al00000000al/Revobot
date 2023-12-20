@@ -4,11 +4,12 @@ namespace Revobot\Commands\Key;
 
 use Revobot\Commands\BaseCmd;
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class KeyCmd extends BaseCmd
 {
     private Revobot $bot;
-    const KEYS = ['key','ключ'];
+    const KEYS = ['key', 'ключ'];
     const IS_ENABLED = true;
     const IS_ADMIN_ONLY = true;
     const HELP_DESCRIPTION = 'key';
@@ -22,19 +23,18 @@ class KeyCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(!$this->isAdmin($this->bot->getUserId())){
+        if (!$this->isAdmin($this->bot->getUserId())) {
             return '';
         }
 
-        if(!empty($this->input)) {
+        if (!empty($this->input)) {
             return (string) print_r($this->getKey($this->input), true);
         }
         return $this->description;
     }
 
-    private function getKey($key){
-        return $this->bot->pmc->get($key);
+    private function getKey($key)
+    {
+        return PMC::get($key);
     }
-
-
 }

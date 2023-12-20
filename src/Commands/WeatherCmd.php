@@ -8,10 +8,11 @@ namespace Revobot\Commands;
 use Revobot\Config;
 use Revobot\Revobot;
 use Revobot\Util\Curl;
+use Revobot\Util\PMC;
 
 class WeatherCmd extends BaseCmd
 {
-    const KEYS = ['weather','погода','pogoda'];
+    const KEYS = ['weather', 'погода', 'pogoda'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Моя погода';
 
@@ -29,7 +30,7 @@ class WeatherCmd extends BaseCmd
     public function exec(): string
     {
         if (empty($this->input)) {
-            $city_response = $this->bot->pmc->get($this->getUserKey());
+            $city_response = PMC::get($this->getUserKey());
             if (!$city_response) {
                 return $this->description;
             } else {
@@ -37,7 +38,7 @@ class WeatherCmd extends BaseCmd
             }
         } else {
             $city = $this->input;
-            $this->bot->pmc->set($this->getUserKey(), $city);
+            PMC::set($this->getUserKey(), $city);
         }
 
         $weather = $this->getWeather($city);
@@ -57,7 +58,7 @@ class WeatherCmd extends BaseCmd
 
     private function getWeatherText($weather): string
     {
-        if($weather['cod'] == 404) {
+        if ($weather['cod'] == 404) {
             return "Такого города нет";
         }
         return <<<TEXT
@@ -71,5 +72,4 @@ class WeatherCmd extends BaseCmd
 {$weather['weather']['description']}
 TEXT;
     }
-
 }

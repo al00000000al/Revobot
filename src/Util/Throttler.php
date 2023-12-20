@@ -11,15 +11,15 @@ class Throttler
     public static function check(Revobot $bot, $user_id, $section = 'global', $limit = 1, $interval = 60 * 60)
     {
         $key = self::getKey($user_id, $section);
-        $attempts = $bot->pmc->get($key);
+        $attempts = PMC::get($key);
 
         if (!$attempts) {
             // Ключ не существует, значит это первый запрос.
             // Устанавливаем счетчик в 1 и задаем время истечения TTL (Time-To-Live).
-            $bot->pmc->set($key, 1, 0, $interval);
+            PMC::set($key, 1, 0, $interval);
             return false;
         } else if ((int)$attempts < $limit) {
-            $bot->pmc->increment($key);
+            PMC::increment($key);
             return false;
         } else {
             return true;

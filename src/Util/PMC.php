@@ -9,7 +9,7 @@ class PMC
 
     private function __construct()
     {
-        $this->memcache = new Memcache();
+        $this->memcache = new \Memcache();
         $this->memcache->connect('127.0.0.1', 11209);
     }
 
@@ -29,5 +29,15 @@ class PMC
     public static function set($key, $value, $expiration = 0)
     {
         return self::getInstance()->set($key, $value, 0, $expiration);
+    }
+
+    public static function delete($key)
+    {
+        return self::getInstance()->delete($key);
+    }
+
+    public static function getVersion()
+    {
+        return self::getInstance()->getVersion();
     }
 }

@@ -5,6 +5,7 @@
 use KLua\KLua;
 use KLua\KLuaConfig;
 use Revobot\Config;
+use Revobot\Util\PMC;
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
@@ -36,9 +37,6 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
     handleKphpJobWorkerRequest();
 } else {
     $url = $_SERVER['PHP_SELF'];
-
-    $pmc = new Memcache();
-    $pmc->addServer('127.0.0.1', 11209);
     if ($url === '/tg_bot' || $url === '/vk_bot') {
         $data = file_get_contents('php://input');
 
@@ -54,7 +52,7 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
             $bot = new Revobot\Revobot('tg');
             $bot->setChatId((int)$chat_id);
             $bot->setTgKey(Config::get('tg_key'));
-            $bot->setPmc($pmc);
+            // $bot->setPmc($pmc);
 
             if (isset($data_arr['message']['text'])) {
                 $bot->setMessage((string)$data_arr['message']['text']);
@@ -75,10 +73,10 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
         if (isset($_GET['key'])) {
             if ($_GET['key'] === Config::get('stable_diffusion_task_key')) {
                 header('Content-Type: application/json');
-                $items = $pmc->get('stable_diffusion_#');
+                $items = PMC::get('stable_diffusion_#');
                 if (!empty($items)) {
                     $key = array_key_first($items);
-                    $pmc->delete('stable_diffusion_' . $key);
+                    PMC::delete('stable_diffusion_' . $key);
                     echo json_encode($items[$key]);
                 } else {
                     echo '[]';
@@ -94,10 +92,6 @@ if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
 
 function handleKphpJobWorkerRequest()
 {
-    global $pmc;
-
-    $pmc = new Memcache();
-    $pmc->addServer('127.0.0.1', 11209);
     $kphp_job_request = kphp_job_worker_fetch_request();
     if (!$kphp_job_request) {
         warning("Couldn't fetch a job worker request");

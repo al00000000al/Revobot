@@ -4,14 +4,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Revobot\Config;
 use Revobot\Services\Providers\Tg;
+use Revobot\Util\PMC;
 
 require 'config.php';
 
 const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
-
-global $PMC;
-$PMC = new Memcache;
-$PMC->addServer('127.0.0.1', 11209);
 
 if ($argc < 1) {
     echo "Идентификатор пользователя не передан.\n";
@@ -23,7 +20,7 @@ $user_id = (int)$argv[2];
 $message_id = (int)$argv[3];
 
 $base_path = Config::get('base_path');
-$imageContent = file_get_contents($base_path.'temp.jpg');
+$imageContent = file_get_contents($base_path . 'temp.jpg');
 $base64Image = base64_encode($imageContent);
 
 $input = getInput($user_id) ?? 'Что тут? Напиши очень кратко';
@@ -62,18 +59,19 @@ if (curl_errno($ch)) {
 }
 curl_close($ch);
 
-if(isset($decodedResponse['choices'][0]['message']['content'])){
+if (isset($decodedResponse['choices'][0]['message']['content'])) {
     $answer = $decodedResponse['choices'][0]['message']['content'];
-    echo $answer .PHP_EOL;
+    echo $answer . PHP_EOL;
     Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
 }
 
 
-function getInput($user_id){
-    global $PMC;
-    $result = (string)($PMC->get(getInputKey($user_id)));
+function getInput($user_id)
+{
+    $result = (string)(PMC::get(getInputKey($user_id)));
     return $result;
 }
-function getInputKey($user_id){
+function getInputKey($user_id)
+{
     return PMC_USER_AI_INPUT_KEY . 'tg' . $user_id;
 }

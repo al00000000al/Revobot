@@ -6,22 +6,23 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 
 define('COMMANDS_PATH', __DIR__ . '/src/Commands');
-define('BUILD_PATH', __DIR__.'/build.txt');
+define('BUILD_PATH', __DIR__ . '/build.txt');
 
 
 $aliveCmd = generateAliveCmd(incBuild(getBuild()));
-file_put_contents(COMMANDS_PATH.'/AliveCmd.php', $aliveCmd);
+file_put_contents(COMMANDS_PATH . '/AliveCmd.php', $aliveCmd);
 echo "Update build number in AliveCmd.php and build.txt\n";
 
 processFiles();
-function processFiles(){
+function processFiles()
+{
     $help_str = "";
     $switch = '';
     $commands = [];
     $tg_commands = [];
     $f = get_dir_files(COMMANDS_PATH);
-    foreach($f as $file){
-        if(substr(basename($file), -7) !== 'Cmd.php'){
+    foreach ($f as $file) {
+        if (substr(basename($file), -7) !== 'Cmd.php') {
             continue;
         }
         $class =  str_replace('.php', '', basename($file));
@@ -31,17 +32,17 @@ function processFiles(){
         $namespace = str_replace('\src', 'Revobot', $namespace);
         //echo $namespace;
 
-      $reflector = new ReflectionClass($namespace.$class);
-       // echo $namespace . $class . "\n";
+        $reflector = new ReflectionClass($namespace . $class);
+        // echo $namespace . $class . "\n";
         $constants = $reflector->getConstants();
-        if(!isset($constants['IS_ENABLED'])){
-        continue;
-    }
-    if(!$constants['IS_ENABLED']){
-        continue;
-    }
-        if(!isset($constants['IS_ADMIN_ONLY']) && !isset($constants['IS_HIDDEN'])){
-            $help_str .= '/'.$constants['KEYS'][0].' - '.$constants['HELP_DESCRIPTION']."\n";
+        if (!isset($constants['IS_ENABLED'])) {
+            continue;
+        }
+        if (!$constants['IS_ENABLED']) {
+            continue;
+        }
+        if (!isset($constants['IS_ADMIN_ONLY']) && !isset($constants['IS_HIDDEN'])) {
+            $help_str .= '/' . $constants['KEYS'][0] . ' - ' . $constants['HELP_DESCRIPTION'] . "\n";
             $tg_commands[] = ['command' => $constants['KEYS'][0], 'description' => $constants['HELP_DESCRIPTION']];
         }
         $commands = array_merge($commands, $constants['KEYS']);
@@ -49,17 +50,17 @@ function processFiles(){
 
         try {
             $start_params = array_column($reflector->getConstructor()->getParameters(), 'name');
-            $switch .= generateSwitch($namespace.$class, $constants['KEYS'], $start_params);
-        }catch(Exception $e){
+            $switch .= generateSwitch($namespace . $class, $constants['KEYS'], $start_params);
+        } catch (Exception $e) {
             continue;
         }
     }
 
     $helpCmd = generateHelpCmd($help_str);
-    $commands_arr = '\''.implode('\',\'', $commands)."'";
+    $commands_arr = '\'' . implode('\',\'', $commands) . "'";
     $commandsManager = generateCommandsManager($commands_arr, $switch);
-    file_put_contents(COMMANDS_PATH.'/HelpCmd.php', $helpCmd);
-    file_put_contents(COMMANDS_PATH.'/../CommandsManager.php', $commandsManager);
+    file_put_contents(COMMANDS_PATH . '/HelpCmd.php', $helpCmd);
+    file_put_contents(COMMANDS_PATH . '/../CommandsManager.php', $commandsManager);
 
     echo "generated: HelpCmd.php, CommandsManager.php\n";
 
@@ -69,30 +70,31 @@ function processFiles(){
 }
 
 
-function get_dir_files( $dir, $recursive = true, $include_folders = false ){
-	if( ! is_dir($dir) )
-		return [];
+function get_dir_files($dir, $recursive = true, $include_folders = false)
+{
+    if (!is_dir($dir))
+        return [];
 
-	$files = [];
+    $files = [];
 
-	$dir = rtrim( $dir, '/\\' ); // удалим слэш на конце
+    $dir = rtrim($dir, '/\\'); // удалим слэш на конце
 
-	foreach( glob( "$dir/{,.}[!.,!..]*", GLOB_BRACE ) as $file ){
+    foreach (glob("$dir/{,.}[!.,!..]*", GLOB_BRACE) as $file) {
 
-		if( is_dir( $file ) ){
-			if( $include_folders )
-				$files[] = $file;
-			if( $recursive )
-				$files = array_merge( $files, call_user_func( __FUNCTION__, $file, $recursive, $include_folders ) );
-		}
-		else
-			$files[] = $file;
-	}
+        if (is_dir($file)) {
+            if ($include_folders)
+                $files[] = $file;
+            if ($recursive)
+                $files = array_merge($files, call_user_func(__FUNCTION__, $file, $recursive, $include_folders));
+        } else
+            $files[] = $file;
+    }
 
-	return $files;
+    return $files;
 }
 
-function generateHelpCmd($commands){
+function generateHelpCmd($commands)
+{
     return <<<PHP
 <?php
 /*
@@ -116,25 +118,29 @@ class HelpCmd extends BaseCmd
 PHP;
 }
 
-function getBuild() {
+function getBuild()
+{
     $v = file_get_contents(BUILD_PATH);
     return (int)$v;
 }
 
-function incBuild($build) {
+function incBuild($build)
+{
     $build++;
     file_put_contents(BUILD_PATH, $build);
     return $build;
 }
 
 
-function generateAliveCmd($build) {
+function generateAliveCmd($build)
+{
     return <<<PHP
 <?php
 
     namespace Revobot\Commands;
 
     use Revobot\Revobot;
+    use Revobot\Util\PMC;
 
     class AliveCmd extends BaseCmd
     {
@@ -153,7 +159,7 @@ function generateAliveCmd($build) {
          * @return string
          */
         public function exec(): string {
-            \$pmc_v = \$this->bot->pmc->getVersion();
+            \$pmc_v = PMC::getVersion();
             return "Жив! PMC: \$pmc_v, Bot build: $build";
         }
     }
@@ -161,7 +167,8 @@ PHP;
 }
 
 
-function generateCommandsManager($commands, $switch){
+function generateCommandsManager($commands, $switch)
+{
     return <<<TEXT
 <?php
 /*
@@ -196,12 +203,13 @@ class CommandsManager extends CommandsManagerBase
 TEXT;
 }
 
-function generateSwitch($class, $commands, $start_params){
+function generateSwitch($class, $commands, $start_params)
+{
     $result = '';
-    foreach($commands as $cmd){
+    foreach ($commands as $cmd) {
         $result .= "case '{$cmd}':\n";
     }
-    $params = '$'. implode(', $', $start_params);
+    $params = '$' . implode(', $', $start_params);
     $result .= "\t\$response = (new \\{$class}($params))->exec();\n\tbreak;\n";
     return $result;
 }

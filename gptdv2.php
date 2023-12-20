@@ -8,10 +8,6 @@ use Revobot\Services\Providers\Tg;
 require 'config.php';
 
 
-global $PMC;
-$PMC = new Memcache;
-$PMC->addServer('127.0.0.1', 11209);
-
 if ($argc < 1) {
     echo "Идентификатор пользователя не передан.\n";
     exit(1);
@@ -21,7 +17,7 @@ $chat_id = (int)$argv[1];
 $message_id = (int)$argv[2];
 
 $base_path = Config::get('base_path');
-$imageContent = file_get_contents($base_path.'temp.jpg');
+$imageContent = file_get_contents($base_path . 'temp.jpg');
 $base64Image = base64_encode($imageContent);
 
 $data = [
@@ -49,15 +45,6 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['q' => json_encode($data), 'key' => Config::get('openai_api_key')]));
 $response = curl_exec($ch);
 
-// $ch = curl_init('https://api.openai.com/v1/chat/completions');
-// curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//     'Content-Type: application/json',
-//     'Authorization: Bearer ' . Config::get('openai_api_key')
-// ]);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// curl_setopt($ch, CURLOPT_POST, true);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-// $response = curl_exec($ch);
 if (curl_errno($ch)) {
     echo 'Ошибка cURL: ' . curl_error($ch);
     exit(1);
@@ -66,8 +53,8 @@ if (curl_errno($ch)) {
 }
 curl_close($ch);
 
-if(isset($decodedResponse['choices'][0]['message']['content'])){
+if (isset($decodedResponse['choices'][0]['message']['content'])) {
     $answer = $decodedResponse['choices'][0]['message']['content'];
-    echo $answer .PHP_EOL;
+    echo $answer . PHP_EOL;
     Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
 }

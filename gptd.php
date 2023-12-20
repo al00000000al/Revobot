@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Revobot\Services\OpenAIService;
 use Revobot\Services\Providers\Tg;
+use Revobot\Util\PMC;
 
 require 'config.php';
 global $NeedProxy;
@@ -13,10 +14,6 @@ $NeedProxy = true;
 const PMC_USER_AI_KEY = 'pmc_user_ai_';
 const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
 const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
-
-global $PMC;
-$PMC = new Memcache;
-$PMC->addServer('127.0.0.1', 11209);
 
 if ($argc < 3) {
     echo "Идентификатор пользователя не передан.\n";
@@ -64,30 +61,26 @@ if ($message_id > 0) {
 
 function getContext($user_id)
 {
-    global $PMC;
-    $result = (string) $PMC->get(getContextKey($user_id));
+    $result = (string) PMC::get(getContextKey($user_id));
     return $result;
 }
 
 function getHistory($user_id)
 {
-    global $PMC;
-    $result = (array) json_decode($PMC->get(getHistoryKey($user_id)), true);
+    $result = (array) json_decode(PMC::get(getHistoryKey($user_id)), true);
     return $result;
 }
 
 function getInput($user_id)
 {
-    global $PMC;
-    $result = (string)($PMC->get(getInputKey($user_id)));
+    $result = (string)(PMC::get(getInputKey($user_id)));
     return $result;
 }
 
 function setHistory(array $history, $user_id)
 {
-    global $PMC;
     $json_encoded = json_encode($history);
-    $PMC->set(getHistoryKey($user_id), $json_encoded, 0,);
+    PMC::set(getHistoryKey($user_id), $json_encoded, 0,);
 }
 
 function getContextKey($user_id)
@@ -103,24 +96,4 @@ function getHistoryKey($user_id)
 function getInputKey($user_id)
 {
     return PMC_USER_AI_INPUT_KEY . 'tg' . $user_id;
-}
-
-// Функция для получения случайного прокси с pubproxy.com
-function getRandomProxy()
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    if ($response) {
-        $data = json_decode($response, true);
-        if (isset($data['data'][0]['ipPort'])) {
-            return $data['data'][0]['ipPort'];
-        }
-    }
-
-    return null;
 }

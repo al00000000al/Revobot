@@ -1,16 +1,16 @@
 <?php
+
+use Revobot\Util\PMC;
+
 set_time_limit(0);
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$pmc = new Memcache;
-$pmc->addServer('127.0.0.1', 11209);
-
-$tasks = $pmc->get("tasks#");
-
+$tasks = PMC::get("tasks#");
 
 while (true) {
     // Получите задачи из очереди и выполните их
-    $queue = $pmc->get('queue') ?? [];
+    $queue = PMC::get('queue') ?? [];
 
     foreach ($queue as $taskData) {
         if ($taskData['command'] === 'ai') {
@@ -27,7 +27,7 @@ while (true) {
     }
 
     // Обновите очередь в Memcache
-    $pmc->set('queue', $queue);
+    PMC::set('queue', $queue);
 
     // Подождите некоторое время перед следующей итерацией
     sleep(1); // Например, каждую секунду

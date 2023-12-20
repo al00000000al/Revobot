@@ -11,7 +11,7 @@ use Revobot\Revobot;
 class DeleteCmd extends BaseCmd
 {
 
-    const KEYS = ['delete','del','удалить'];
+    const KEYS = ['delete', 'del', 'удалить'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Удалить команду';
     private Revobot $bot;
@@ -44,6 +44,8 @@ class DeleteCmd extends BaseCmd
                     break;
                 case Types::TYPE_TEXT:
                     $price = Prices::PRICE_TEXT;
+                case Types::TYPE_CODE:
+                    $price = Prices::PRICE_CODE;
             }
             if ($price > 0) {
                 (new Revocoin($this->bot))->transaction($price, $user_id, $this->bot->getTgBotId());
@@ -52,10 +54,7 @@ class DeleteCmd extends BaseCmd
                 $price -= $commission;
                 return '+' . $price . 'R у ' . $this->bot->getUserNick();
             }
-
-
         }
         return 'Что-то пошло не так';
-
     }
 }

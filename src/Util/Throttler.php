@@ -8,17 +8,17 @@ class Throttler
 {
     const PMC_THROTTLE_KEY = 'throttle_';
 
-    public static function check(Revobot $bot, $user_id, $section = 'global', $limit, $interval)
+    public static function check(Revobot $bot, $user_id, $section = 'global', $limit = 1, $interval = 60 * 60)
     {
         $key = self::getKey($user_id, $section);
-        $attempts = (int)$bot->pmc->get($key);
+        $attempts = $bot->pmc->get($key);
 
-        if ($attempts === false) {
+        if (!$attempts) {
             // Ключ не существует, значит это первый запрос.
             // Устанавливаем счетчик в 1 и задаем время истечения TTL (Time-To-Live).
-            $bot->pmc->set($key, 1, false, $interval);
+            $bot->pmc->set($key, 1, 0, $interval);
             return false;
-        } else if ($attempts < $limit) {
+        } else if ((int)$attempts < $limit) {
             $bot->pmc->increment($key);
             return false;
         } else {

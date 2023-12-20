@@ -26,7 +26,7 @@ if ($argc < 3) {
 $user_id = (int)$argv[1];
 $save_history = (bool)$argv[2];
 $chat_id = (int)$argv[3];
-$message_id = (int)$argv[4];
+$message_id = (int)$argv[4] ?? 0;
 
 // $user_id = 198239789;
 $context = getContext($user_id);
@@ -36,7 +36,7 @@ $input = getInput($user_id);
 $current_date = date('Y-m-d H:i:s');
 $date_message = ". Текущая дата: {$current_date}";
 
-if(empty($context)){
+if (empty($context)) {
     $context = "Ты полезный чат бот";
 }
 
@@ -44,7 +44,7 @@ $context .= $date_message;
 
 
 $answer = OpenAIService::generate($input, $context, $history, 'gpt-4-1106-preview'); //'gpt-3.5-turbo'
-if($save_history){
+if ($save_history) {
     $history = OpenAIService::addMessageToHistory($history, 'user', $input);
     $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
     setHistory($history, $user_id);
@@ -52,47 +52,62 @@ if($save_history){
 
 
 
-echo $answer .PHP_EOL;
-Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
+echo $answer . PHP_EOL;
+if ($message_id > 0) {
+    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
+    print_r($res);
+} else {
+    $res = Tg::sendMessage($chat_id, $answer, 'markdown');
+    print_r($res);
+}
 
- function getContext($user_id){
+
+function getContext($user_id)
+{
     global $PMC;
     $result = (string) $PMC->get(getContextKey($user_id));
     return $result;
 }
 
- function getHistory($user_id){
+function getHistory($user_id)
+{
     global $PMC;
     $result = (array) json_decode($PMC->get(getHistoryKey($user_id)), true);
     return $result;
 }
 
-function getInput($user_id){
+function getInput($user_id)
+{
     global $PMC;
     $result = (string)($PMC->get(getInputKey($user_id)));
     return $result;
 }
 
-function setHistory(array $history, $user_id){
+function setHistory(array $history, $user_id)
+{
     global $PMC;
     $json_encoded = json_encode($history);
-    $PMC->set(getHistoryKey($user_id), $json_encoded, 0, );
+    $PMC->set(getHistoryKey($user_id), $json_encoded, 0,);
 }
 
- function getContextKey($user_id){
+function getContextKey($user_id)
+{
     return PMC_USER_AI_KEY . 'tg' . $user_id;
 }
 
- function getHistoryKey($user_id){
+function getHistoryKey($user_id)
+{
     return PMC_USER_AI_HISTORY_KEY . 'tg' . $user_id;
 }
 
-function getInputKey($user_id){
+function getInputKey($user_id)
+{
     return PMC_USER_AI_INPUT_KEY . 'tg' . $user_id;
 }
 
 // Функция для получения случайного прокси с pubproxy.com
-function getRandomProxy() {
+function getRandomProxy()
+{
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

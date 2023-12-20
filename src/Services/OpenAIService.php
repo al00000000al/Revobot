@@ -9,11 +9,12 @@ use Revobot\Util\Curl;
 class OpenAIService
 {
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 400): string {
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 400): string
+    {
         // $open_ai = new OpenAi(Config::get('openai_api_key'));
         $messages  = [];
         $messages = self::addMessageToHistory($messages, 'system', $context);
-        foreach($history as $message){
+        foreach ($history as $message) {
             $messages = self::addMessageToHistory($messages, (string)$message['role'], (string)$message['content']);
         }
         $messages = self::addMessageToHistory($messages, 'user', $input);
@@ -33,10 +34,13 @@ class OpenAIService
 
         $d = (array)json_decode($chat, true);
 
+        print_r($d);
+
         return (string)$d['choices'][0]['message']['content'];
     }
 
-    public static function addMessageToHistory($history, string $role, string $content) {
+    public static function addMessageToHistory($history, string $role, string $content)
+    {
         $history[] = ['role' => $role, 'content' => $content];
 
         // если количество сообщений больше 9, удаляем первые два сообщения
@@ -44,6 +48,5 @@ class OpenAIService
             array_splice($history, 0, 2);
         }
         return $history;
-      }
-
+    }
 }

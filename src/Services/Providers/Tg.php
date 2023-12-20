@@ -14,21 +14,21 @@ class Tg extends Base
 
     public static function sendMessage(int $chat_id, string $text, string $parse_mode = null, $options = [])
     {
-        if (empty($options)) {
-            return self::_makeRequest('sendMessage', [
-                'chat_id' => $chat_id,
-                'text' => $text,
-                'parse_mode' => $parse_mode,
-                'disable_web_page_preview' => true,
-            ]);
-        }
-        return self::_makeRequest('sendMessage', [
-            'chat_id' => $chat_id,
-            'text' => $text,
-            'parse_mode' => $parse_mode,
-            'disable_web_page_preview' => true,
+        $options['chat_id'] = $chat_id;
+        $options['text'] = $text;
+        $options['parse_mode'] = $parse_mode;
+        $options['disable_web_page_preview'] = true;
+
+        $result = self::_makeRequest('sendMessage', [
             ...$options,
         ]);
+        if (isset($result['error_code']) && (int)$result['error_code'] === 400) {
+            $options['parse_mode'] = '';
+            $result = self::_makeRequest('sendMessage', [
+                ...$options,
+            ]);
+        }
+        return $result;
     }
 
     public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = null)

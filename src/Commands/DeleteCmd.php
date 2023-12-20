@@ -44,8 +44,10 @@ class DeleteCmd extends BaseCmd
                     break;
                 case Types::TYPE_TEXT:
                     $price = Prices::PRICE_TEXT;
+                    break;
                 case Types::TYPE_CODE:
                     $price = Prices::PRICE_CODE;
+                    break;
             }
             if ($price > 0) {
                 (new Revocoin($this->bot))->transaction($price, $user_id, $this->bot->getTgBotId());

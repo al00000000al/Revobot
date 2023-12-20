@@ -12,11 +12,18 @@ class PMC
 
     private function __construct()
     {
-        $this->memcache = new \McMemcache();
+        if (0) {
+            $this->memcache = new \McMemcache();
+        }
+        #ifndef KPHP
+        $this->memcache = new \Memcache();
+        #endif
+
         $this->memcache->addServer('127.0.0.1', 11209);
     }
 
     /**
+     *
      * @return \McMemcache
      */
     public static function getInstance()

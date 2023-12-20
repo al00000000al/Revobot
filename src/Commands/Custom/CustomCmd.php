@@ -179,7 +179,7 @@ class CustomCmd
                     return (new EchoCmd($string))->exec();
                 case Types::TYPE_CODE:
                     $data = json_decode((string)$custom_cmd['args'][0], true);
-                    $code = (string)$data['code'] ?? '';
+                    $code = (string)$data['code'];
                     return (new ExecuteCmd($code, $this->bot))->exec();
             }
         }

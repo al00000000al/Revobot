@@ -23,6 +23,6 @@
          */
         public function exec(): string {
             $pmc_v = PMC::getVersion();
-            return "Жив! PMC: $pmc_v, Bot build: 172";
+            return "Жив! PMC: $pmc_v, Bot build: 173";
         }
     }

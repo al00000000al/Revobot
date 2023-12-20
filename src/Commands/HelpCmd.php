@@ -32,7 +32,6 @@ class HelpCmd extends BaseCmd
 /exchange - Курс
 /execute - lua script
 /fuckyou - Бот не отвечает 4ч на команды
-/aich - gpt-4 (50R)
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
 /clearall - очистить историю и контекст

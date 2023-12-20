@@ -15,7 +15,7 @@ class Revocoin
 
     const MONEY_VERSION = 2;
     const MAX_TRIES_DEFAULT = 30;
-    const TRANSACTION_COMMISSION = 0.05; // 5%
+    const TRANSACTION_COMMISSION = 0.03; // 3%
 
     const PMC_MONEY_TRIES_KEY = 'money_tries';
     const PMC_MONEY_LAST_BLOCK_KEY = 'money_last_block';

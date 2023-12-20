@@ -10,7 +10,7 @@ class ClearHistoryCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    public const KEYS = ['clearhistory','ch', 'исброс'];
+    public const KEYS = ['clearhistory', 'ch', 'исброс'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Сбросить историю';
 
@@ -27,6 +27,4 @@ class ClearHistoryCmd extends BaseCmd
         $GptPMC->deleteHistory();
         return "История сообщений очищена";
     }
-
-
 }

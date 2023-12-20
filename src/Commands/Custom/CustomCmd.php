@@ -3,6 +3,7 @@
 namespace Revobot\Commands\Custom;
 
 use Revobot\Commands\EchoCmd;
+use Revobot\Commands\ExecuteCmd;
 use Revobot\CommandsManager;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
@@ -36,6 +37,8 @@ class CustomCmd
             $cmd_cost = Prices::PRICE_ALIAS;
         } elseif ($type === Types::TYPE_TEXT) {
             $cmd_cost = Prices::PRICE_TEXT;
+        } elseif ($type === Types::TYPE_CODE) {
+            $cmd_cost = Prices::PRICE_CODE;
         } else {
             return false;
         }
@@ -174,6 +177,9 @@ class CustomCmd
                 case Types::TYPE_TEXT:
                     $string = (string)$custom_cmd['args'][0];
                     return (new EchoCmd($string))->exec();
+                case Types::TYPE_CODE:
+                    $code = json_decode((string)$custom_cmd['args'][0], true)['code'];
+                    return (new ExecuteCmd($code, $this->bot))->exec();
             }
         }
         return '';

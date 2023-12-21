@@ -5,8 +5,10 @@ namespace Revobot\Commands\Custom;
 use Revobot\Commands\EchoCmd;
 use Revobot\Commands\ExecuteCmd;
 use Revobot\CommandsManager;
+use Revobot\Config;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\Services\Providers\Tg;
 use Revobot\Util\PMC;
 
 class CustomCmd
@@ -179,7 +181,8 @@ class CustomCmd
                     return (new EchoCmd($string))->exec();
                 case Types::TYPE_CODE:
                     $data = json_decode((string)$custom_cmd['args'][0], true);
-                    $code = (string)$data['code'];
+                    $code = trim((string)$data['code']);
+                    Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
                     return (new ExecuteCmd($code, $this->bot))->exec();
             }
         }

@@ -29,11 +29,9 @@ class NewcodeCmd extends BaseCmd
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
-
-
-        $text_arr = explode(' ', $this->input);
-        $command_name = (string)array_shift($text_arr);
-        $text = implode(' ', $text_arr);
+        $parts = explode(' ', $this->input);
+        $command_name = $parts[0];
+        $text = implode(' ', array_slice($parts, 1));
 
 
         if (!$customCmd->isValidCommand($command_name)) {

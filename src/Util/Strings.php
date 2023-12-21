@@ -95,4 +95,20 @@ class Strings
 
         return strtr($text, $transliterationTable);
     }
+
+
+    public static function parseSubCommand(string $input)
+    {
+        $parts = explode(' ', $input, 2);
+
+        if (count($parts) == 2) {
+            $command = $parts[0];
+            $data = $parts[1];
+        } else {
+            $command = $input;
+            $data = '';
+        }
+
+        return tuple($command, $data);
+    }
 }

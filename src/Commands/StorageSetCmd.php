@@ -4,6 +4,7 @@ namespace Revobot\Commands;
 
 use Revobot\Revobot;
 use Revobot\Util\PMC;
+use Revobot\Util\Strings;
 
 class StorageSetCmd extends BaseCmd
 {
@@ -25,11 +26,15 @@ class StorageSetCmd extends BaseCmd
             return $this->description;
         }
 
-        $parts = explode(' ', $this->input);
-        $key = $parts[0];
-        $data = implode(' ', array_slice($parts, 1));
+        list($key, $data) = Strings::parseSubCommand($this->input);
+        $pmc_key = self::getKey($this->bot->provider, $this->bot->getUserId(), $key);
 
-        PMC::set(self::getKey($this->bot->provider, $this->bot->getUserId(), $key), substr($data, 0, 4096));
+        if (empty($data)) {
+            PMC::delete($pmc_key);
+            return 'Данные удалены';
+        }
+
+        PMC::set($pmc_key, substr($data, 0, 4096));
         return 'Данные сохранены';
     }
 

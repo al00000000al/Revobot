@@ -5,6 +5,7 @@ namespace Revobot\Commands\Key;
 use Revobot\Commands\BaseCmd;
 use Revobot\Revobot;
 use Revobot\Util\PMC;
+use Revobot\Util\Strings;
 
 class KeyEditCmd extends BaseCmd
 {
@@ -29,27 +30,12 @@ class KeyEditCmd extends BaseCmd
         }
 
         if (!empty($this->input)) {
-            $params = explode(' ', $this->input);
-            if (count($params) > 1) {
-                $key = $params[0];
-                $value = substr($this->input, strlen($key));
-
-                $this->setKey($this->input, $value);
+            list($key, $value) = Strings::parseSubCommand($this->input);
+            if (!empty($value)) {
+                PMC::set($key, $value);
                 return 'Ключ ' . $key . '=' . $value;
-            } else {
-                return $this->description;
             }
         }
         return $this->description;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return bool
-     */
-    private function setKey(string $key, $value): bool
-    {
-        return PMC::set($key, $value);
     }
 }

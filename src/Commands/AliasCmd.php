@@ -8,6 +8,7 @@ use Revobot\Commands\Custom\Types;
 use Revobot\Config;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\Util\Strings;
 
 class AliasCmd extends BaseCmd
 {
@@ -29,17 +30,14 @@ class AliasCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        $text_arr = explode(' ', $this->input);
-        $command_name = (string)array_shift($text_arr);
-
+        list($command_name, $command) = Strings::parseTwoCommands($this->input);
         $customCmd = new CustomCmd($this->bot);
-        $command = (string)$text_arr[0];
 
         if ($command === 'execute') {
             return 'Нельзя создавать алиасы к execute';
         }
 
-        if (!$customCmd->isValidCommand($command_name)) {
+        if (!$customCmd->isValidCommand($command_name) || empty($command) || empty($command_name)) {
             return 'Недопустимое имя';
         }
 

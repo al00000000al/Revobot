@@ -7,12 +7,13 @@ use Revobot\Commands\Custom\Prices;
 use Revobot\Commands\Custom\Types;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\Util\Strings;
 
 class CommandCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['cmd','кмд','команда','command','комманда'];
+    const KEYS = ['cmd', 'кмд', 'команда', 'command', 'комманда'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Создать команду (20R)';
 
@@ -26,26 +27,22 @@ class CommandCmd extends BaseCmd
     public function exec(): string
     {
 
-        if (empty($this->input)){
+        if (empty($this->input)) {
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
 
-
-        $text_arr = explode(' ', $this->input);
-        $command_name = (string)array_shift($text_arr);
-        $text = implode(' ', $text_arr);
-
+        list($command_name, $text) = Strings::parseSubCommand($this->input);
 
         if (!$customCmd->isValidCommand($command_name)) {
             return 'Недопустимое имя';
         }
 
-        if(!$customCmd->hasMoney(Types::TYPE_TEXT) || empty($command_name)){
+        if (!$customCmd->hasMoney(Types::TYPE_TEXT) || empty($command_name)) {
             return 'Недостаточно ревокоинов.';
         }
 
-        if($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)){
+        if ($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)) {
             return 'Такая команда уже есть.';
         }
 
@@ -53,6 +50,6 @@ class CommandCmd extends BaseCmd
 
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_TEXT, [$text]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, $this->bot->getTgBotId(), $user_id);
-        return 'Команда /'.$command_name.' создана! '."\n".'-'.Prices::PRICE_TEXT.'R';
+        return 'Команда /' . $command_name . ' создана! ' . "\n" . '-' . Prices::PRICE_TEXT . 'R';
     }
 }

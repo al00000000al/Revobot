@@ -3,6 +3,7 @@
 namespace Revobot\Commands;
 
 use Revobot\Util\Curl;
+use Revobot\Util\Strings;
 
 class ExchangeCmd extends BaseCmd
 {
@@ -21,16 +22,13 @@ class ExchangeCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        $input = explode(' ', $this->input);
 
-        if (count($input) != 2) {
+        list($ammount_string, $currency) = Strings::parseTwoCommands($this->input);
+        $amount = (float)$ammount_string;
+        if (empty($currency)) {
             return $this->description;
         }
 
-        $amount = (float) $input[0];
-        $currency = strtoupper((string) $input[1]);
-
-        // Получение текущей даты для запроса
         $date = date('d/m/Y');
 
         // URL API Центрального Банка России

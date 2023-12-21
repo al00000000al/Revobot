@@ -7,6 +7,7 @@ use Revobot\Commands\Custom\Prices;
 use Revobot\Commands\Custom\Types;
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
+use Revobot\Util\Strings;
 
 class NewcodeCmd extends BaseCmd
 {
@@ -29,10 +30,8 @@ class NewcodeCmd extends BaseCmd
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
-        $parts = explode(' ', $this->input);
-        $command_name = $parts[0];
-        $text = implode(' ', array_slice($parts, 1));
 
+        list($command_name, $text) = Strings::parseSubCommand($this->input);
 
         if (!$customCmd->isValidCommand($command_name)) {
             return 'Недопустимое имя';

@@ -111,4 +111,14 @@ class Strings
 
         return tuple($command, $data);
     }
+
+    public static function parseTwoCommands(string $input)
+    {
+        $parts = explode(' ', $input);
+
+        if (isset($parts[1])) {
+            return tuple($parts[0], $parts[1]);
+        }
+        return tuple($parts[0], '');
+    }
 }

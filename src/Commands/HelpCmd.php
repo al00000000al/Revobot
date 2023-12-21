@@ -57,6 +57,8 @@ class HelpCmd extends BaseCmd
 /show - AI image generate DALL-E
 /stable - create image
 /stat - Статистика R
+/storageget - Получить значение из ключа
+/storageset - Сохранить значение в ключе
 /talk - Лимит на разговоров
 /time - Правильное время
 /cancel - Отменить задачу

@@ -195,7 +195,19 @@ class CustomCmd
                 case Types::TYPE_CODE:
                     $data = json_decode((string)$custom_cmd['args'][0], true);
                     $code = trim((string)$data['code']);
-                    Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
+                    // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
+                    global $BotMessage;
+                    $BotMessage = $this->bot->message;
+                    if (!empty($BotMessage)) {
+                        $arr = explode(' ', $BotMessage);
+                        array_shift($arr);
+                        if (!empty($BotMessage)) {
+                            $BotMessage = implode('(!)', $arr);
+                            // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $BotMessage);
+                        }
+                    }
+
+
                     return (new ExecuteCmd($code, $this->bot))->exec();
             }
         }

@@ -6,7 +6,9 @@ use KLua\KLua;
 use KLua\KLuaConfig;
 use KLua\KLuaException;
 use Revobot\CommandsManager;
+use Revobot\Config;
 use Revobot\Revobot;
+use Revobot\Services\Providers\Tg;
 
 class ExecuteCmd extends BaseCmd
 {
@@ -19,6 +21,7 @@ class ExecuteCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
+
         $this->setDescription('/execute run lua script');
     }
 
@@ -37,12 +40,34 @@ class ExecuteCmd extends BaseCmd
 
     public function exec(): string
     {
+        global $BotMessage;
         if (empty($this->input)) {
 
             return $this->description;
         }
 
-        $code = $this->input;
+        if (!empty($BotMessage)) {
+            $code = $BotMessage . '(!)' . $this->input;
+        } else {
+            $code = $this->input;
+        }
+
+        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
+
+        $params = '{';
+        $arr = explode('(!)', $code);
+        $arr2 = [];
+        if (count($arr) > 1) {
+            $code = array_pop($arr);
+            foreach ($arr as $item) {
+                $arr2[] = trim($item);
+            }
+            $params = '{"' . implode('", "', $arr2) . '"}';
+        } else {
+            $code = $arr[0];
+        }
+
+
 
         KLua::registerFunction1('r_process_func_without_args', function ($command_name) {
             return self::process($command_name);
@@ -52,9 +77,10 @@ class ExecuteCmd extends BaseCmd
             return self::process($command_name, $input);
         });
 
+        $params_code = empty($params) ? 'local Params = {}' :  'local Params = ' . ($params) . '';
 
         try {
-            KLua::eval('
+            KLua::eval($params_code . '
     local Api = {}
     local Api_mt = {
         __index = function(table, key)

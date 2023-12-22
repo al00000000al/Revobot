@@ -22,6 +22,7 @@ class Tg extends Base
         $result = self::_makeRequest('sendMessage', [
             ...$options,
         ]);
+        dbg_echo(print_r($result, true));
         if (isset($result['error_code']) && (int)$result['error_code'] === 400) {
             $options['parse_mode'] = '';
             $result = self::_makeRequest('sendMessage', [

@@ -168,7 +168,7 @@ class Revobot
                 return (string)json_encode((array)$data);
             });
 
-            KLua::registerFunction1('json_decode', function ($string) {
+            KLua::registerFunction1('jsonDecode', function ($string) {
                 return (array)json_decode((string)$string, true);
             });
 

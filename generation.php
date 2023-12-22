@@ -2,11 +2,11 @@
 
 use Revobot\Services\Providers\Tg;
 
-require_once  __DIR__ . '/../vendor/autoload.php';
-require_once  __DIR__ . '/../config.php';
+require_once  __DIR__ . '/vendor/autoload.php';
+require_once  __DIR__ . '/config.php';
 
-define('COMMANDS_PATH', __DIR__ . '/../src/Commands');
-define('BUILD_PATH', __DIR__ . '/../build.txt');
+define('COMMANDS_PATH', __DIR__ . '/src/Commands');
+define('BUILD_PATH', __DIR__ . '/build.txt');
 
 
 $aliveCmd = generateAliveCmd(incBuild(getBuild()));
@@ -26,6 +26,7 @@ function processFiles()
             continue;
         }
         $class =  str_replace('.php', '', basename($file));
+
         $namespace = str_replace(__DIR__, '', $file);
         $namespace = str_replace(basename($file), '', $namespace);
         $namespace = str_replace('/', '\\', $namespace);

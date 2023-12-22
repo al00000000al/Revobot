@@ -12,8 +12,18 @@ class Curl
      */
     public static function post($url, $data, array $options = [])
     {
-        if (!self::isValidUrl($url) || self::isLocalUrl($url)) {
-            return "Невалидный или локальный URL";
+        if (!self::isValidUrl($url)) {
+            if (isset($options['need_json_decode'])) {
+                return ['error' => "Невалидный URL"];
+            }
+            return "Невалидный URL";
+        }
+
+        if (self::isLocalUrl($url)) {
+            if (isset($options['need_json_decode'])) {
+                return ['error' => "Локальный URL"];
+            }
+            return "Локальный URL";
         }
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -69,27 +79,26 @@ class Curl
 
     private static function isValidUrl($url)
     {
-        // Проверка схемы и общего формата URL
-        return preg_match('/^https?:\/\/[a-zA-Z0-9.-]+$/', $url);
+        return preg_match('/^https?:\/\/[a-zA-Z0-9.-\:\/\\\\\%&\*\(\)_\?]+$/', $url);
     }
 
     private static function isLocalUrl($url)
     {
         $host = parse_url($url, PHP_URL_HOST);
         if (!$host) {
-            return false;
+            return true;
         }
 
         $ips = gethostbynamel($host);
         if ($ips === false) {
-            return false;
+            return true;
         }
         foreach ($ips as $ip) {
             if (self::isLocalIp($ip)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     // Функция проверки, является ли IP локальным

@@ -3,7 +3,7 @@
 $cmd = readline('Enter command name: ');
 $cmd_class = ucfirst($cmd) . 'Cmd';
 $cmd_class_filename = $cmd_class . '.php';
-$path = __DIR__ . '/../src/Commands/';
+$path = __DIR__ . '/src/Commands/';
 
 if (file_exists($path . $cmd_class_filename)) {
     die('Commands already exists in ' . $path . $cmd_class_filename);

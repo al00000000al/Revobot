@@ -151,14 +151,14 @@ class Revobot
 
             KLua::registerFunction2('sendPhoto', function ($photo, $caption = '') {
                 if ($this->provider === 'tg') {
-                    return Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption);
+                    Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption);
                 }
                 return '';
             });
 
             KLua::registerFunction2('sendAnimation', function ($animation, $caption = '') {
                 if ($this->provider === 'tg') {
-                    return Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption);
+                    Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption);
                 }
                 return '';
             });

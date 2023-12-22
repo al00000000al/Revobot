@@ -69,8 +69,8 @@ class Curl
 
     private static function isValidUrl($url)
     {
-        // Проверка валидности URL
-        return filter_var($url, FILTER_VALIDATE_URL) && preg_match('/^https?:\/\/.+$/', $url);
+        // Проверка схемы и общего формата URL
+        return preg_match('/^https?:\/\/[a-zA-Z0-9.-]+$/', $url);
     }
 
     private static function isLocalUrl($url)
@@ -80,20 +80,61 @@ class Curl
             return false;
         }
 
-        $ip = gethostbyname($host);
-        return self::isLocalIp($ip);
+        $ips = gethostbynamel($host);
+        if ($ips === false) {
+            return false;
+        }
+        foreach ($ips as $ip) {
+            if (self::isLocalIp($ip)) {
+                return false;
+            }
+        }
+        return true;
     }
 
+    // Функция проверки, является ли IP локальным
     private static function isLocalIp($ip)
     {
-        $longIp = ip2long($ip);
-        $min = ip2long("100.64.0.0");
-        $max = ip2long("100.127.255.255");
+        // Проверка на IPv4 локальные диапазоны
+        if (self::isLocalIpv4($ip)) {
+            return true;
+        }
 
-        return (
-            filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE |  FILTER_FLAG_NO_RES_RANGE) === false ||
-            filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE |  FILTER_FLAG_NO_RES_RANGE) === false ||
-            ($longIp >= $min && $longIp <= $max) // Дополнительная проверка для диапазона 100.64.0.0/10
-        );
+        // Проверка на IPv6 локальные диапазоны
+        if (self::isLocalIpv6($ip)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function isLocalIpv4($ip)
+    {
+        // Диапазоны локальных IPv4 адресов
+        $ipv4Patterns = [
+            '/^127\./',                   // 127.0.0.0/8 - Loopback
+            '/^10\./',                     // 10.0.0.0/8 - Private-network
+            '/^172\.(1[6-9]|2[0-9]|3[0-1])\./', // 172.16.0.0/12 - Private-network
+            '/^192\.168\./',               // 192.168.0.0/16 - Private-network
+            '/^100\.(6[4-9]|[7-9][0-9]|1[0-1][0-9]|12[0-7])\./' // 100.64.0.0/10 - CGNAT
+        ];
+
+        foreach ($ipv4Patterns as $pattern) {
+            if (preg_match($pattern, $ip)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function isLocalIpv6($ip)
+    {
+        // Диапазоны локальных IPv6 адресов
+        if (preg_match('/^(::1$|fc00::|fd00::)/', $ip)) { // Loopback и Unique local address
+            return true;
+        }
+
+        return false;
     }
 }

@@ -55,6 +55,9 @@ class Tg extends Base
     public static function sendPhoto(int $chat_id, string $photo, string $caption = '', $options = [])
     {
         $is_url = substr($photo, 0, 4) === 'http';
+        if ($caption === 'Array') {
+            $caption = '';
+        }
         if (!$is_url) {
             #ifndef KPHP
             $photo =  new CURLFile(realpath($photo));
@@ -66,6 +69,28 @@ class Tg extends Base
         return self::_makeRequest('sendPhoto', [
             'chat_id' => $chat_id,
             'photo' => $photo,
+            'caption' => $caption,
+            ...$options,
+        ], ['headers' => ['Content-Type:multipart/form-data']]);
+    }
+
+    public static function sendAnimation(int $chat_id, string $animation, string $caption = '', $options = [])
+    {
+        $is_url = substr($animation, 0, 4) === 'http';
+        if ($caption === 'Array') {
+            $caption = '';
+        }
+        if (!$is_url) {
+            #ifndef KPHP
+            $animation =  new CURLFile(realpath($animation));
+            #endif
+            if (0) {
+                $animation = '@' . realpath($animation);
+            }
+        }
+        return self::_makeRequest('sendAnimation', [
+            'chat_id' => $chat_id,
+            'animation' => $animation,
             'caption' => $caption,
             ...$options,
         ], ['headers' => ['Content-Type:multipart/form-data']]);

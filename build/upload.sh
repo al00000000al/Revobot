@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the deploy.env file to load the variables
-source .env
+source ../.env
 
 # Change to the local folder
 cd $LOCAL_FOLDER

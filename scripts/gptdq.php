@@ -1,12 +1,12 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Revobot\Config;
 use Revobot\Services\Providers\Tg;
 use Revobot\Util\PMC;
 
-require 'config.php';
+require __DIR__ . '/../config.php';
 
 if ($argc < 1) {
     echo "Идентификатор пользователя не передан.\n";

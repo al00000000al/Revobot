@@ -1,21 +1,22 @@
 <?php
 
 $cmd = readline('Enter command name: ');
-$cmd_class = ucfirst($cmd).'Cmd';
-$cmd_class_filename = $cmd_class. '.php';
-$path = __DIR__.'/src/Commands/';
+$cmd_class = ucfirst($cmd) . 'Cmd';
+$cmd_class_filename = $cmd_class . '.php';
+$path = __DIR__ . '/../src/Commands/';
 
-if (file_exists($path.$cmd_class_filename)) {
-    die('Commands already exists in '. $path.$cmd_class_filename);
+if (file_exists($path . $cmd_class_filename)) {
+    die('Commands already exists in ' . $path . $cmd_class_filename);
 }
 
 $description = readline('Enter command description: ');
 $help_description = readline('Enter description in help cmd: ');
 $class_src = cmdTpl($cmd_class, $cmd, $description, $help_description);
-file_put_contents($path.$cmd_class_filename, $class_src);
+file_put_contents($path . $cmd_class_filename, $class_src);
 die("\nCreated new cmd {$cmd}!\n");
 
-function cmdTpl($cmd_class, $cmd, $description = '', $help_description = '') {
+function cmdTpl($cmd_class, $cmd, $description = '', $help_description = '')
+{
     return <<<PHP
 <?php
 

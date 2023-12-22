@@ -1,5 +1,5 @@
 <?php
-$file = explode("\n", file_get_contents('/binlogdump.txt'));
+$file = explode("\n", file_get_contents('/../tmp/binlogdump.txt'));
 
 $pmc = new Memcache;
 $pmc->addServer('127.0.0.1', 11209);
@@ -22,8 +22,6 @@ foreach ($file as $line) {
         } else {
             $pmc->set($item[1], $item[2]);
         }
-
-
     } else if ($item[0] === 'LEV_PMEMCACHED_STORE+1') {
         #  if ((substr($item[3], 0, 11) !== 'custom_cmd_') &&  (substr($item[3], 0, 11) !== 'custom_user')) {
         if (substr($item[3], 0, 5) === 'quiz_') {
@@ -42,6 +40,5 @@ foreach ($file as $line) {
     } else if ($item[0] === 'LEV_PMEMCACHED_DELETE') {
         $pmc->delete($item[1]);
     }
-
 }
 echo "restored!";

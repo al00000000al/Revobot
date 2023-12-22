@@ -1,12 +1,12 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Revobot\Services\OpenAIService;
 use Revobot\Services\Providers\Tg;
 use Revobot\Util\PMC;
 
-require 'config.php';
+require __DIR__ . '/../config.php';
 global $NeedProxy;
 
 $NeedProxy = true;

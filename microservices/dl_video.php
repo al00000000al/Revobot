@@ -1,31 +1,31 @@
 <?php
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/../config.php';
 
 global $config;
 
 $bot_token = $config['tg_key'];
 
-if(!isset($_GET['url'], $_GET['chat_id'], $_GET['access_code'])){
+if (!isset($_GET['url'], $_GET['chat_id'], $_GET['access_code'])) {
     die(200);
 }
 $url = $_GET['url'];
 $chat_id = $_GET['chat_id'];
-$file_name = md5($url).'.mp4';
-$file_name_lock = md5($url).'.lock';
-if($_GET['access_code'] !== $config['dl_video_api_key']){
+$file_name = md5($url) . '.mp4';
+$file_name_lock = md5($url) . '.lock';
+if ($_GET['access_code'] !== $config['dl_video_api_key']) {
     die(403);
 }
 
-if(file_exists($file_name_lock)) {
+if (file_exists($file_name_lock)) {
     die(200);
 }
 
 $response_message_json  = json_decode(sendTg($chat_id, "Скачиваем видео"), true);
-if(!isset($response_message_json['result']['message_id'])){
+if (!isset($response_message_json['result']['message_id'])) {
     die(403);
 }
 $message_id = $response_message_json['result']['message_id'];
-if(file_exists($file_name )){
+if (file_exists($file_name)) {
     deleteMsgTg($chat_id, $message_id);
     sendVideoTg($chat_id, $file_name);
     die(200);
@@ -36,7 +36,7 @@ $response = json_decode(getVideoInst($url), true);
 
 
 
-if(!isset($response['data']['urls'][0])){
+if (!isset($response['data']['urls'][0])) {
     deleteMsgTg($chat_id, $message_id);
     sendTg($chat_id, "Не удалось скачать");
     @unlink($file_name_lock);
@@ -51,11 +51,12 @@ deleteMsgTg($chat_id, $message_id);
 @unlink($file_name_lock);
 @unlink($file_name);
 
-function sendTg($chat_id, $message) {
+function sendTg($chat_id, $message)
+{
     global $config;
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot'.$config['tg_key'].'/sendMessage');
+    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot' . $config['tg_key'] . '/sendMessage');
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
@@ -67,10 +68,11 @@ function sendTg($chat_id, $message) {
     return $response_message;
 }
 
-function sendVideoTg($chat_id, $file_name) {
+function sendVideoTg($chat_id, $file_name)
+{
     global $config;
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot'.$config['tg_key'].'/sendVideo');
+    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot' . $config['tg_key'] . '/sendVideo');
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
@@ -81,11 +83,12 @@ function sendVideoTg($chat_id, $file_name) {
     curl_close($ch);
 }
 
-function deleteMsgTg($chat_id, $message_id) {
+function deleteMsgTg($chat_id, $message_id)
+{
     global $config;
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot'.$config['tg_key'].'/deleteMessage');
+    curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot' . $config['tg_key'] . '/deleteMessage');
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
@@ -96,7 +99,8 @@ function deleteMsgTg($chat_id, $message_id) {
     curl_close($ch);
 }
 
-function getVideoInst($url) {
+function getVideoInst($url)
+{
 
     $jsonData = json_encode([
         'url' => $url
@@ -117,7 +121,8 @@ function getVideoInst($url) {
     return $response;
 }
 
-function saveVideo($video_url, $file_name) {
+function saveVideo($video_url, $file_name)
+{
     $fp = fopen($file_name, 'w');
     $ch = curl_init($video_url);
     curl_setopt($ch, CURLOPT_FILE, $fp);

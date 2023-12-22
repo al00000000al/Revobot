@@ -4,9 +4,9 @@ use Revobot\Services\Dalle;
 use Revobot\Services\Providers\Tg;
 use Revobot\Util\PMC;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-require 'config.php';
+require  __DIR__ . '/../config.php';
 
 if ($argc < 3) {
     echo "Идентификатор пользователя не передан.\n";

@@ -10,7 +10,7 @@ use Revobot\Services\Providers\Tg;
 class VisionCmd extends BaseCmd
 {
     private Revobot $bot;
-    const KEYS = ['vision','чтотам','прочитай','чтоделать'];
+    const KEYS = ['vision', 'чтотам', 'прочитай', 'чтоделать'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'send image';
 
@@ -23,13 +23,13 @@ class VisionCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(isset($this->bot->raw_data['photo'])) {
+        if (isset($this->bot->raw_data['photo'])) {
             $photo = array_last_value($this->bot->raw_data['photo']);
-        } elseif(isset($this->bot->raw_data['reply_to_message']['photo'])) {
+        } elseif (isset($this->bot->raw_data['reply_to_message']['photo'])) {
             $photo = array_last_value($this->bot->raw_data['reply_to_message']['photo']);
-        } elseif(isset($this->bot->raw_data['video']['thumbnail'])) {
+        } elseif (isset($this->bot->raw_data['video']['thumbnail'])) {
             $photo = array_last_value($this->bot->raw_data['video']['thumbnail']);
-        } elseif(isset($this->bot->raw_data['reply_to_message']['video']['thumbnail'])) {
+        } elseif (isset($this->bot->raw_data['reply_to_message']['video']['thumbnail'])) {
             $photo = array_last_value($this->bot->raw_data['reply_to_message']['video']['thumbnail']);
         } else {
             return $this->description;
@@ -38,7 +38,7 @@ class VisionCmd extends BaseCmd
         $file_id = (string)$photo['file_id'];
         $message_id = $this->bot->raw_data['message_id'];
 
-        if(!empty($this->input)){
+        if (!empty($this->input)) {
             $input = $this->input;
         } else {
             $input = 'Че тут? Напиши очень кратко';
@@ -50,9 +50,9 @@ class VisionCmd extends BaseCmd
         $base_path = Config::get('base_path');
 
         $fileInfo = Tg::getFile($file_id);
-        if(isset($fileInfo['result']['file_path'])){
+        if (isset($fileInfo['result']['file_path'])) {
             $filePath = (string)$fileInfo['result']['file_path'];
-            file_put_contents($base_path.'temp.jpg', Tg::file($filePath));
+            file_put_contents($base_path . 'temp.jpg', Tg::file($filePath));
             $chat_id = (int)$this->bot->chat_id;
             exec("php {$base_path}gptdv.php $chat_id $user_id $message_id > /dev/null 2>&1 &");
         }

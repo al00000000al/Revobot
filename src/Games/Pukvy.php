@@ -23,7 +23,6 @@ class Pukvy
         $words = Strings::stringToWords($input);
         $this->words[0] = Strings::cyrillicOnly($words[0]);
         $this->words[1] = Strings::cyrillicOnly($words[1]);
-
     }
 
     /**
@@ -39,8 +38,7 @@ class Pukvy
         $second_1 = mb_substr($this->words[0], 1, 1, 'UTF-8');
         $second_2 = mb_substr($this->words[1], 1, 1, 'UTF-8');
 
-        if
-        (
+        if (
             (in_array($second_1, self::RUS_V, true) && (in_array($first_1, self::RUS_V, true))
                 || (in_array($second_2, self::RUS_V, true) && (in_array($first_2, self::RUS_V, true)))
             ) ||
@@ -54,11 +52,11 @@ class Pukvy
 
             $word_1 = $slog_2 . mb_substr($this->words[0], mb_strlen($slog_1));
             $word_2 = $slog_1 . mb_substr($this->words[1], mb_strlen($slog_2));
-           // dbg_echo($slog_2 .' '. $slog_1);
+            // dbg_echo($slog_2 .' '. $slog_1);
         } else {
             $word_1 = $first_2 . mb_substr($this->words[0], 1);
             $word_2 = $first_1 . mb_substr($this->words[1], 1);
-           // dbg_echo($first_2 .' '. $first_1);
+            // dbg_echo($first_2 .' '. $first_1);
         }
 
 
@@ -90,7 +88,5 @@ class Pukvy
             $text = (string)preg_replace($cur_regxp, "$1-$2", $text);
         }
         return (array) explode('-', $text);
-
     }
-
 }

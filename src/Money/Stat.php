@@ -69,10 +69,11 @@ class Stat
      * @param int $user_id
      * @return string
      */
-    private function getUsername(int $user_id): string {
+    private function getUsername(int $user_id): string
+    {
         //[Ссылка](https://example.com)
 
-        if($user_id === $this->bot->getTgBotId()){
+        if ($user_id === $this->bot->getTgBotId()) {
             return '[Therevoluciabot](https://t.me/Therevoluciabot)';
         }
 
@@ -83,7 +84,7 @@ class Stat
         }
 
         if (isset($chat_member['result']['user']['username'])) {
-            $username = '[' . $chat_member['result']['user']['username'].'](https://t.me/'.$chat_member['result']['user']['username'].')';
+            $username = '[' . $chat_member['result']['user']['username'] . '](https://t.me/' . $chat_member['result']['user']['username'] . ')';
         } else {
             $username = (string)$user_id;
         }

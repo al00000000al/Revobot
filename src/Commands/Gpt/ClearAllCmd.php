@@ -26,5 +26,4 @@ class ClearAllCmd extends BaseCmd
 
         return 'История и контекст сброшены!';
     }
-
 }

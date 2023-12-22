@@ -44,6 +44,4 @@ class Converter
         // rate of other numbers
         return Words::getRate($number);
     }
-
-
 }

@@ -14,7 +14,7 @@ class AiCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    public const KEYS = ['ai','ии'];
+    public const KEYS = ['ai', 'ии'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Нейросеть';
 
@@ -55,5 +55,4 @@ class AiCmd extends BaseCmd
         }
         return '';
     }
-
 }

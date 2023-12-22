@@ -48,5 +48,4 @@ class Bash
         }
         return '';
     }
-
 }

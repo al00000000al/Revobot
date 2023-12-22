@@ -1,28 +1,30 @@
 <?php
 
-    namespace Revobot\Commands;
+namespace Revobot\Commands;
 
-    use Revobot\Revobot;
-    use Revobot\Util\PMC;
+use Revobot\Revobot;
+use Revobot\Util\PMC;
 
-    class AliveCmd extends BaseCmd
+class AliveCmd extends BaseCmd
+{
+    private Revobot $bot;
+
+    const KEYS = ['alive', 'алив'];
+    const IS_ENABLED = true;
+    const HELP_DESCRIPTION = 'Состояние бота';
+
+    public function __construct(string $input, Revobot $bot)
     {
-        private Revobot $bot;
-
-        const KEYS = ['alive','алив'];
-        const IS_ENABLED = true;
-        const HELP_DESCRIPTION = 'Состояние бота';
-
-        public function __construct(string $input, Revobot $bot) {
-            parent::__construct($input);
-            $this->bot = $bot;
-        }
-
-        /**
-         * @return string
-         */
-        public function exec(): string {
-            $pmc_v = PMC::getVersion();
-            return "Жив! PMC: $pmc_v, Bot build: 175";
-        }
+        parent::__construct($input);
+        $this->bot = $bot;
     }
+
+    /**
+     * @return string
+     */
+    public function exec(): string
+    {
+        $pmc_v = PMC::getVersion();
+        return "Жив! PMC: $pmc_v, Bot build: 175";
+    }
+}

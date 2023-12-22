@@ -8,7 +8,7 @@ use Revobot\Util\Curl;
 class CalcCmd extends BaseCmd
 {
 
-    const KEYS = ['calc','калк'];
+    const KEYS = ['calc', 'калк'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Калькулятор';
 
@@ -27,6 +27,5 @@ class CalcCmd extends BaseCmd
     {
         $url = 'https://api.mathjs.org/v4/?expr=' . urlencode($this->input);
         return (string)Curl::get($url);
-
     }
 }

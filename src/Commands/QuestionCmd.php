@@ -8,7 +8,7 @@ use Revobot\Revobot;
 
 class QuestionCmd extends BaseCmd
 {
-    const KEYS = ['vopros','question','вопрос'];
+    const KEYS = ['vopros', 'question', 'вопрос'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Вопросы на коины';
     private Revobot $bot;

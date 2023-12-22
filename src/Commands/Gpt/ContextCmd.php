@@ -9,7 +9,7 @@ use Revobot\Revobot;
 class ContextCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['context','контекст','c', 'кнт'];
+    public const KEYS = ['context', 'контекст', 'c', 'кнт'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Контекст';
 
@@ -22,7 +22,7 @@ class ContextCmd extends BaseCmd
     public function exec(): string
     {
         $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
-        if(empty($this->input)) {
+        if (empty($this->input)) {
             $response = $GptPMC->getContext();
             if (empty($response)) {
                 $response = "Пустой контекст";
@@ -31,7 +31,5 @@ class ContextCmd extends BaseCmd
         }
         $GptPMC->setContext($this->input);
         return "Контекст изменен";
-
     }
-
 }

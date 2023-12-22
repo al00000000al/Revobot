@@ -19,7 +19,7 @@ class SbermGPT
         $res = Curl::post(self::BASE_URL, (string)json_encode($data), ['headers' => [
             'Authorization: Bearer ' . Config::get('huggingface_key')
         ]]);
-        if(isset($res[0]['generated_text'])){
+        if (isset($res[0]['generated_text'])) {
             return (string)$res[0]['generated_text'];
         }
         return '';

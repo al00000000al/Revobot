@@ -8,7 +8,7 @@ use Revobot\Revobot;
 class RsendCmd extends BaseCmd
 {
 
-    const KEYS = ['rsend','рсенд'];
+    const KEYS = ['rsend', 'рсенд'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Отправить R случ. польз.';
 
@@ -36,7 +36,7 @@ class RsendCmd extends BaseCmd
 
         $choice = (int) $chat_members[mt_rand(0, count($chat_members) - 1)];
         $result = (new Revocoin($this->bot))->send($choice, $this->bot->getUserId(), $amount);
-        if(!$result) {
+        if (!$result) {
             return $this->description;
         }
         $username = $this->getUsername($choice);
@@ -63,5 +63,4 @@ class RsendCmd extends BaseCmd
         }
         return $username;
     }
-
 }

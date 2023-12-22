@@ -9,7 +9,7 @@ use Revobot\Revobot;
 class DelLastCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['dellast','d', 'делпослед'];
+    public const KEYS = ['dellast', 'd', 'делпослед'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Удалить свое последнее сообщение из истории';
 
@@ -28,5 +28,4 @@ class DelLastCmd extends BaseCmd
         $GptPMC->setHistory($history);
         return 'Удалено';
     }
-
 }

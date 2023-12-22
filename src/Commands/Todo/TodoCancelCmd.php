@@ -9,7 +9,7 @@ use Revobot\Revobot;
 
 class TodoCancelCmd extends BaseCmd
 {
-    const KEYS = ['cancel','отмена','передумал'];
+    const KEYS = ['cancel', 'отмена', 'передумал'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Отменить задачу';
     private Revobot $bot;

@@ -4,9 +4,11 @@ namespace Revobot\Services;
 
 use Revobot\Config;
 
-class CrystalPay {
+class CrystalPay
+{
 
-    public static function createInvoice() {
+    public static function createInvoice()
+    {
         $params = json_encode([
             "auth_login" => Config::get('crystalpay_login'),
             "auth_secret" => Config::get('crystalpay_secret_key'),
@@ -20,16 +22,15 @@ class CrystalPay {
         ]);
     }
 
-    public static function callbackCheck(array $content) {
+    public static function callbackCheck(array $content)
+    {
         $id = $content["id"];
         $signature = $content["signature"];
         $salt = Config::get('crystalpay_salt');
-        $hash = sha1($id.":".$salt);
+        $hash = sha1($id . ":" . $salt);
 
         if (!hash_equals($hash, $signature)) { //Безопасное сравнение подписи callback
             exit("Invalid signature!");
         }
-
-
     }
 }

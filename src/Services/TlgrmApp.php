@@ -22,13 +22,12 @@ class TlgrmApp
             if ($count > 0 && isset($res['hits'][0]['document']['link'])) {
                 $link = (string)$res['hits'][0]['document']['link'];
                 $name = (string)$res['hits'][0]['document']['name'];
-                return $name. ' @' . $link;
+                return $name . ' @' . $link;
             }
         } elseif (isset($res['message'])) {
             return $link;
         }
         return $link;
-
     }
 
     /**
@@ -52,6 +51,4 @@ class TlgrmApp
         ]);
         return json_decode(Curl::get(self::URL . $params), true);
     }
-
-
 }

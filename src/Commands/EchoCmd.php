@@ -5,7 +5,7 @@ namespace Revobot\Commands;
 class EchoCmd extends BaseCmd
 {
 
-    const KEYS = ['echo','эхо','excho','print','принт'];
+    const KEYS = ['echo', 'эхо', 'excho', 'print', 'принт'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Печатать';
 
@@ -17,7 +17,7 @@ class EchoCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (!$this->input){
+        if (!$this->input) {
             return $this->description;
         }
         return $this->input;

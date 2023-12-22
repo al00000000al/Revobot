@@ -9,9 +9,8 @@ use Revobot\Util\Hash;
 class Password
 {
 
-    public static function generate(int $user_id, string $service = 'tg'){
+    public static function generate(int $user_id, string $service = 'tg')
+    {
         return Hash::generate((string) $user_id, $service, 'password');
     }
-
-    
 }

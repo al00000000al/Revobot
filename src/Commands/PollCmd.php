@@ -9,7 +9,7 @@ use Revobot\Revobot;
 class PollCmd extends BaseCmd
 {
 
-    const KEYS = ['poll','опрос'];
+    const KEYS = ['poll', 'опрос'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Создать опрос в чате';
     private Revobot $bot;
@@ -27,15 +27,14 @@ class PollCmd extends BaseCmd
      */
     public function exec(): string
     {
-        if(empty($this->input)){
+        if (empty($this->input)) {
             return $this->description;
         }
         if ($this->bot->provider === 'tg') {
             $this->bot->sendPollTg($this->input, ["Да", "Нет", "Не знаю"]);
             return "";
-        }else{
+        } else {
             return "тут не работает";
         }
     }
-
 }

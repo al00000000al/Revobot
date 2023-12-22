@@ -24,9 +24,9 @@ class BaseCmd
     /**
      * @param string $input
      */
-    public function __construct(string $input){
+    public function __construct(string $input)
+    {
         $this->input = trim($input);
-
     }
 
     /**
@@ -34,7 +34,7 @@ class BaseCmd
      */
     public function exec(): string
     {
-      return $this->input;
+        return $this->input;
     }
 
     /**

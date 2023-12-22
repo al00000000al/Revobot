@@ -13,7 +13,7 @@ class AiiCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    public const KEYS = ['aii','иии'];
+    public const KEYS = ['aii', 'иии'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Очистить контекст и историю и ответить';
 
@@ -27,11 +27,10 @@ class AiiCmd extends BaseCmd
 
     public function exec(): string
     {
-        if(empty($this->input)){
+        if (empty($this->input)) {
             return $this->description;
         }
         (new ClearAllCmd($this->input, $this->bot))->exec();
         return (new AiCmd($this->input, $this->bot))->exec();
     }
-
 }

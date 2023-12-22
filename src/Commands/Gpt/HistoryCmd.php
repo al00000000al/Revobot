@@ -11,7 +11,7 @@ use Revobot\Services\Providers\Tg;
 class HistoryCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['history','h', 'ист', 'история'];
+    public const KEYS = ['history', 'h', 'ист', 'история'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'История';
 
@@ -29,5 +29,4 @@ class HistoryCmd extends BaseCmd
         exec("cd {$base_path} && php tg_sendfile.php $chat_id $user_id");
         return '';
     }
-
 }

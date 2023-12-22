@@ -7,7 +7,7 @@ use Revobot\Revobot;
 
 class WhoCmd extends BaseCmd
 {
-    const KEYS = ['who','кто'];
+    const KEYS = ['who', 'кто'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Узнать кто';
 

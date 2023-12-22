@@ -12,7 +12,7 @@ class Percents extends PredictBase
      */
     public function calc(): string
     {
-        return "Вероятность события: " . $this->getPercents(Math::avg($this->wordsToNum())).'%';
+        return "Вероятность события: " . $this->getPercents(Math::avg($this->wordsToNum())) . '%';
     }
 
     /**

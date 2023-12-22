@@ -30,5 +30,4 @@ class SberGPT3
         }
         return '';
     }
-
 }

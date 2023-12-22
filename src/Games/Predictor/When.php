@@ -13,7 +13,8 @@ class When extends PredictBase
     public function calc(): string
     {
         return "Я думаю это произойдет " .
-            date('d-m-Y H:i:s',
+            date(
+                'd-m-Y H:i:s',
                 $this->getTime(
                     Math::avg($this->wordsToNum())
                 )
@@ -40,11 +41,9 @@ class When extends PredictBase
                 break;
         }
 
-        $new_time_pref = substr(dechex($next_time ), 0, 3);
+        $new_time_pref = substr(dechex($next_time), 0, 3);
 
         $crc = substr(crc32(implode("_", $this->input)), 5);
         return (int)hexdec($new_time_pref . $crc);
     }
-
-
 }

@@ -8,7 +8,7 @@ use Revobot\Revobot;
 class SendCmd extends BaseCmd
 {
 
-    const KEYS = ['send','сенд'];
+    const KEYS = ['send', 'сенд'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Отправить R польз.';
     private Revobot $bot;
@@ -32,13 +32,13 @@ class SendCmd extends BaseCmd
 
         $username = $params[0];
 
-        if($username[0] == '@') {
+        if ($username[0] == '@') {
             $username = str_replace('@', '', $username);
             $to_user_id = $this->getId($username);
-        }else{
+        } else {
             $to_user_id = (int)$username;
         }
-        if($to_user_id === 0){
+        if ($to_user_id === 0) {
             return $this->description;
         }
         $amount = (float)$params[1];
@@ -58,7 +58,7 @@ class SendCmd extends BaseCmd
     private function getId(string $username): int
     {
         $chat_usernames = $this->bot->loadUsernamesChat();
-        if(array_key_exists($username, $chat_usernames)){
+        if (array_key_exists($username, $chat_usernames)) {
             return (int)$chat_usernames[$username];
         }
         return 0;

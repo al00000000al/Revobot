@@ -11,7 +11,8 @@ class Hash
         return hash('sha256', implode(':', $args) . Config::get('secret_key'));
     }
 
-    public static function verify($user_hash, ...$args){
+    public static function verify($user_hash, ...$args)
+    {
         return hash_equals(self::generate($args), $user_hash);
     }
 }

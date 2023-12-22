@@ -9,7 +9,7 @@ use Revobot\Revobot;
 
 class TodoCmd extends BaseCmd
 {
-    const KEYS = ['todo','туду','задачи'];
+    const KEYS = ['todo', 'туду', 'задачи'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Список задач';
 
@@ -37,9 +37,9 @@ class TodoCmd extends BaseCmd
             $todo->saveUserTodos($item, $user_todos);
             $user_todos[] = $item;
         }
-        if(count($todos) > 1){
+        if (count($todos) > 1) {
             return 'Задачи добавлены!';
-        }else{
+        } else {
             return 'Задача добавлена!';
         }
     }

@@ -8,7 +8,7 @@ class IdCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['id','ид'];
+    const KEYS = ['id', 'ид'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Мой ид';
 
@@ -22,5 +22,4 @@ class IdCmd extends BaseCmd
     {
         return (string)$this->bot->getUserId();
     }
-
 }

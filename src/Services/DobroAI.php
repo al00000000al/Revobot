@@ -16,7 +16,7 @@ class DobroAI
             json_encode(["prompt" => $start, "length" => 25, "num_samples" => 1]),
             ['headers' => ['Content-Type: application/json']]
         );
-        if(!$response){
+        if (!$response) {
             return '';
         }
 

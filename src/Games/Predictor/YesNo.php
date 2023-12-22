@@ -40,5 +40,4 @@ class YesNo extends PredictBase
         }
         return $result;
     }
-
 }

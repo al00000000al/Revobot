@@ -7,7 +7,7 @@ use Revobot\Money\Revocoin;
 
 class CasinoCmd extends BaseCmd
 {
-    const KEYS = ['casino','казино',];
+    const KEYS = ['casino', 'казино',];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Казино на ревокоены';
     private Revobot $bot;
@@ -46,28 +46,28 @@ class CasinoCmd extends BaseCmd
             return 'Неверная сумма';
         }
 
-        if(($user_balance < $amount) ||( $user_balance == 0)) {
+        if (($user_balance < $amount) || ($user_balance == 0)) {
             return 'Недостаточно средств у вас на счету';
         }
 
         $coeff_arr = [0, 0, 2, 3, 4, 5, 0, 2, 2, 2, 3, 4, 5, 6, 0, 2, 3, 4, 5, 6, 10, 2, 3, 4, 5, 0, 0, 50, 1];
-        $coeff = $coeff_arr[mt_rand(0, count($coeff_arr)-1)];
+        $coeff = $coeff_arr[mt_rand(0, count($coeff_arr) - 1)];
 
         if ($balance < ($amount * $coeff)) {
             $coeff = 0;
-      //      return 'Недостаточно средств на счету казина';
+            //      return 'Недостаточно средств на счету казина';
         }
 
         $old_amount = $amount;
         $new_amount = $amount * $coeff;
-        if($new_amount == 0){
+        if ($new_amount == 0) {
             (new Revocoin($this->bot))->transaction(
                 $old_amount,
                 $bot_id,
                 $user_id
             );
             return '-' . $old_amount . ' R';
-        }else{
+        } else {
             (new Revocoin($this->bot))->transaction(
                 $new_amount,
                 $user_id,

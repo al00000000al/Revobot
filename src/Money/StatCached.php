@@ -7,7 +7,8 @@ namespace Revobot\Money;
  *
  * This instances will be stored in shared memory
  */
-class StatCached {
+class StatCached
+{
 
     /** @var float[] $users */
     public array $users;
@@ -24,4 +25,3 @@ class StatCached {
         $this->usernames = $usernames;
     }
 }
-

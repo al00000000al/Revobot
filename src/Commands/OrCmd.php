@@ -8,7 +8,7 @@ use Revobot\Util\Hash;
 
 class OrCmd extends BaseCmd
 {
-    const KEYS = ['or','ili','или',];
+    const KEYS = ['or', 'ili', 'или',];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Выбрать что-то одно';
     public function __construct(string $input)
@@ -36,14 +36,14 @@ class OrCmd extends BaseCmd
         /** @var string[] $words_valid */
         $words_valid = [];
 
-        for($i = 0; $i < $count_words; $i++){
+        for ($i = 0; $i < $count_words; $i++) {
             $hash = crc32(Hash::generate($words[$i]));
-            if($hash % $count_words === 0){
+            if ($hash % $count_words === 0) {
                 $words_valid = [$words[$i]];
             }
         }
 
-        if(empty($words_valid)){
+        if (empty($words_valid)) {
             return 'Ничего из перечисленного не подходит';
         }
 

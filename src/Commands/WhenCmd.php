@@ -8,7 +8,7 @@ use Revobot\Services\OpenAIService;
 
 class WhenCmd extends BaseCmd
 {
-    const KEYS = ['when','kogda','когда'];
+    const KEYS = ['when', 'kogda', 'когда'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Узнать когда';
 

@@ -9,7 +9,7 @@ use Revobot\Revobot;
 class ClearContextCmd extends BaseCmd
 {
     private Revobot $bot;
-    public const KEYS = ['clearcontext','ксброс','cc'];
+    public const KEYS = ['clearcontext', 'ксброс', 'cc'];
     public const IS_ENABLED = true;
     public const HELP_DESCRIPTION = 'Установить контекст';
 
@@ -25,5 +25,4 @@ class ClearContextCmd extends BaseCmd
         $GptPMC->setContext("");
         return "Контекст удален";
     }
-
 }

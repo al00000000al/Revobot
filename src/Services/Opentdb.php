@@ -18,15 +18,13 @@ class Opentdb
     public static function get(): array
     {
         $result = Curl::get(self::BASE_URL . http_build_query([
-                'amount' => 10,
-                'type' => 'multiple',
-            ]));
+            'amount' => 10,
+            'type' => 'multiple',
+        ]));
         $result = json_decode($result, true);
         if (isset($result['results'])) {
             return $result['results'];
         }
         return [];
     }
-
-
 }

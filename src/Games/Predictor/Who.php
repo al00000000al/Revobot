@@ -44,7 +44,7 @@ class Who extends PredictBase
 
         $chat = $this->getChatUsers();
         if (!$chat) {
-            return [0,''];
+            return [0, ''];
         }
         $chat_cnt = count($chat);
 
@@ -57,7 +57,7 @@ class Who extends PredictBase
             }
             $i++;
         }
-        return [0,''];
+        return [0, ''];
     }
 
     /**

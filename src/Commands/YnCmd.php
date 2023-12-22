@@ -11,7 +11,7 @@ use Revobot\Services\OpenAIService;
 class YnCmd extends BaseCmd
 {
 
-    const KEYS = ['yn','дн'];
+    const KEYS = ['yn', 'дн'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Да или нет';
     private Revobot $bot;
@@ -47,6 +47,4 @@ class YnCmd extends BaseCmd
         }
         return (new YesNo($input))->calc();
     }
-
-
 }

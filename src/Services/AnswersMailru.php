@@ -26,12 +26,12 @@ class AnswersMailru
             'q' => $input
         ]);
 
-        $results = Curl::get(self::BASE_GO_URL .$params);
+        $results = Curl::get(self::BASE_GO_URL . $params);
 
 
         $questions = (array)json_decode($results, true);
 
-        if(!isset($questions['results']) || count($questions['results']) === 0){
+        if (!isset($questions['results']) || count($questions['results']) === 0) {
             return '';
         }
 
@@ -44,7 +44,7 @@ class AnswersMailru
         $answers = (array)json_decode($answers, true);
 
 
-        if(!isset($answers['bestanswer'])){
+        if (!isset($answers['bestanswer'])) {
             return '';
         }
         //$bestanswer = (int)$answers['bestanswer'];
@@ -52,5 +52,4 @@ class AnswersMailru
         $text = $answers['answers'][mt_rand(0, count($answers['answers']) - 1)]['atext'];
         return (string)$text;
     }
-
 }

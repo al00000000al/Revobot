@@ -11,7 +11,7 @@ use Revobot\Services\OpenAIService;
 class InfaCmd extends BaseCmd
 {
 
-    const KEYS = ['infa','инфа'];
+    const KEYS = ['infa', 'инфа'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Вероятность события';
 
@@ -34,15 +34,14 @@ class InfaCmd extends BaseCmd
             return $this->description;
         }
 
-        if((bool) Config::getInt('use_ai_cmd')) {
+        if ((bool) Config::getInt('use_ai_cmd')) {
             $this->bot->sendTypeStatusTg();
-           return OpenAIService::generate($this->input, "На любой текст или фразу ты представляешь вероятность этого события в цифрах, если это не представляется возможным или запрос неадекватный тогда пиши 0%. Нужно только число", []);
+            return OpenAIService::generate($this->input, "На любой текст или фразу ты представляешь вероятность этого события в цифрах, если это не представляется возможным или запрос неадекватный тогда пиши 0%. Нужно только число", []);
         } else {
-        $input = Utils::replaceDate($this->input);
-        $input = Utils::replaceMe($this->bot->getUserId(), $input);
+            $input = Utils::replaceDate($this->input);
+            $input = Utils::replaceMe($this->bot->getUserId(), $input);
 
-        return (new Percents($input))->calc();
+            return (new Percents($input))->calc();
+        }
     }
-    }
-
 }

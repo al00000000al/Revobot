@@ -8,7 +8,7 @@ use Revobot\Revobot;
 class BalanceCmd extends BaseCmd
 {
     private Revobot $bot;
-    const KEYS = ['balance','баланс',];
+    const KEYS = ['balance', 'баланс',];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Узнать свой баланс';
     public function __construct(string $input, Revobot $bot)
@@ -19,6 +19,6 @@ class BalanceCmd extends BaseCmd
 
     public function exec(): string
     {
-        return 'Баланс: '.(new Revocoin($this->bot))->getBalance($this->bot->getUserId()).' R';
+        return 'Баланс: ' . (new Revocoin($this->bot))->getBalance($this->bot->getUserId()) . ' R';
     }
 }

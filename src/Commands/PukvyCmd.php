@@ -7,7 +7,7 @@ use Revobot\Games\Pukvy;
 class PukvyCmd extends BaseCmd
 {
 
-    const KEYS = ['pukvy','пуквы',];
+    const KEYS = ['pukvy', 'пуквы',];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'риска миса';
 
@@ -31,11 +31,8 @@ class PukvyCmd extends BaseCmd
             }
 
             return (new Pukvy($this->input))->convert();
-
-        }else{
+        } else {
             return $this->description;
         }
-
-
     }
 }

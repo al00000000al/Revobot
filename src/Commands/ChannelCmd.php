@@ -10,7 +10,7 @@ class ChannelCmd extends BaseCmd
 {
     private Revobot $bot;
 
-    const KEYS = ['channel','канал'];
+    const KEYS = ['channel', 'канал'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Случайный канал';
 
@@ -43,7 +43,6 @@ class ChannelCmd extends BaseCmd
                     return $res;
                 }
             }
-
         }
         return '';
     }

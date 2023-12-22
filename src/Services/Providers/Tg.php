@@ -128,6 +128,7 @@ class Tg extends Base
 
     private static function _makeRequest(string $cmd, array $data = [], $options = [])
     {
+        $options['need_json_decode'] = true;
         return Curl::post(self::_getApiUrl($cmd), $data, $options);
     }
 }

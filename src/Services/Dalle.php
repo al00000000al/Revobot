@@ -25,7 +25,8 @@ class Dalle
                 ]),
                 'key' => Config::get('openai_api_key'),
                 'dalle' => 1,
-            ])
+            ]),
+            ['need_json_decode' => true]
         );
 
         if (isset($data['error']['message'])) {

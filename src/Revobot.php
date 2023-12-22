@@ -142,8 +142,22 @@ class Revobot
             global $parse_mode;
             $parse_mode = null;
 
-            KLua::registerFunction1('tg_send', function ($string) {
-                return Tg::sendMessage($this->chat_id, (string) $string);
+            KLua::registerFunction1('sendMessage', function ($string) {
+                if ($this->provider === 'tg') {
+                    return Tg::sendMessage($this->chat_id, (string) $string);
+                }
+                return '';
+            });
+
+            KLua::registerFunction2('sendPhoto', function ($photo, $caption = '') {
+                if ($this->provider === 'tg') {
+                    return Tg::sendPhoto($this->chat_id, (string) $photo, $caption);
+                }
+                return '';
+            });
+
+            KLua::registerFunction1('httpGet', function ($string) {
+                return Curl::get($string);
             });
 
             $response = CommandsManager::process($this);

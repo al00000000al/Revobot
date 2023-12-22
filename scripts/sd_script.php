@@ -53,7 +53,7 @@ function sdGenerate($taskData)
         ...$options
     );
 
-    $responseData = Curl::post($imageApiUrl, json_encode($payload), ['headers' => ['Content-Type:application/json']]);
+    $responseData = Curl::post($imageApiUrl, json_encode($payload), ['headers' => ['Content-Type:application/json'], 'need_json_decode' => true]);
 
     if (isset($responseData['images'][0])) {
         $imageData = base64_decode($responseData['images'][0]);

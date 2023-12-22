@@ -22,7 +22,7 @@ class SberGPT3
             'User-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
         ];
 
-        $result = Curl::post(self::BASE_URL, $input, ['headers' => $headers]);
+        $result = Curl::post(self::BASE_URL, $input, ['headers' => $headers, 'need_json_decode' => true]);
 
         if (isset($result['predictions'])) {
             $output = (string)$result['predictions'];

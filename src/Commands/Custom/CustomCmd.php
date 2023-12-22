@@ -74,6 +74,19 @@ class CustomCmd
 
     /**
      * @param string $command_name
+     * @return bool
+     */
+    public function isExistCustomCmdCode(string $command_name): bool
+    {
+        $cmd = $this->getCustomCmd($command_name);
+        if (isset($cmd['command_type']) && $cmd['command_type'] === Types::TYPE_CODE) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $command_name
      * @return mixed
      */
     public function getCustomCmd(string $command_name): array

@@ -30,8 +30,6 @@ class EditCodeCmd extends BaseCmd
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
-
-
         list($command_name, $text) = Strings::parseSubCommand($this->input);
         $user_id = $this->bot->getUserId();
         $user_commands = $customCmd->getUserCommands($user_id);
@@ -39,22 +37,18 @@ class EditCodeCmd extends BaseCmd
             return 'Вы не можете редактировать эту команду или такой нет';
         }
 
-        if (!$customCmd->isValidCommand($command_name)) {
+        if (!$customCmd->isValidCommand($command_name) ||  empty($command_name)) {
             return 'Недопустимое имя';
         }
 
-        if (!$customCmd->hasMoney(Types::TYPE_CODE) || empty($command_name)) {
-            return 'Недостаточно ревокоинов.';
-        }
-
-        if ($customCmd->isExistCmd($command_name) || $customCmd->isExistCustomCmd($command_name)) {
-            return 'Такая команда уже есть.';
+        if ($customCmd->isExistCmd($command_name) || !$customCmd->isExistCustomCmdCode($command_name)) {
+            return 'Эту нельзя редактировать';
         }
 
         $user_id = $this->bot->getUserId();
-
+        $customCmd->deleteCommand($user_id, $this->input);
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_CODE, [json_encode(['code' => $text])]);
-        (new Revocoin($this->bot))->transaction(Prices::PRICE_CODE, $this->bot->getTgBotId(), $user_id);
-        return 'Команда /' . $command_name . ' создана! ' . "\n" . '-' . Prices::PRICE_CODE . 'R';
+
+        return 'Команда /' . $command_name . ' изменена! ';
     }
 }

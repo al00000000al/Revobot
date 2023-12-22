@@ -29,6 +29,7 @@ class HelpCmd extends BaseCmd
 /delete - Удалить команду
 /donate - Купить ревокоины
 /echo - Печатать
+/editcode - Редактировать команду с кодом lua (0R)
 /exchange - Курс
 /execute - lua script
 /fuckyou - Бот не отвечает 4ч на команды

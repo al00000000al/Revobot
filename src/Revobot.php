@@ -157,8 +157,21 @@ class Revobot
             });
 
             KLua::registerFunction1('httpGet', function ($string) {
-                return Curl::get($string);
+                return (string)Curl::get($string);
             });
+
+            KLua::registerFunction3('httpPost', function (string $string, string $data, array $headers  = []) {
+                return (string)Curl::post($string, $data, ['headers' => $headers]);
+            });
+
+            KLua::registerFunction1('jsonEncode', function (array $data) {
+                return (string)json_encode($data);
+            });
+
+            KLua::registerFunction1('json_decode', function (string $string) {
+                return (array)json_decode($string, true);
+            });
+
 
             $response = CommandsManager::process($this);
 

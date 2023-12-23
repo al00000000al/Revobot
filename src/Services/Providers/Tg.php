@@ -96,6 +96,28 @@ class Tg extends Base
         ], ['headers' => ['Content-Type:multipart/form-data']]);
     }
 
+    public static function sendVideo(int $chat_id, string $video, string $caption = '', $options = [])
+    {
+        $is_url = substr($video, 0, 4) === 'http';
+        if ($caption === 'Array') {
+            $caption = '';
+        }
+        if (!$is_url) {
+            #ifndef KPHP
+            $animation =  new CURLFile(realpath($video));
+            #endif
+            if (0) {
+                $animation = '@' . realpath($video);
+            }
+        }
+        return self::_makeRequest('sendVideo', [
+            'chat_id' => $chat_id,
+            'video' => $video,
+            'caption' => $caption,
+            ...$options,
+        ], ['headers' => ['Content-Type:multipart/form-data']]);
+    }
+
     public static function sendDocument(int $chat_id, string $document)
     {
         #ifndef KPHP

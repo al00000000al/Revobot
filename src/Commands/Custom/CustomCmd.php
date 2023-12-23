@@ -202,8 +202,7 @@ class CustomCmd
                         $arr = explode(' ', $BotMessage);
                         array_shift($arr);
                         if (!empty($BotMessage)) {
-                            $BotMessage = implode('(!)', $arr);
-                            // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $BotMessage);
+                            $BotMessage = implode(' ', $arr);
                         }
                     }
 

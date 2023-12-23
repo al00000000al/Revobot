@@ -42,32 +42,24 @@ class ExecuteCmd extends BaseCmd
     {
         global $BotMessage;
         if (empty($this->input)) {
-
             return $this->description;
         }
 
+        $code = $this->input;
+        $BotMessage = trim($BotMessage);
         if (!empty($BotMessage)) {
-            $code = $BotMessage . '(!)' . $this->input;
+            $params = $BotMessage;
         } else {
-            $code = $this->input;
-        }
-
-        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
-
-        $params = '{';
-        $arr = explode('(!)', $code);
-        $arr2 = [];
-        if (count($arr) > 1) {
-            $code = array_pop($arr);
-            foreach ($arr as $item) {
-                $arr2[] = trim($item);
+            $data = explode('|', $code, 2);
+            if (count($data) > 1) {
+                $params = ($data[0]);
+                $code = $data[1];
+            } else {
+                $params = '';
             }
-            $params = '{"' . implode('", "', $arr2) . '"}';
-        } else {
-            $code = $arr[0];
         }
 
-
+        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0],  $code);
 
         KLua::registerFunction1('r_process_func_without_args', function ($command_name) {
             return self::process($command_name);
@@ -77,10 +69,8 @@ class ExecuteCmd extends BaseCmd
             return self::process($command_name, $input);
         });
 
-        $params_code = empty($params) ? 'local Params = {}' :  'local Params = ' . ($params) . '';
-
         try {
-            KLua::eval($params_code . '
+            KLua::eval('
     local Api = {}
     local Api_mt = {
         __index = function(table, key)
@@ -104,6 +94,7 @@ class ExecuteCmd extends BaseCmd
 setmetatable(Api, Api_mt)
 
 local function run()
+local Params = explode("' . $params . '")
     ' . $code . '
 end
 

@@ -32,17 +32,12 @@ class EditCodeCmd extends BaseCmd
         $customCmd = new CustomCmd($this->bot);
         list($command_name, $text) = Strings::parseSubCommand($this->input);
 
-        $params = '';
-        $arr = explode('(!)', $text);
-        $arr2 = [];
-        if (count($arr) > 1) {
-            $text = array_pop($arr);
-            foreach ($arr as $item) {
-                $arr2 = trim($item);
-            }
-            $params = '{"' . implode('", "', explode(' ', $arr2)) . '"}';
+        $data = explode('|', $text, 2);
+        if (count($data) > 1) {
+            $params = ($data[0]);
+            $text = $data[1];
         } else {
-            $text = $arr[0];
+            $params = '';
         }
         $user_id = $this->bot->getUserId();
         $user_commands = $customCmd->getUserCommands($user_id);

@@ -179,8 +179,8 @@ class Revobot
                 return (array)json_decode((string)$string, true);
             });
 
-            KLua::registerFunction1('explode', function ($string) {
-                return (array)explode(' ', $string);
+            KLua::registerFunction2('explode', function ($string, $delimiter = ' ') {
+                return (array)explode($delimiter, $string);
             });
 
             $response = CommandsManager::process($this);

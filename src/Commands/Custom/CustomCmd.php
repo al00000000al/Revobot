@@ -198,6 +198,9 @@ class CustomCmd
                     // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
                     global $BotMessage;
                     $BotMessage = $this->bot->message;
+                    if (isset($this->bot->raw_data['reply_to_message'])) {
+                        $BotMessage = (string)$this->bot->raw_data['reply_to_message']['text'];
+                    }
                     if (!empty($BotMessage)) {
                         $arr = explode(' ', $BotMessage);
                         array_shift($arr);

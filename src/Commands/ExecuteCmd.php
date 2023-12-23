@@ -94,7 +94,7 @@ class ExecuteCmd extends BaseCmd
 setmetatable(Api, Api_mt)
 
 local function run()
-local Params = explode("' . $params . '")
+local Params = "' . addslashes($params) . '"
     ' . $code . '
 end
 
@@ -107,7 +107,14 @@ execute_result = run()
         $result = KLua::getVar('execute_result');
 
         if (is_array($result)) {
+            if (!empty($BotMessage)) {
+                return '';
+            }
             return (string)print_r($result, true);
+        }
+
+        if (empty($result) && empty($BotMessage)) {
+            return 'null';
         }
         return (string)$result;
     }

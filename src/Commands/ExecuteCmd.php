@@ -40,7 +40,7 @@ class ExecuteCmd extends BaseCmd
 
     public function exec(): string
     {
-        global $BotMessage;
+        global $BotMessage, $CustomCodeCmd;
         if (empty($this->input)) {
             return $this->description;
         }
@@ -107,13 +107,16 @@ execute_result = run()
         $result = KLua::getVar('execute_result');
 
         if (is_array($result)) {
-            if (!empty($BotMessage)) {
+            if ((bool)$CustomCodeCmd) {
                 return '';
             }
             return (string)print_r($result, true);
         }
 
-        if (empty($result) && empty($BotMessage)) {
+        if (empty($result)) {
+            if ((bool)$CustomCodeCmd) {
+                return '';
+            }
             return 'null';
         }
         return (string)$result;

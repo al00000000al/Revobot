@@ -170,6 +170,13 @@ class Revobot
                 return '';
             });
 
+            KLua::registerFunction1('sendChatAction', function ($action) {
+                if ($this->provider === 'tg') {
+                    Tg::sendChatAction($this->chat_id, (string) $action);
+                }
+                return '';
+            });
+
             KLua::registerFunction1('httpGet', function ($string) {
                 return (string)Curl::get((string)$string);
             });

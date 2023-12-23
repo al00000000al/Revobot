@@ -117,7 +117,7 @@ execute_result = run()
             if ((bool)$CustomCodeCmd) {
                 return '';
             }
-            return 'null';
+            return '';
         }
         return (string)$result;
     }

@@ -142,23 +142,23 @@ class Revobot
             global $parse_mode;
             $parse_mode = null;
 
-            KLua::registerFunction1('sendMessage', function ($string) {
+            KLua::registerFunction2('sendMessage', function ($string, $options = '') {
                 if ($this->provider === 'tg') {
-                    return Tg::sendMessage($this->chat_id, (string) $string);
+                    return Tg::sendMessage($this->chat_id, (string) $string, '', (array)json_decode($options, true));
                 }
                 return '';
             });
 
-            KLua::registerFunction2('sendPhoto', function ($photo, $caption = '') {
+            KLua::registerFunction3('sendPhoto', function ($photo, $caption = '', $options = '') {
                 if ($this->provider === 'tg') {
-                    Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption);
+                    Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption, (array)json_decode($options, true));
                 }
                 return '';
             });
 
-            KLua::registerFunction2('sendAnimation', function ($animation, $caption = '') {
+            KLua::registerFunction3('sendAnimation', function ($animation, $caption = '', $options = '') {
                 if ($this->provider === 'tg') {
-                    Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption);
+                    Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption, (array)json_decode($options, true));
                 }
                 return '';
             });

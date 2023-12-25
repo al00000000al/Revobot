@@ -22,7 +22,7 @@ class Tg extends Base
         $result = self::_makeRequest('sendMessage', [
             ...$options,
         ]);
-        dbg_echo(print_r($result, true));
+        // dbg_echo(print_r($result, true));
         if (isset($result['error_code']) && (int)$result['error_code'] === 400) {
             $options['parse_mode'] = '';
             $result = self::_makeRequest('sendMessage', [
@@ -43,102 +43,143 @@ class Tg extends Base
         ]);
     }
 
-    public static function sendPoll(int $chat_id, string $question, array $options)
+    public static function sendPoll(int $chat_id, string $question, array $options, array $opts = [])
     {
         return self::_makeRequest('sendPoll', [
             'chat_id' => $chat_id,
             'question' => $question,
             'options' => json_encode($options),
+            ...$opts
         ]);
     }
 
     public static function sendPhoto(int $chat_id, string $photo, string $caption = '', $options = [])
     {
-        $is_url = substr($photo, 0, 4) === 'http';
-        if ($caption === 'Array') {
-            $caption = '';
-        }
-        if (!$is_url) {
-            #ifndef KPHP
-            $photo =  new CURLFile(realpath($photo));
-            #endif
-            if (0) {
-                $photo = '@' . realpath($photo);
-            }
-        }
-        return self::_makeRequest('sendPhoto', [
-            'chat_id' => $chat_id,
-            'photo' => $photo,
-            'caption' => $caption,
-            ...$options,
-        ], ['headers' => ['Content-Type:multipart/form-data']]);
+        $options['chat_id'] = $chat_id;
+        $options['photo'] = $photo;
+        $options['caption'] = $caption;
+        return self::_sendFile('photo', $options);
     }
 
     public static function sendAnimation(int $chat_id, string $animation, string $caption = '', $options = [])
     {
-        $is_url = substr($animation, 0, 4) === 'http';
-        if ($caption === 'Array') {
-            $caption = '';
-        }
-        if (!$is_url) {
-            #ifndef KPHP
-            $animation =  new CURLFile(realpath($animation));
-            #endif
-            if (0) {
-                $animation = '@' . realpath($animation);
-            }
-        }
-        return self::_makeRequest('sendAnimation', [
-            'chat_id' => $chat_id,
-            'animation' => $animation,
-            'caption' => $caption,
-            ...$options,
-        ], ['headers' => ['Content-Type:multipart/form-data']]);
+        $options['chat_id'] = $chat_id;
+        $options['animation'] = $animation;
+        $options['caption'] = $caption;
+        return self::_sendFile('animation', $options);
     }
 
     public static function sendVideo(int $chat_id, string $video, string $caption = '', $options = [])
     {
-        $is_url = substr($video, 0, 4) === 'http';
-        if ($caption === 'Array') {
-            $caption = '';
+        $options['chat_id'] = $chat_id;
+        $options['video'] = $video;
+        $options['caption'] = $caption;
+        return self::_sendFile('video', $options);
+    }
+
+    public static function sendDocument(int $chat_id, string $document, string $caption = '', array $options = [])
+    {
+        $options['chat_id'] = $chat_id;
+        $options['document'] = $document;
+        $options['caption'] = $caption;
+        return self::_sendFile('document', $options);
+    }
+
+    public static function sendAudio(int $chat_id, string $audio, string $caption = '', array $options = [])
+    {
+        $options['chat_id'] = $chat_id;
+        $options['audio'] = $audio;
+        $options['caption'] = $caption;
+        return self::_sendFile('audio', $options);
+    }
+
+    public static function sendVoice(int $chat_id, string $voice, string $caption = '', array $options = [])
+    {
+        $options['chat_id'] = $chat_id;
+        $options['voice'] = $voice;
+        $options['caption'] = $caption;
+        return self::_sendFile('voice', $options);
+    }
+
+    public static function sendLocation(int $chat_id, float $latitude, float $longitude, array $options = [])
+    {
+        return self::_makeRequest('sendLocation', [
+            'chat_id' => $chat_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            ...$options
+        ]);
+    }
+
+    public static function sendVenue(int $chat_id, float $latitude, float $longitude, string $title, string $address, array $options = [])
+    {
+        return self::_makeRequest('sendVenue', [
+            'chat_id' => $chat_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'title' => $title,
+            'address' => $address,
+            ...$options
+        ]);
+    }
+
+    public static function sendContact(int $chat_id, string $phone_number, string $first_name, array $options = [])
+    {
+        return self::_makeRequest('sendContact', [
+            'chat_id' => $chat_id,
+            'phone_number' => $phone_number,
+            'first_name' => $first_name,
+            ...$options
+        ]);
+    }
+
+    public static function sendDice(int $chat_id, array $options = [])
+    {
+        return self::_makeRequest('sendDice', [
+            'chat_id' => $chat_id,
+            ...$options
+        ]);
+    }
+
+    private static function _sendFile(string $type, array $options = [])
+    {
+        if (!isset($options[$type])) {
+            return [];
+        }
+
+        $media = (string)$options[$type];
+
+        $is_url = substr($media, 0, 4) === 'http';
+        if (isset($options['caption']) && $options['caption'] === 'Array') {
+            $options['caption'] = '';
         }
         if (!$is_url) {
             #ifndef KPHP
-            $animation =  new CURLFile(realpath($video));
+            $options[$type] =  new CURLFile(realpath($media));
             #endif
             if (0) {
-                $animation = '@' . realpath($video);
+                $options[$type] = '@' . realpath($media);
             }
         }
-        return self::_makeRequest('sendVideo', [
-            'chat_id' => $chat_id,
-            'video' => $video,
-            'caption' => $caption,
-            ...$options,
-        ], ['headers' => ['Content-Type:multipart/form-data']]);
+        return self::_makeRequest('send' . ucfirst($type), $options, ['headers' => ['Content-Type:multipart/form-data']]);
     }
 
-    public static function sendDocument(int $chat_id, string $document)
-    {
-        #ifndef KPHP
-        return self::_makeRequest('sendDocument', [
-            'chat_id' => $chat_id,
-            'document' => new CURLFile(realpath($document)),
-        ], ['headers' => ['Content-Type:multipart/form-data']]);
-        #endif
-        if (0) {
-            return self::_makeRequest('sendDocument', [
-                'chat_id' => $chat_id,
-                'document' => '@' . (realpath($document)),
-            ], ['headers' => ['Content-Type:multipart/form-data']]);
-        }
-    }
 
-    public static function sendChatAction(int $chat_id, string $action)
+
+    public static function sendChatAction(int $chat_id, string $action, array $options = [])
     {
         return self::_makeRequest('sendChatAction', [
             'chat_id' => $chat_id,
             'action' => $action,
+            ...$options
+        ]);
+    }
+
+    public static function getUserProfilePhotos(int $user_id, array $options = [])
+    {
+        return self::_makeRequest('getUserProfilePhotos', [
+            'user_id' => $user_id,
+            ...$options
         ]);
     }
 
@@ -150,17 +191,120 @@ class Tg extends Base
         ]);
     }
 
-    public static function setMyCommands(string $commands)
+    public static function setMyCommands(string $commands, array $options = [])
     {
         return self::_makeRequest('setMyCommands', [
             'commands' => $commands,
+            ...$options
         ]);
     }
+
+    public static function getMyCommands(array $options = [])
+    {
+        return self::_makeRequest('getMyCommands', [
+            ...$options
+        ]);
+    }
+
+    public static function setChatMenuButton(array $options = [])
+    {
+        return self::_makeRequest('setChatMenuButton', [
+            ...$options
+        ]);
+    }
+
+    public static function getChatMenuButton(array $options = [])
+    {
+        return self::_makeRequest('getChatMenuButton', [
+            ...$options
+        ]);
+    }
+
+    public static function getMyDefaultAdministratorRights(array $options = [])
+    {
+        return self::_makeRequest('getMyDefaultAdministratorRights', [
+            ...$options
+        ]);
+    }
+
+    public static function stopPoll(int $chat_id, int $message_id, array $options = [])
+    {
+        return self::_makeRequest('stopPoll', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            ...$options
+        ]);
+    }
+
+    public static function deleteMessage(int $chat_id, int $message_id)
+    {
+        return self::_makeRequest('deleteMessage', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id
+        ]);
+    }
+
 
     public static function getFile(string $file_id)
     {
         return self::_makeRequest('getFile', [
             'file_id' => $file_id,
+        ]);
+    }
+
+    public static function banChatMember(int $chat_id, int $user_id, array $options = [])
+    {
+        return self::_makeRequest('banChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            ...$options
+        ]);
+    }
+    public static function unbanChatMember(int $chat_id, int $user_id, array $options = [])
+    {
+        return self::_makeRequest('unbanChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            ...$options
+        ]);
+    }
+
+    public static function restrictChatMember(int $chat_id, int $user_id, string $permissions, array $options = [])
+    {
+        return self::_makeRequest('restrictChatMember', [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id,
+            'permissions' => $permissions,
+            ...$options
+        ]);
+    }
+
+    public static function getChatMemberCount(int $chat_id)
+    {
+        return self::_makeRequest('getChatMemberCount', [
+            'chat_id' => $chat_id,
+        ]);
+    }
+
+    public static function answerCallbackQuery(int $callback_query_id, array $options = [])
+    {
+        return self::_makeRequest('answerCallbackQuery', [
+            'callback_query_id' => $callback_query_id,
+            ...$options
+        ]);
+    }
+
+    public static function getChatAdministrators(int $chat_id)
+    {
+        return self::_makeRequest('getChatAdministrators', [
+            'chat_id' => $chat_id,
+        ]);
+    }
+
+    public static function getChat(int $chat_id)
+    {
+        return self::_makeRequest('getChat', [
+            'chat_id' => $chat_id,
         ]);
     }
 

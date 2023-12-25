@@ -4,6 +4,8 @@ namespace Revobot;
 
 use KLua\KLua;
 use Revobot\Commands\FuckYouCmd;
+use Revobot\Commands\StorageGetCmd;
+use Revobot\Commands\StorageSetCmd;
 use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Money\Revocoin;
@@ -380,6 +382,41 @@ class Revobot
                 return (array)explode($delimiter, $string);
             });
 
+            KLua::registerFunction2('random', function ($min, $max) {
+                return mt_rand((int)$min, (int)$max);
+            });
+
+            KLua::registerFunction1('randomStr', function ($array) {
+                $arr = (array)$array;
+                return (string)$arr[mt_rand(0, count($arr) - 1)];
+            });
+
+            KLua::registerFunction4('storageSet', function ($key, $value, $exp = 0, $global = 0) {
+                global $ComandCreator;
+
+                $user_id = (string)$this->getUserId();
+                if ((int)$global > 0 && !empty($ComandCreator)) {
+                    $user_id = (string)$ComandCreator;
+                }
+                PMC::set(StorageSetCmd::getKey($this->provider, $user_id, (string)$key), $value, 0, (int)$exp);
+                return true;
+            });
+
+            KLua::registerFunction2('storageGet', function ($key, $global = 0) {
+                global $ComandCreator;
+
+                $user_id = (string)$this->getUserId();
+                if ((int)$global > 0 && !empty($ComandCreator)) {
+                    $user_id = (string)$ComandCreator;
+                }
+
+                $result = PMC::get(StorageSetCmd::getKey($this->provider, $user_id, (string)$key));
+                if (is_array($result)) {
+                    return $result;
+                }
+                return (string)$result;
+            });
+
             #endregion
 
             $response = CommandsManager::process($this);
@@ -467,9 +504,9 @@ class Revobot
      */
     public function sendMessageTg(string $response_text, string $parse_mode = null)
     {
-        if ($response_text[0] == '@') {
-            $response_text = str_replace('@', '', $response_text);
-        }
+        // if ($response_text[0] == '@') {
+        //     $response_text = str_replace('@', '', $response_text);
+        // }
         Tg::sendMessage($this->chat_id, $response_text, $parse_mode);
     }
 

@@ -196,7 +196,7 @@ class CustomCmd
                     $data = json_decode((string)$custom_cmd['args'][0], true);
                     $code = trim((string)$data['code']);
                     // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], $code);
-                    global $BotMessage, $CustomCodeCmd;
+                    global $BotMessage, $CustomCodeCmd, $ComandCreator;
                     $CustomCodeCmd = true;
                     $BotMessage = $this->bot->message;
                     if (isset($this->bot->raw_data['reply_to_message'])) {
@@ -209,6 +209,7 @@ class CustomCmd
                             $BotMessage = implode(' ', $arr);
                         }
                     }
+                    $ComandCreator = (int)$custom_cmd['user_id'];
 
 
                     return (new ExecuteCmd($code, $this->bot))->exec();

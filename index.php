@@ -19,7 +19,7 @@ global $NeedProxy;
 
 $NeedProxy = false;
 
-const LUA_MAX_MEM_BYTES = 1024 * 30;
+const LUA_MAX_MEM_BYTES = 1024 * 1024;
 
 $lua_config = new KLuaConfig();
 $lua_config->preload_stdlib = ['base', 'string', 'math', 'utf8'];

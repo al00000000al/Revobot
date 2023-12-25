@@ -38,7 +38,7 @@ class StorageSetCmd extends BaseCmd
         return 'Данные сохранены';
     }
 
-    private function getKey($provider, $user_id, $key)
+    public static function getKey($provider, $user_id, $key)
     {
         return 'storage_' . $provider . '_' . $user_id . $key;
     }

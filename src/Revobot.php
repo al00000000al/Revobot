@@ -251,7 +251,7 @@ class Revobot
 
             KLua::registerFunction1('getChatMember', function ($user_id) {
                 if ($this->provider === 'tg') {
-                    return Tg::getChatMember($this->chat_id, (int)$user_id);
+                    return Tg::getChatMember($this->chat_id, (string)$user_id);
                 }
                 return '';
             });
@@ -291,23 +291,16 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction2('deleteMessage', function ($message_id, $options = '') {
+            KLua::registerFunction1('deleteMessage', function ($message_id) {
                 if ($this->provider === 'tg') {
-                    return Tg::deleteMessage($this->chat_id, (int)$message_id, (array)json_decode($options, true));
+                    return Tg::deleteMessage($this->chat_id, (int)$message_id);
                 }
                 return '';
             });
 
             KLua::registerFunction1('getFile', function ($file_id) {
                 if ($this->provider === 'tg') {
-                    return Tg::getFile($file_id);
-                }
-                return '';
-            });
-
-            KLua::registerFunction2('deleteMessage', function ($message_id, $options = '') {
-                if ($this->provider === 'tg') {
-                    return Tg::deleteMessage($this->chat_id, (int)$message_id, (array)json_decode($options, true));
+                    return Tg::getFile((string)$file_id);
                 }
                 return '';
             });
@@ -349,7 +342,7 @@ class Revobot
 
             KLua::registerFunction1('getChatAdministrators', function ($chat_id = 0) {
                 if ($chat_id === 0) {
-                    $chat_id = $this->chat_id;
+                    $chat_id = (int)$this->chat_id;
                 }
                 if ($this->provider === 'tg') {
                     return Tg::getChatAdministrators((int)$chat_id);
@@ -359,7 +352,7 @@ class Revobot
 
             KLua::registerFunction1('getChat', function ($chat_id = 0) {
                 if ($chat_id === 0) {
-                    $chat_id = $this->chat_id;
+                    $chat_id = (int)$this->chat_id;
                 }
                 if ($this->provider === 'tg') {
                     return Tg::getChat((int)$chat_id);

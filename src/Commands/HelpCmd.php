@@ -56,6 +56,7 @@ class HelpCmd extends BaseCmd
 /rsend - Отправить R случ. польз.
 /send - Отправить R польз.
 /show - AI image generate DALL-E
+/showcode - show code
 /stable - create image
 /stat - Статистика R
 /storageget - Получить значение из ключа

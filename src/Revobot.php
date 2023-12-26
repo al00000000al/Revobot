@@ -417,6 +417,10 @@ class Revobot
                 return (string)$result;
             });
 
+            KLua::registerFunction0('loadChat', function () {
+                return (array)$this->loadChat();
+            });
+
             #endregion
 
             $response = CommandsManager::process($this);

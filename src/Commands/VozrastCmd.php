@@ -34,7 +34,8 @@ class VozrastCmd extends BaseCmd
 
     private function hasKey(int $user_id)
     {
-        return (bool) PMC::get($this->_key($user_id)) !== null;
+        $key = (string)PMC::get($this->_key($user_id));
+        return $key !== '';
     }
 
     private function getKey(int $user_id)

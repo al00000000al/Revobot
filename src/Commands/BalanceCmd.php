@@ -19,6 +19,12 @@ class BalanceCmd extends BaseCmd
 
     public function exec(): string
     {
-        return 'Баланс: ' . (new Revocoin($this->bot))->getBalance($this->bot->getUserId()) . ' R';
+        global $CustomCodeCmd;
+
+        $balance = (new Revocoin($this->bot))->getBalance($this->bot->getUserId());
+        if (!$CustomCodeCmd) {
+            return 'Баланс: ' . (string)$balance . ' R';
+        }
+        return (string)$balance;
     }
 }

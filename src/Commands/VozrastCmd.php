@@ -53,6 +53,11 @@ class VozrastCmd extends BaseCmd
         return "USER_BYEAR_" . $user_id;
     }
 
+    private function _keyEnd(int $user_id)
+    {
+        return "USER_BYEAR_END_" . $user_id;
+    }
+
     private function calc(string $bdateStr)
     {
         $bdateTimestamp = strtotime($bdateStr);
@@ -64,7 +69,7 @@ class VozrastCmd extends BaseCmd
         $thisYear = (int)date('Y');
         $thisMonth = (int)date('m');
         $thisDay = (int)date('d');
-        $thisHour = (int)date('G');
+        // $thisHour = (int)date('G');
 
         // Вычисляем текущий возраст
         $ageYears = $thisYear - $byear;
@@ -81,20 +86,25 @@ class VozrastCmd extends BaseCmd
 
         // Вычисляем, сколько осталось до 100 лет
         $remainingYears = 100 - $ageYears;
-        $remainingMonths = 11 - $ageMonths;
-        $remainingDays = (int)date('t', mktime(0, 0, 0, $thisMonth, 1, $thisYear)) - $ageDays;
-        $remainingHours = 23 - $thisHour;
 
-        // Корректируем оставшиеся месяцы и дни
-        if ($remainingDays < 0) {
-            $remainingDays += (int)date('t', mktime(0, 0, 0, $thisMonth, 1, $thisYear));
-            $remainingMonths--;
-        }
-        if ($remainingMonths < 0) {
-            $remainingMonths += 12;
-            $remainingYears--;
+        if ($ageYears < 0) {
+            return "Вы еще не родились, как родитесь попробуйте снова";
         }
 
-        return "Сегодня вам: {$ageYears} лет, {$ageMonths} месяцев, {$ageDays} дней\nОсталось: {$remainingYears} лет, {$remainingMonths} месяцев, {$remainingDays} дней, {$remainingHours} часов";
+        if ($ageYears == 0 && $ageDays == 0 && $ageMonths == 0) {
+            return "Вы сегодня только родились";
+        }
+
+        if ($ageYears == date('Y')) {
+            return "Вы не Иисус";
+        }
+        if ($ageYears > 150) {
+            return "Столько не живут";
+        }
+        if ($ageYears > 100) {
+            return "Наверное вы умрели";
+        }
+
+        return "Сегодня вам: {$ageYears} лет, {$ageMonths} месяцев, {$ageDays} дней\nОсталось: {$remainingYears} лет";
     }
 }

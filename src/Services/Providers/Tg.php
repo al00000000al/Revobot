@@ -43,6 +43,17 @@ class Tg extends Base
         ]);
     }
 
+    public static function editMessageReplyMarkup(int $chat_id, int $message_id, array $options = [])
+    {
+        return self::_makeRequest('editMessageReplyMarkup', [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            ...$options
+        ]);
+    }
+
+
+
     public static function sendPoll(int $chat_id, string $question, array $options, array $opts = [])
     {
         return self::_makeRequest('sendPoll', [

@@ -47,14 +47,21 @@ if ($save_history) {
     setHistory($history, $user_id);
 }
 
-
+$continue = json_encode([
+    [
+        [
+            'text' => 'Продолжить',
+            'callback_data' => '/ии продолжи'
+        ]
+    ]
+]);
 
 echo $answer . PHP_EOL;
 if ($message_id > 0) {
-    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
+    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'reply_markup' => $continue]);
     print_r($res);
 } else {
-    $res = Tg::sendMessage($chat_id, $answer, 'markdown');
+    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_markup' => $continue]);
     print_r($res);
 }
 

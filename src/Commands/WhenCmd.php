@@ -28,7 +28,8 @@ class WhenCmd extends BaseCmd
     {
         if (!empty($this->input)) {
             if ((bool) Config::getInt('use_ai_cmd')) {
-                return OpenAIService::generate($this->input, "На все вопросы отвечай только датой и временем когда это событие может произойти или уже произошло, если запрос неприемлем, то пиши случайную дату", []);
+                list($_, $answer) = OpenAIService::generate($this->input, "На все вопросы отвечай только датой и временем когда это событие может произойти или уже произошло, если запрос неприемлем, то пиши случайную дату", []);
+                return (string)$answer;
             }
             return (new When($this->input))->calc();
         }

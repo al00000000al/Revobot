@@ -25,11 +25,11 @@ class Gpt
 
     private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-3.5-turbo')
     {
-        $answer = OpenAIService::generate($user_input, $context, $history, $model);
+        list($_, $answer) = OpenAIService::generate($user_input, $context, $history, $model);
 
         if ($save_history) {
             $history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
-            $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+            $history = OpenAIService::addMessageToHistory($history, 'assistant', (string)$answer);
             $GptPMC->setHistory($history);
         }
         return $answer;

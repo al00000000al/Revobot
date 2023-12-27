@@ -40,28 +40,44 @@ if (empty($context)) {
 $context .= $date_message;
 
 
-$answer = OpenAIService::generate($input, $context, $history, 'gpt-4-1106-preview'); //'gpt-3.5-turbo'
+list($reason, $answer) = OpenAIService::generate($input, $context, $history, 'gpt-4-1106-preview'); //'gpt-3.5-turbo'
 if ($save_history) {
     $history = OpenAIService::addMessageToHistory($history, 'user', $input);
-    $history = OpenAIService::addMessageToHistory($history, 'assistant', $answer);
+    $history = OpenAIService::addMessageToHistory($history, 'assistant', (string)$answer);
     setHistory($history, $user_id);
 }
 
 $continue = json_encode([
-    [
+    'inline_keyboard' => [
         [
-            'text' => 'Продолжить',
-            'callback_data' => '/ии продолжи'
+            [
+                'text' => 'Продолжить',
+                'callback_data' => '/ии продолжи'
+            ]
         ]
     ]
 ]);
 
+// TODO пока не работает
+// $is_need_continue = (string)$reason == 'length';
+$is_need_continue = false;
+
+
 echo $answer . PHP_EOL;
 if ($message_id > 0) {
-    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'reply_markup' => $continue]);
+    if ($is_need_continue) {
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'reply_markup' => $continue]);
+    } else {
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
+    }
+
     print_r($res);
 } else {
-    $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_markup' => $continue]);
+    if ($is_need_continue) {
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_markup' => $continue]);
+    } else {
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown');
+    }
     print_r($res);
 }
 

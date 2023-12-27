@@ -44,7 +44,7 @@ class IdeadCmd extends BaseCmd
             $filePath = (string)$fileInfo['result']['file_path'];
             file_put_contents($base_path . 'temp.jpg', Tg::file($filePath));
             $chat_id = (int)$this->bot->chat_id;
-            exec("php {$base_path}gptdv2.php $chat_id $message_id > /dev/null 2>&1 &");
+            exec("cd {$base_path}/scripts && php gptdv2.php $chat_id $message_id > /dev/null 2>&1 &");
         }
 
         return '';

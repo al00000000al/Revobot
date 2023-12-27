@@ -38,11 +38,11 @@ class YnCmd extends BaseCmd
 
         if ((bool) Config::getInt('use_ai_cmd')) {
             $this->bot->sendTypeStatusTg();
-            $result = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
+            list($_, $result) = OpenAIService::generate($input, "На все вопросы и предложения отвечай только да или нет. Если нельзя ответить или оскорбительно, то пиши не знаю", []);
 
             $pattern = "/не знаю|оскорб|другой вопрос/miu";
-            if (!preg_match($pattern, strtolower($result))) {
-                return $result;
+            if (!preg_match($pattern, strtolower((string)$result))) {
+                return (string)$result;
             }
         }
         return (new YesNo($input))->calc();

@@ -36,7 +36,8 @@ class InfaCmd extends BaseCmd
 
         if ((bool) Config::getInt('use_ai_cmd')) {
             $this->bot->sendTypeStatusTg();
-            return OpenAIService::generate($this->input, "На любой текст или фразу ты представляешь вероятность этого события в цифрах, если это не представляется возможным или запрос неадекватный тогда пиши 0%. Нужно только число", []);
+            list($_, $answer) = OpenAIService::generate($this->input, "На любой текст или фразу ты представляешь вероятность этого события в цифрах, если это не представляется возможным или запрос неадекватный тогда пиши 0%. Нужно только число", []);
+            return (string)$answer;
         } else {
             $input = Utils::replaceDate($this->input);
             $input = Utils::replaceMe($this->bot->getUserId(), $input);

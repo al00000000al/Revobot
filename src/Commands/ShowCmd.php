@@ -37,7 +37,7 @@ class ShowCmd extends BaseCmd
         }
         $base_path = Config::get('base_path');
         PMC::set('dalle_input' . $user_id, $this->input);
-        exec("php {$base_path}dalle.php $user_id $chat_id > /dev/null 2>&1 &");
+        exec("cd {$base_path}/scripts && php dalle.php $user_id $chat_id > /dev/null 2>&1 &");
         return '';
     }
 }

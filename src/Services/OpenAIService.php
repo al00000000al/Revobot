@@ -9,7 +9,7 @@ use Revobot\Util\Curl;
 class OpenAIService
 {
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 1000): string
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 1000): array
     {
         // $open_ai = new OpenAi(Config::get('openai_api_key'));
         $messages  = [];
@@ -36,7 +36,7 @@ class OpenAIService
 
         print_r($d);
 
-        return (string)$d['choices'][0]['message']['content'];
+        return [(string)$d['choices'][0]['finish_reason'], (string)$d['choices'][0]['message']['content']];
     }
 
     public static function addMessageToHistory($history, string $role, string $content)

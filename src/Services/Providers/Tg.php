@@ -308,6 +308,14 @@ class Tg extends Base
         ]);
     }
 
+    public static function setWebhook(string $url)
+    {
+        return self::_makeRequest('setWebhook', [
+            'url' => $url,
+            'drop_pending_updates' => true,
+        ]);
+    }
+
     public static function file(string $file_path)
     {
         return Curl::get(self::API_FILE_URL . Config::get('tg_key') . '/' . $file_path);

@@ -5,6 +5,7 @@
 use KLua\KLua;
 use KLua\KLuaConfig;
 use Revobot\Config;
+use Revobot\Services\Providers\Tg;
 use Revobot\Util\PMC;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -63,11 +64,13 @@ function tgBot()
         return;
     }
 
+    $bot = new Revobot\Revobot('tg');
+    $bot->setTgKey(Config::get('tg_key'));
+
     if (isset($data_arr['message']['chat']['id'])) {
         $chat_id = $data_arr['message']['chat']['id'];
-        $bot = new Revobot\Revobot('tg');
         $bot->setChatId((int)$chat_id);
-        $bot->setTgKey(Config::get('tg_key'));
+
 
         if (isset($data_arr['message']['text'])) {
             $bot->setMessage((string)$data_arr['message']['text']);
@@ -83,6 +86,24 @@ function tgBot()
             $bot->setRawData($data_arr['message']);
             $bot->run();
         }
+
+        // Обработка кнопок
+    } elseif (isset($data_arr['callback_query'])) {
+        $chat_id = (int)$data_arr['callback_query']["message"]["chat"]["id"];
+        $callback_query_id = (int)$data_arr['callback_query']["id"];
+        $data = $data_arr['callback_query']["data"]; // данные, отправленные кнопкой
+        $bot->setChatId($chat_id);
+        $bot->setMessage((string)$data);
+
+        // фото тут не может быть
+
+        if (isset($data_arr['callback_query']['message'])) {
+            $bot->setRawData($data_arr['callback_query']['message']);
+            $bot->run();
+        }
+
+        // TODO: подумать как менять опции
+        Tg::answerCallbackQuery($callback_query_id);
     }
 }
 

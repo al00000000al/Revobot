@@ -145,9 +145,9 @@ class Revobot
             $parse_mode = null;
 
             #region API
-            KLua::registerFunction2('sendMessage', function ($string, $options = '') {
+            KLua::registerFunction2('sendMessage', function ($string, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendMessage($this->chat_id, (string) $string, '', (array)json_decode($options, true));
+                    return Tg::sendMessage($this->chat_id, (string) $string, '', $options);
                 }
                 return '';
             });
@@ -159,58 +159,58 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction3('sendPoll', function ($question, $options, $opts = '') {
+            KLua::registerFunction3('sendPoll', function ($question, $options = [], $opts = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendPoll($this->chat_id, (string) $question, (array)json_decode((string)$options), (array)json_decode((string)$opts, true));
+                    return Tg::sendPoll($this->chat_id, (string) $question, $options, $opts);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendPhoto', function ($photo, $caption = '', $options = '') {
+            KLua::registerFunction3('sendPhoto', function ($photo, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendAnimation', function ($animation, $caption = '', $options = '') {
+            KLua::registerFunction3('sendAnimation', function ($animation, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendVideo', function ($video, $caption = '', $options = '') {
+            KLua::registerFunction3('sendVideo', function ($video, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendVideo($this->chat_id, (string) $video, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendVideo($this->chat_id, (string) $video, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendDocument', function ($document, $caption = '', $options = '') {
+            KLua::registerFunction3('sendDocument', function ($document, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendDocument($this->chat_id, (string) $document, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendDocument($this->chat_id, (string) $document, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendAudio', function ($audio, $caption = '', $options = '') {
+            KLua::registerFunction3('sendAudio', function ($audio, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendAudio($this->chat_id, (string) $audio, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendAudio($this->chat_id, (string) $audio, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendVoice', function ($voice, $caption = '', $options = '') {
+            KLua::registerFunction3('sendVoice', function ($voice, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendVoice($this->chat_id, (string) $voice, (string)$caption, (array)json_decode($options, true));
+                    return Tg::sendVoice($this->chat_id, (string) $voice, (string)$caption, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('sendLocation', function ($latitude, $longitude, $options = '') {
+            KLua::registerFunction3('sendLocation', function ($latitude, $longitude, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendLocation($this->chat_id, (float) $latitude, (float)$longitude, (array)json_decode($options, true));
+                    return Tg::sendLocation($this->chat_id, (float) $latitude, (float)$longitude, $options);
                 }
                 return '';
             });
@@ -222,16 +222,16 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction3('sendContact', function ($phone_number, $first_name, $options = '') {
+            KLua::registerFunction3('sendContact', function ($phone_number, $first_name, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendContact($this->chat_id, (string) $phone_number, (string)$first_name, (array)json_decode($options, true));
+                    return Tg::sendContact($this->chat_id, (string) $phone_number, (string)$first_name, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction1('sendDice', function ($options = '') {
+            KLua::registerFunction1('sendDice', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendDice($this->chat_id, (array)json_decode($options, true));
+                    return Tg::sendDice($this->chat_id, $options);
                 }
                 return '';
             });
@@ -244,9 +244,9 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction2('getUserProfilePhotos', function ($user_id, $options = '') {
+            KLua::registerFunction2('getUserProfilePhotos', function ($user_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::getUserProfilePhotos((int)$user_id, (array)json_decode($options, true));
+                    return Tg::getUserProfilePhotos((int)$user_id, $options);
                 }
                 return '';
             });
@@ -258,37 +258,37 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction1('getMyCommands', function ($options = '') {
+            KLua::registerFunction1('getMyCommands', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::getMyCommands((array)json_decode($options, true));
+                    return Tg::getMyCommands($options);
                 }
                 return '';
             });
 
-            KLua::registerFunction1('setChatMenuButton', function ($options = '') {
+            KLua::registerFunction1('setChatMenuButton', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::setChatMenuButton((array)json_decode($options, true));
+                    return Tg::setChatMenuButton($options);
                 }
                 return '';
             });
 
-            KLua::registerFunction1('getChatMenuButton', function ($options = '') {
+            KLua::registerFunction1('getChatMenuButton', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::getChatMenuButton((array)json_decode($options, true));
+                    return Tg::getChatMenuButton($options);
                 }
                 return '';
             });
 
-            KLua::registerFunction1('getMyDefaultAdministratorRights', function ($options = '') {
+            KLua::registerFunction1('getMyDefaultAdministratorRights', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::getMyDefaultAdministratorRights((array)json_decode($options, true));
+                    return Tg::getMyDefaultAdministratorRights($options);
                 }
                 return '';
             });
 
-            KLua::registerFunction2('stopPoll', function ($message_id, $options = '') {
+            KLua::registerFunction2('stopPoll', function ($message_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::stopPoll($this->chat_id, (int)$message_id, (array)json_decode($options, true));
+                    return Tg::stopPoll($this->chat_id, (int)$message_id, $options);
                 }
                 return '';
             });
@@ -307,23 +307,23 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction2('banChatMember', function ($user_id, $options = '') {
+            KLua::registerFunction2('banChatMember', function ($user_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::banChatMember($this->chat_id, (int)$user_id, (array)json_decode($options, true));
+                    return Tg::banChatMember($this->chat_id, (int)$user_id, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction2('unbanChatMember', function ($user_id, $options = '') {
+            KLua::registerFunction2('unbanChatMember', function ($user_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::unbanChatMember($this->chat_id, (int)$user_id, (array)json_decode($options, true));
+                    return Tg::unbanChatMember($this->chat_id, (int)$user_id, $options);
                 }
                 return '';
             });
 
-            KLua::registerFunction3('restrictChatMember', function ($user_id, $permissions, $options = '') {
+            KLua::registerFunction3('restrictChatMember', function ($user_id, $permissions, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::restrictChatMember($this->chat_id, (int)$user_id, (string)$permissions, (array)json_decode($options, true));
+                    return Tg::restrictChatMember($this->chat_id, (int)$user_id, (string)$permissions, $options);
                 }
                 return '';
             });
@@ -335,9 +335,9 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction2('answerCallbackQuery', function ($callback_query_id, $options = '') {
+            KLua::registerFunction2('answerCallbackQuery', function ($callback_query_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::answerCallbackQuery((int)$callback_query_id, (array)json_decode($options, true));
+                    return Tg::answerCallbackQuery((int)$callback_query_id, $options);
                 }
                 return '';
             });

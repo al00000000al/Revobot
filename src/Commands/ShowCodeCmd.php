@@ -25,7 +25,7 @@ class ShowCodeCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $customCmd = new CustomCmd($this->bot);
         $command_name = $this->input;
         $user_commands = $customCmd->getUserCommands($user_id);

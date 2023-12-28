@@ -17,7 +17,7 @@ class Todo
     public function __construct(Revobot $bot)
     {
         $this->bot = $bot;
-        $this->user_id = $this->bot->getUserId();
+        $this->user_id = userId();
         $this->provider = $this->bot->provider;
     }
 

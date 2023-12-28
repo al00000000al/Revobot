@@ -28,7 +28,7 @@ class StableDiffusionCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $chat_id = $this->bot->chat_id;
 
         if (isset($this->bot->raw_data['photo'])) {

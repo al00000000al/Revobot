@@ -21,7 +21,7 @@ class FuckYouCmd extends BaseCmd
 
     public function exec(): string
     {
-        PMC::set(self::PMC_KEY . $this->bot->provider . $this->bot->getUserId(), 1, 0, 14400);
+        PMC::set(self::PMC_KEY . $this->bot->provider . userId(), 1, 0, 14400);
         return self::HELP_DESCRIPTION;
     }
 }

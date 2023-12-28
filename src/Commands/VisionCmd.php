@@ -43,7 +43,7 @@ class VisionCmd extends BaseCmd
         } else {
             $input = 'Че тут? Напиши очень кратко';
         }
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $GptPMC = new GptPMC($user_id, $this->bot->provider);
         $GptPMC->setInput($input);
 

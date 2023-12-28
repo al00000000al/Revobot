@@ -21,7 +21,7 @@ class TodoDoneCmd extends BaseCmd
         parent::__construct($input);
         $this->setDescription('/done номер_задачи');
         $this->bot = $bot;
-        $this->user_id = $this->bot->getUserId();
+        $this->user_id = userId();
         $this->provider = $this->bot->provider;
     }
 

@@ -25,7 +25,7 @@ class HistoryCmd extends BaseCmd
     {
         $base_path = Config::get('base_path');
         $chat_id = (int)$this->bot->chat_id;
-        $user_id = (int)$this->bot->getUserId();
+        $user_id = userId();
         exec("cd {$base_path}/scripts && php tg_sendfile.php $chat_id $user_id");
         return '';
     }

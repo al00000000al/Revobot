@@ -30,7 +30,7 @@ class ShowCmd extends BaseCmd
             return $this->description;
         }
 
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $chat_id = $this->bot->chat_id;
         if (!Throttler::check($this->bot, $user_id, 'showcmd', 1, 60 * 60)) {
             return 'Подождите немного!';

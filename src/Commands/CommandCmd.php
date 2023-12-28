@@ -46,7 +46,7 @@ class CommandCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
 
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_TEXT, [$text]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_TEXT, $this->bot->getTgBotId(), $user_id);

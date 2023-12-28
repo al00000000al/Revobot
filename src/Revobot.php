@@ -118,13 +118,13 @@ class Revobot
     {
         if ($this->provider === 'tg') {
 
-            $need_reply = (bool)(PMC::get('fk_' . $this->provider . $this->getUserId()));
+            $need_reply = (bool)(PMC::get('fk_' . $this->provider . userId()));
 
             if (!empty($need_reply)) {
                 return;
             }
 
-            $mining_future = fork((new Revocoin($this))->mining($this->getUserId(), 0, $this->message));
+            $mining_future = fork((new Revocoin($this))->mining(userId(), 0, $this->message));
             $talk_limit = $this->getTalkLimit();
 
             $has_bot_response = (time() % $talk_limit) === 0;
@@ -389,7 +389,7 @@ class Revobot
             KLua::registerFunction4('storageSet', function ($key, $value, $exp = 0, $global = 0) {
                 global $ComandCreator;
 
-                $user_id = (string)$this->getUserId();
+                $user_id = (string)userId();
                 if ((int)$global > 0 && !empty($ComandCreator)) {
                     $user_id = (string)$ComandCreator;
                 }
@@ -400,7 +400,7 @@ class Revobot
             KLua::registerFunction2('storageGet', function ($key, $global = 0) {
                 global $ComandCreator;
 
-                $user_id = (string)$this->getUserId();
+                $user_id = (string)userId();
                 if ((int)$global > 0 && !empty($ComandCreator)) {
                     $user_id = (string)$ComandCreator;
                 }
@@ -457,7 +457,7 @@ class Revobot
             // }
 
             // ответ на сообщение бота
-            $user_id = $this->getUserId();
+            $user_id = userId();
             $chat_id = $this->chat_id;
 
             if (isset($this->raw_data['reply_to_message'])) {
@@ -560,7 +560,7 @@ class Revobot
 
     public function addUserChat()
     {
-        $user = $this->getUserId();
+        $user = userId();
         $chat = $this->loadChat();
         $usernames_chat = $this->loadUsernamesChat();
         if (!in_array($user, $chat)) {

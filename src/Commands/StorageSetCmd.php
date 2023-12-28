@@ -27,7 +27,7 @@ class StorageSetCmd extends BaseCmd
         }
 
         list($key, $data) = Strings::parseSubCommand($this->input);
-        $pmc_key = self::getKey($this->bot->provider, $this->bot->getUserId(), $key);
+        $pmc_key = self::getKey($this->bot->provider, userId(), $key);
 
         if (empty($data)) {
             PMC::delete($pmc_key);

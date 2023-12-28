@@ -43,7 +43,7 @@ class SendCmd extends BaseCmd
         }
         $amount = (float)$params[1];
 
-        $result = (new Revocoin($this->bot))->send($to_user_id, $this->bot->getUserId(), $amount);
+        $result = (new Revocoin($this->bot))->send($to_user_id, userId(), $amount);
         if (!$result) {
             return $this->description;
         }

@@ -29,7 +29,7 @@ class DeleteCmd extends BaseCmd
             return $this->description;
         }
         $customCmd = new CustomCmd($this->bot);
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $user_commands = $customCmd->getUserCommands($user_id);
         if (!in_array($this->input, $user_commands, true)) {
             return 'Вы не можете удалить эту команду или такой нет';

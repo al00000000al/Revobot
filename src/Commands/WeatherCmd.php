@@ -48,7 +48,7 @@ class WeatherCmd extends BaseCmd
 
     private function getUserKey(): string
     {
-        return self::PMC_USER_CITY_NAME . $this->bot->provider . $this->bot->getUserId();
+        return self::PMC_USER_CITY_NAME . $this->bot->provider . userId();
     }
 
     private function getWeather(string $city)

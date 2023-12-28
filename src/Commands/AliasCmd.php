@@ -49,7 +49,7 @@ class AliasCmd extends BaseCmd
             return 'Такая команда уже есть.';
         }
 
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
 
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_ALIAS, [$command]);
         (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, $this->bot->getTgBotId(), $user_id);

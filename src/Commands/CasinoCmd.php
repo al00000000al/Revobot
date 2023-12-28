@@ -26,7 +26,7 @@ class CasinoCmd extends BaseCmd
             return $this->description;
         }
 
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         $bot_id = $this->bot->getTgBotId();
 
         $user_balance = (float)(new Revocoin($this->bot))->getBalance($user_id);

@@ -30,22 +30,22 @@ class AiCmd extends BaseCmd
     {
         if (!empty($this->input)) {
             $base_path = Config::get('base_path');
-            $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
+            $GptPMC = new GptPMC(userId(), $this->bot->provider);
             $save_history = 1;
             $chat_id = (int)$this->bot->chat_id;
-            $user_id = (int)$this->bot->getUserId();
+            $user_id = userId();
             $message_id = $this->bot->raw_data['message_id'];
             $input = $this->input;
             $GptPMC->setInput($input);
             exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id $message_id > /dev/null 2>&1 &");
 
             // if (!JobLauncher::isEnabled()) {
-            //     return Gpt::generate($this->input, $this->bot->getUserId(), $this->bot->provider, false, 'gpt-3.5-turbo');
+            //     return Gpt::generate($this->input, userId(), $this->bot->provider, false, 'gpt-3.5-turbo');
             //   }
 
             //   $job_request = new RequestsGpt([
             //     'input' => $this->input,
-            //     'user_id' => $this->bot->getUserId(),
+            //     'user_id' => userId(),
             //     'provider' => $this->bot->provider,
             //     'chat_id' => $this->bot->chat_id,
             //     'model' => 'gpt-3.5-turbo'

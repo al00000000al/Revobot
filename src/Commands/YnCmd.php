@@ -34,7 +34,7 @@ class YnCmd extends BaseCmd
         }
 
         $input = Utils::replaceDate($this->input);
-        $input = Utils::replaceMe($this->bot->getUserId(), $input);
+        $input = Utils::replaceMe(userId(), $input);
 
         if ((bool) Config::getInt('use_ai_cmd')) {
             $this->bot->sendTypeStatusTg();

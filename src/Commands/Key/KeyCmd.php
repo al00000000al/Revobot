@@ -23,7 +23,7 @@ class KeyCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (!$this->isAdmin($this->bot->getUserId())) {
+        if (!$this->isAdmin(userId())) {
             return '';
         }
 

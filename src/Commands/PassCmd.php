@@ -32,7 +32,7 @@ class PassCmd extends BaseCmd
      */
     public function exec(): string
     {
-        $user_id = (int) $this->bot->getUserId();
+        $user_id = userId();
         $chat_id = (int)$this->bot->chat_id;
 
         if ($chat_id !== $user_id) {

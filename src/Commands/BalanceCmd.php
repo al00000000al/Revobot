@@ -21,7 +21,7 @@ class BalanceCmd extends BaseCmd
     {
         global $CustomCodeCmd;
 
-        $balance = (new Revocoin($this->bot))->getBalance($this->bot->getUserId());
+        $balance = (new Revocoin($this->bot))->getBalance(userId());
         if (!$CustomCodeCmd) {
             return 'Баланс: ' . (string)$balance . ' R';
         }

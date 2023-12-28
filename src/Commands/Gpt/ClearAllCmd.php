@@ -22,7 +22,7 @@ class ClearAllCmd extends BaseCmd
 
     public function exec(): string
     {
-        Clear::all(new GptPMC($this->bot->getUserId(), $this->bot->provider));
+        Clear::all(new GptPMC(userId(), $this->bot->provider));
 
         return 'История и контекст сброшены!';
     }

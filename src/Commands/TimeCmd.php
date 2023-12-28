@@ -48,6 +48,6 @@ class TimeCmd extends BaseCmd
      */
     private function getKey(): string
     {
-        return self::PMC_USER_TIMEZONE_KEY . $this->bot->provider . $this->bot->getUserId();
+        return self::PMC_USER_TIMEZONE_KEY . $this->bot->provider . userId();
     }
 }

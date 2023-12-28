@@ -31,17 +31,15 @@ class ChannelCmd extends BaseCmd
      */
     public function exec(): string
     {
-        if ($this->bot->provider === 'tg') {
-            $this->bot->sendTypeStatusTg();
-            $tries = 0;
-            while ($tries < 5) {
-                $query = Strings::random(mt_rand(1, 2), self::CHARACTERS);
-                $res = TlgrmApp::search($query);
-                if (empty($res)) {
-                    $tries++;
-                } else {
-                    return $res;
-                }
+        $this->bot->sendTypeStatusTg();
+        $tries = 0;
+        while ($tries < 5) {
+            $query = Strings::random(mt_rand(1, 2), self::CHARACTERS);
+            $res = TlgrmApp::search($query);
+            if (empty($res)) {
+                $tries++;
+            } else {
+                return $res;
             }
         }
         return '';

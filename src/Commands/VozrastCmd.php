@@ -21,7 +21,7 @@ class VozrastCmd extends BaseCmd
 
     public function exec(): string
     {
-        $user_id = $this->bot->getUserId();
+        $user_id = userId();
         if (empty($this->input)) {
             if (!$this->hasKey($user_id)) {
                 return 'Я не знаю сколько тебе лет';

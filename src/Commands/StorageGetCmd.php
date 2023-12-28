@@ -25,7 +25,7 @@ class StorageGetCmd extends BaseCmd
             return $this->description;
         }
 
-        return (string) PMC::get(self::getKey($this->bot->provider, $this->bot->getUserId(), $this->input));
+        return (string) PMC::get(self::getKey($this->bot->provider, userId(), $this->input));
     }
 
     private function getKey($provider, $user_id, $key)

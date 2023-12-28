@@ -40,7 +40,7 @@ class InfaCmd extends BaseCmd
             return (string)$answer;
         } else {
             $input = Utils::replaceDate($this->input);
-            $input = Utils::replaceMe($this->bot->getUserId(), $input);
+            $input = Utils::replaceMe(userId(), $input);
 
             return (new Percents($input))->calc();
         }

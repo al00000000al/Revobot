@@ -21,7 +21,7 @@ class MycommandsCmd extends BaseCmd
 
     public function exec(): string
     {
-        $user_commands = (new CustomCmd($this->bot))->getUserCommands($this->bot->getUserId());
+        $user_commands = (new CustomCmd($this->bot))->getUserCommands(userId());
         if (!$user_commands) {
             return "У пользователя нет комманд";
         }

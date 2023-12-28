@@ -21,7 +21,7 @@ class DelLastCmd extends BaseCmd
 
     public function exec(): string
     {
-        $GptPMC = new GptPMC($this->bot->getUserId(), $this->bot->provider);
+        $GptPMC = new GptPMC(userId(), $this->bot->provider);
         $history = $GptPMC->getHistory();
         array_pop($history);
         array_pop($history);

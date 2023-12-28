@@ -152,9 +152,9 @@ class Revobot
                 return '';
             });
 
-            KLua::registerFunction2('editMessageText', function ($message_id, $text) {
+            KLua::registerFunction3('editMessageText', function ($message_id, $text, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::editMessageText($this->chat_id, (int)$message_id, (string) $text, '');
+                    return Tg::editMessageText($this->chat_id, (int)$message_id, (string) $text, '', $options);
                 }
                 return '';
             });

@@ -94,6 +94,7 @@ class ExecuteCmd extends BaseCmd
 setmetatable(Api, Api_mt)
 
 local function run()
+local Message = jsonDecode("' . addslashes(json_encode($this->bot->raw_data)) . '")
 local Params = "' . addslashes($params) . '"
     ' . $code . '
 end

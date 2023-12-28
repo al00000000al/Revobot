@@ -32,7 +32,7 @@ class Tg extends Base
         return $result;
     }
 
-    public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = null)
+    public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = null, array $options = [])
     {
         return self::_makeRequest('editMessageText', [
             'chat_id' => $chat_id,
@@ -40,6 +40,7 @@ class Tg extends Base
             'text' => $text,
             'parse_mode' => $parse_mode,
             'disable_web_page_preview' => true,
+            ...$options,
         ]);
     }
 

@@ -42,7 +42,7 @@ class ChatCmd extends BaseCmd
                     if ($result) {
                         list($link, $chatTitle, $chatDescription, $chatImage) = $result;
                         if (isset($chatImage)) {
-                            Tg::sendPhoto($this->bot->chat_id, (string)$chatImage, implode("\n", [$link, $chatTitle, $chatDescription]));
+                            Tg::sendPhoto(chatId(), (string)$chatImage, implode("\n", [$link, $chatTitle, $chatDescription]));
                             return "";
                         } else {
                             return implode("\n", [$link, $chatTitle, $chatDescription]);

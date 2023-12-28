@@ -22,19 +22,19 @@ class StatStoyak
             return 'Ни у кого еще не встал';
         }
 
-        $stat_key = self::getStatCacheKey($this->bot->chat_id);
+        $stat_key = self::getStatCacheKey(chatId());
 
         $cached = instance_cache_fetch(StatCached::class, $stat_key);
         if (!$cached) {
             $users = [];
             $usernames = [];
             foreach ($chat as $user) {
-                $users[$user] = (int) PMC::get(StoyakCmd::getUserChatKey($this->bot->chat_id, $user));
+                $users[$user] = (int) PMC::get(StoyakCmd::getUserChatKey(chatId(), $user));
                 $usernames[$user] = $this->getUsername((int)$user);
             }
 
             $cached = new StatCached($users, $usernames);
-            instance_cache_store(self::getStatCacheKey($this->bot->chat_id), $cached, 60);
+            instance_cache_store(self::getStatCacheKey(chatId()), $cached, 60);
         }
 
 

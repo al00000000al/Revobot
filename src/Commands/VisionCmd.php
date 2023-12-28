@@ -53,7 +53,7 @@ class VisionCmd extends BaseCmd
         if (isset($fileInfo['result']['file_path'])) {
             $filePath = (string)$fileInfo['result']['file_path'];
             file_put_contents($base_path . 'temp.jpg', Tg::file($filePath));
-            $chat_id = (int)$this->bot->chat_id;
+            $chat_id = chatId();
             exec("cd {$base_path}/scripts && php gptdv.php $chat_id $user_id $message_id > /dev/null 2>&1 &");
         }
 

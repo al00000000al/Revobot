@@ -27,7 +27,7 @@ class Quiz
      */
     public function getQuestion()
     {
-        $current = PMC::get(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . $this->bot->chat_id);
+        $current = PMC::get(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . chatId());
         if (!$current) {
             $result = PMC::get(self::PMC_QUESTIONS_KEY);
             if (!$result) {
@@ -35,7 +35,7 @@ class Quiz
             }
             $current = array_shift($result);
             PMC::set(self::PMC_QUESTIONS_KEY, $result);
-            PMC::set(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . $this->bot->chat_id, $current);
+            PMC::set(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . chatId(), $current);
         }
 
         return $current;
@@ -45,7 +45,7 @@ class Quiz
     {
         $question = $this->getQuestion();
         if ((string)$question['answer'] === $answer) {
-            PMC::delete(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . $this->bot->chat_id);
+            PMC::delete(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . chatId());
             (new Revocoin($this->bot))->transaction(self::QUIZ_WIN_PRIZE, userId(), $this->bot->getTgBotId());
             $price = self::QUIZ_WIN_PRIZE;
             $this->bot->sendMessageTg("+" . $price . 'R у ' . $this->bot->getUserNick());

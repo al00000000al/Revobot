@@ -27,3 +27,15 @@ function chatId(): int
     global $Bot;
     return $Bot->chat_id;
 }
+
+/**
+ * Получение типа сервиса ('tg', 'vk')
+ *
+ * @return int
+ */
+function provider(): int
+{
+    /** @var Revobot\Revobot $Bot */
+    global $Bot;
+    return $Bot->provider;
+}

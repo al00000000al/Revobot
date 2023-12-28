@@ -98,6 +98,6 @@ class Stat
      */
     public function getStatCacheKey(): string
     {
-        return 'stat_' . $this->bot->chat_id;
+        return 'stat_' . chatId();
     }
 }

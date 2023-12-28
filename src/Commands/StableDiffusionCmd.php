@@ -29,7 +29,7 @@ class StableDiffusionCmd extends BaseCmd
             return $this->description;
         }
         $user_id = userId();
-        $chat_id = $this->bot->chat_id;
+        $chat_id = chatId();
 
         if (isset($this->bot->raw_data['photo'])) {
             $photo = array_last_value($this->bot->raw_data['photo']);

@@ -33,7 +33,7 @@ class PassCmd extends BaseCmd
     public function exec(): string
     {
         $user_id = userId();
-        $chat_id = (int)$this->bot->chat_id;
+        $chat_id = chatId();
 
         if ($chat_id !== $user_id) {
             return "Эта комманда работает только в личном чате с ботом";

@@ -24,7 +24,7 @@ class QuestionCmd extends BaseCmd
         // $question = (new Quiz($this->bot))->getQuestion();
         // return (string)$question['question'];
         $base_path = Config::get('base_path');
-        $chat_id = (int)$this->bot->chat_id;
+        $chat_id = chatId();
         exec("cd {$base_path}/scripts && php gptdq.php $chat_id > /dev/null 2>&1 &");
         return '';
     }

@@ -32,7 +32,7 @@ class AiCmd extends BaseCmd
             $base_path = Config::get('base_path');
             $GptPMC = new GptPMC(userId(), $this->bot->provider);
             $save_history = 1;
-            $chat_id = (int)$this->bot->chat_id;
+            $chat_id = chatId();
             $user_id = userId();
             $message_id = $this->bot->raw_data['message_id'];
             $input = $this->input;
@@ -47,7 +47,7 @@ class AiCmd extends BaseCmd
             //     'input' => $this->input,
             //     'user_id' => userId(),
             //     'provider' => $this->bot->provider,
-            //     'chat_id' => $this->bot->chat_id,
+            //     'chat_id' =>chatId(),
             //     'model' => 'gpt-3.5-turbo'
             //   ]);
             // JobLauncher::start($job_request, 120);

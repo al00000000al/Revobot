@@ -123,7 +123,6 @@ class StoyakCmd extends BaseCmd
     {
         parent::__construct($input);
         $this->bot = $bot;
-        $this->chat_id = $this->bot->chat_id;
         $this->setDescription('Введите /stoyak');
     }
 
@@ -135,7 +134,7 @@ class StoyakCmd extends BaseCmd
         if ($this->input === 'stat') {
             return (new StatStoyak($this->bot))->get();
         } else {
-            list($time, $user_id) = $this->getLastStoyak($this->chat_id);
+            list($time, $user_id) = $this->getLastStoyak(chatId());
             $user_name = '';
             if (!self::isTodayStoyak((int)$time)) {
                 list($user_id, $user_name) = $this->doCalc();
@@ -160,9 +159,9 @@ class StoyakCmd extends BaseCmd
             $user_id = (int) $user_id;
         }
         $this->writeCalcText();
-        $this->updateLastStoyak($this->chat_id, $user_id);
-        $this->incUserStoyak($this->chat_id, $user_id);
-        instance_cache_delete(StatStoyak::getStatCacheKey($this->bot->chat_id));
+        $this->updateLastStoyak(chatId(), $user_id);
+        $this->incUserStoyak(chatId(), $user_id);
+        instance_cache_delete(StatStoyak::getStatCacheKey(chatId()));
         return [$user_id, $user_name];
     }
     private function writeCalcText()

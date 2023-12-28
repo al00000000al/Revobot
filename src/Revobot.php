@@ -86,7 +86,7 @@ class Revobot
      */
     public function getTalkLimit(): int
     {
-        $response = (int) PMC::get(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id);
+        $response = (int) PMC::get(self::PMC_TALK_LIMIT_KEY . $this->provider . chatId());
         if (!$response) {
             return self::DEFAULT_TALK_LIMIT;
         }
@@ -95,7 +95,7 @@ class Revobot
 
     public function setTalkLimit(int $talk_limit)
     {
-        PMC::set(self::PMC_TALK_LIMIT_KEY . $this->provider . $this->chat_id, $talk_limit);
+        PMC::set(self::PMC_TALK_LIMIT_KEY . $this->provider . chatId(), $talk_limit);
     }
 
     /**
@@ -122,98 +122,98 @@ class Revobot
             #region API
             KLua::registerFunction2('sendMessage', function ($string, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendMessage($this->chat_id, (string) $string, '', (array)$options);
+                    return Tg::sendMessage(chatId(), (string) $string, '', (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('editMessageText', function ($message_id, $text, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::editMessageText($this->chat_id, (int)$message_id, (string) $text, '', (array)$options);
+                    return Tg::editMessageText(chatId(), (int)$message_id, (string) $text, '', (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction2('editMessageReplyMarkup', function ($message_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::editMessageReplyMarkup($this->chat_id, (int)$message_id, (array) $options);
+                    return Tg::editMessageReplyMarkup(chatId(), (int)$message_id, (array) $options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendPoll', function ($question, $options = [], $opts = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendPoll($this->chat_id, (string) $question, (array)$options, (array)$opts);
+                    return Tg::sendPoll(chatId(), (string) $question, (array)$options, (array)$opts);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendPhoto', function ($photo, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendPhoto($this->chat_id, (string) $photo, (string)$caption, (array)$options);
+                    return Tg::sendPhoto(chatId(), (string) $photo, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendAnimation', function ($animation, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendAnimation($this->chat_id, (string) $animation, (string)$caption, (array)$options);
+                    return Tg::sendAnimation(chatId(), (string) $animation, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendVideo', function ($video, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendVideo($this->chat_id, (string) $video, (string)$caption, (array)$options);
+                    return Tg::sendVideo(chatId(), (string) $video, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendDocument', function ($document, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendDocument($this->chat_id, (string) $document, (string)$caption, (array)$options);
+                    return Tg::sendDocument(chatId(), (string) $document, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendAudio', function ($audio, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendAudio($this->chat_id, (string) $audio, (string)$caption, (array)$options);
+                    return Tg::sendAudio(chatId(), (string) $audio, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendVoice', function ($voice, $caption = '', $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendVoice($this->chat_id, (string) $voice, (string)$caption, (array)$options);
+                    return Tg::sendVoice(chatId(), (string) $voice, (string)$caption, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendLocation', function ($latitude, $longitude, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendLocation($this->chat_id, (float) $latitude, (float)$longitude, (array)$options);
+                    return Tg::sendLocation(chatId(), (float) $latitude, (float)$longitude, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction4('sendVenue', function ($latitude, $longitude, $title, $address) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendVenue($this->chat_id, (float) $latitude, (float)$longitude, (string)$title, (string)$address);
+                    return Tg::sendVenue(chatId(), (float) $latitude, (float)$longitude, (string)$title, (string)$address);
                 }
                 return '';
             });
 
             KLua::registerFunction3('sendContact', function ($phone_number, $first_name, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendContact($this->chat_id, (string) $phone_number, (string)$first_name, (array)$options);
+                    return Tg::sendContact(chatId(), (string) $phone_number, (string)$first_name, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction1('sendDice', function ($options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendDice($this->chat_id, (array)$options);
+                    return Tg::sendDice(chatId(), (array)$options);
                 }
                 return '';
             });
@@ -221,7 +221,7 @@ class Revobot
 
             KLua::registerFunction1('sendChatAction', function ($action) {
                 if ($this->provider === 'tg') {
-                    return Tg::sendChatAction($this->chat_id, (string) $action);
+                    return Tg::sendChatAction(chatId(), (string) $action);
                 }
                 return '';
             });
@@ -235,7 +235,7 @@ class Revobot
 
             KLua::registerFunction1('getChatMember', function ($user_id) {
                 if ($this->provider === 'tg') {
-                    return Tg::getChatMember($this->chat_id, (string)$user_id);
+                    return Tg::getChatMember(chatId(), (string)$user_id);
                 }
                 return '';
             });
@@ -270,14 +270,14 @@ class Revobot
 
             KLua::registerFunction2('stopPoll', function ($message_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::stopPoll($this->chat_id, (int)$message_id, (array)$options);
+                    return Tg::stopPoll(chatId(), (int)$message_id, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction1('deleteMessage', function ($message_id) {
                 if ($this->provider === 'tg') {
-                    return Tg::deleteMessage($this->chat_id, (int)$message_id);
+                    return Tg::deleteMessage(chatId(), (int)$message_id);
                 }
                 return '';
             });
@@ -291,28 +291,28 @@ class Revobot
 
             KLua::registerFunction2('banChatMember', function ($user_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::banChatMember($this->chat_id, (int)$user_id, (array)$options);
+                    return Tg::banChatMember(chatId(), (int)$user_id, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction2('unbanChatMember', function ($user_id, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::unbanChatMember($this->chat_id, (int)$user_id, (array)$options);
+                    return Tg::unbanChatMember(chatId(), (int)$user_id, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction3('restrictChatMember', function ($user_id, $permissions, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::restrictChatMember($this->chat_id, (int)$user_id, (string)$permissions, (array)$options);
+                    return Tg::restrictChatMember(chatId(), (int)$user_id, (string)$permissions, (array)$options);
                 }
                 return '';
             });
 
             KLua::registerFunction0('getChatMemberCount', function () {
                 if ($this->provider === 'tg') {
-                    return Tg::getChatMemberCount($this->chat_id);
+                    return Tg::getChatMemberCount(chatId());
                 }
                 return '';
             });
@@ -326,7 +326,7 @@ class Revobot
 
             KLua::registerFunction1('getChatAdministrators', function ($chat_id = 0) {
                 if ($chat_id === 0) {
-                    $chat_id = (int)$this->chat_id;
+                    $chat_id = chatId();
                 }
                 if ($this->provider === 'tg') {
                     return Tg::getChatAdministrators((int)$chat_id);
@@ -336,7 +336,7 @@ class Revobot
 
             KLua::registerFunction1('getChat', function ($chat_id = 0) {
                 if ($chat_id === 0) {
-                    $chat_id = (int)$this->chat_id;
+                    $chat_id = chatId();
                 }
                 if ($this->provider === 'tg') {
                     return Tg::getChat((int)$chat_id);
@@ -440,12 +440,12 @@ class Revobot
             }
 
             // if(InstagramDownloader::is_instagram_reels_url($this->message)){
-            //     InstagramDownloader::get($this->message, $this->chat_id);
+            //     InstagramDownloader::get($this->message, chatId());
             // }
 
             // ответ на сообщение бота
             $user_id = userId();
-            $chat_id = $this->chat_id;
+            $chat_id = chatId();
 
             if (isset($this->raw_data['reply_to_message'])) {
                 $source_text = (string)$this->raw_data['reply_to_message']['text'];
@@ -471,7 +471,7 @@ class Revobot
      */
     public function getHistoryMsg(): string
     {
-        return (string)PMC::get(self::PMC_MSG_HISTORY_KEY . $this->provider . $this->chat_id);
+        return (string)PMC::get(self::PMC_MSG_HISTORY_KEY . $this->provider . chatId());
     }
 
     /**
@@ -480,7 +480,7 @@ class Revobot
      */
     public function setHistoryMsg(string $msg): string
     {
-        return (string)PMC::set(self::PMC_MSG_HISTORY_KEY . $this->provider . $this->chat_id, $msg);
+        return (string)PMC::set(self::PMC_MSG_HISTORY_KEY . $this->provider . chatId(), $msg);
     }
 
 
@@ -492,7 +492,7 @@ class Revobot
         if ($response_text[0] == '@') {
             $response_text = str_replace('@', '', $response_text);
         }
-        Tg::sendMessage($this->chat_id, $response_text, $parse_mode);
+        Tg::sendMessage(chatId(), $response_text, $parse_mode);
     }
 
 
@@ -502,7 +502,7 @@ class Revobot
      */
     public function getChatMemberTg(int $user_id)
     {
-        return Tg::getChatMember($this->chat_id, (string) $user_id);
+        return Tg::getChatMember(chatId(), (string) $user_id);
     }
 
 
@@ -512,12 +512,12 @@ class Revobot
      */
     public function getChatMemberByUsernameTg(string $username)
     {
-        return Tg::getChatMember($this->chat_id, $username);
+        return Tg::getChatMember(chatId(), $username);
     }
 
     public function sendPollTg(string $question, array $options)
     {
-        return Tg::sendPoll($this->chat_id, $question, $options);
+        return Tg::sendPoll(chatId(), $question, $options);
     }
 
 
@@ -534,7 +534,7 @@ class Revobot
      */
     public function loadChat(): array
     {
-        return PMC::get(self::PMC_CHAT_KEY . $this->provider . $this->chat_id);
+        return PMC::get(self::PMC_CHAT_KEY . $this->provider . chatId());
     }
 
     /**
@@ -542,7 +542,7 @@ class Revobot
      */
     public function loadUsernamesChat(): array
     {
-        return PMC::get(self::PMC_USERNAMES_CHAT_KEY . $this->provider . $this->chat_id);
+        return PMC::get(self::PMC_USERNAMES_CHAT_KEY . $this->provider . chatId());
     }
 
     public function addUserChat()
@@ -552,13 +552,13 @@ class Revobot
         $usernames_chat = $this->loadUsernamesChat();
         if (!in_array($user, $chat)) {
             $chat[] = $user;
-            PMC::set(self::PMC_CHAT_KEY . $this->provider . $this->chat_id, $chat);
+            PMC::set(self::PMC_CHAT_KEY . $this->provider . chatId(), $chat);
         }
 
         $user_nick = $this->getUserNick();
         if (!array_key_exists($user, $usernames_chat) || $usernames_chat[$user_nick] !== $user) {
             $usernames_chat[$user_nick] = $user;
-            PMC::set(self::PMC_USERNAMES_CHAT_KEY . $this->provider . $this->chat_id, $usernames_chat);
+            PMC::set(self::PMC_USERNAMES_CHAT_KEY . $this->provider . chatId(), $usernames_chat);
         }
     }
 
@@ -569,6 +569,6 @@ class Revobot
 
     public function sendTypeStatusTg()
     {
-        Tg::sendChatAction($this->chat_id, 'typing');
+        Tg::sendChatAction(chatId(), 'typing');
     }
 }

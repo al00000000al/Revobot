@@ -3,7 +3,8 @@
     "description": "VK/TG bot",
     "type": "project",
     "autoload": {
-        "psr-4": {"Revobot\\": "src/"}
+        "psr-4": {"Revobot\\": "src/"},
+        "files": ["src/helpers.php", "config.php"]
     },
     "autoload-dev": {
         "psr-4": {

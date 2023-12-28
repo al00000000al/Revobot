@@ -3,14 +3,10 @@
 namespace Revobot;
 
 use KLua\KLua;
-use Revobot\Commands\FuckYouCmd;
-use Revobot\Commands\StorageGetCmd;
 use Revobot\Commands\StorageSetCmd;
-use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
-use Revobot\Services\InstagramDownloader;
 use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 use Revobot\Util\PMC;
@@ -29,21 +25,11 @@ class Revobot
 
     private string $tg_key = '';
 
-    private string $parse_mode;
-
     private const PMC_TALK_LIMIT_KEY = 'talk_limit_'; // $provider.$chat
     private const PMC_MSG_HISTORY_KEY = 'msg_history_'; // $provider.$chat
     private const PMC_USERNAMES_CHAT_KEY = 'usernames_chat_'; // $provider.$chat
     private const PMC_CHAT_KEY = 'chat_'; // $provider.$chat
     private const DEFAULT_TALK_LIMIT = 90;
-
-    /**
-     * @param string $parse_mode
-     */
-    public function setParseMode(string $parse_mode): void
-    {
-        $this->parse_mode = $parse_mode;
-    }
 
     /**
      * @param string $tg_key
@@ -67,7 +53,9 @@ class Revobot
      */
     public function __construct(string $provider)
     {
+        global $Bot;
         $this->provider = $provider;
+        $Bot = $this;
     }
 
     /**
@@ -484,8 +472,7 @@ class Revobot
             }
 
             if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
-                $response = (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
-                $this->sendMessageTg($response, $parse_mode);
+                (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
             }
         }
     }

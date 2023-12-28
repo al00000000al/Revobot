@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "orhanerday/open-ai",
-            "version": "4.7.1",
+            "version": "4.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orhanerday/open-ai.git",
-                "reference": "d2d96d0521ef3118cc4f33a5d54718b62aedd336"
+                "reference": "2ccdf2f6b4287b9e570a1ddcf33083b7ad9f7e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orhanerday/open-ai/zipball/d2d96d0521ef3118cc4f33a5d54718b62aedd336",
-                "reference": "d2d96d0521ef3118cc4f33a5d54718b62aedd336",
+                "url": "https://api.github.com/repos/orhanerday/open-ai/zipball/2ccdf2f6b4287b9e570a1ddcf33083b7ad9f7e9c",
+                "reference": "2ccdf2f6b4287b9e570a1ddcf33083b7ad9f7e9c",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orhanerday/open-ai/issues",
-                "source": "https://github.com/orhanerday/open-ai/tree/4.7.1"
+                "source": "https://github.com/orhanerday/open-ai/tree/4.9.1"
             },
             "funding": [
                 {
@@ -63,7 +63,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-08T08:04:02+00:00"
+            "time": "2023-11-13T04:03:05+00:00"
         },
         {
             "name": "quasilyte/kfinalize",
@@ -215,16 +215,16 @@
         },
         {
             "name": "vkcom/kphp-polyfills",
-            "version": "v1.0.25",
+            "version": "v1.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VKCOM/kphp-polyfills.git",
-                "reference": "571cc4d305ff0d413e7e8114a41642366543a9a6"
+                "reference": "fd09f5532ffa3770a9f458fefe8cdb0729bc1f92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VKCOM/kphp-polyfills/zipball/571cc4d305ff0d413e7e8114a41642366543a9a6",
-                "reference": "571cc4d305ff0d413e7e8114a41642366543a9a6",
+                "url": "https://api.github.com/repos/VKCOM/kphp-polyfills/zipball/fd09f5532ffa3770a9f458fefe8cdb0729bc1f92",
+                "reference": "fd09f5532ffa3770a9f458fefe8cdb0729bc1f92",
                 "shasum": ""
             },
             "require": {
@@ -244,10 +244,10 @@
             ],
             "description": "PHP implementations of functions supported by KPHP natively",
             "support": {
-                "source": "https://github.com/VKCOM/kphp-polyfills/tree/v1.0.25",
+                "source": "https://github.com/VKCOM/kphp-polyfills/tree/v1.0.39",
                 "issues": "https://github.com/VKCOM/kphp-polyfills/issues"
             },
-            "time": "2022-08-16T11:21:49+00:00"
+            "time": "2023-11-13T18:44:32+00:00"
         },
         {
             "name": "vkcom/ktest-script",

@@ -25,7 +25,7 @@ function chatId(): int
 {
     /** @var Revobot\Revobot $Bot */
     global $Bot;
-    return $Bot->chat_id;
+    return (int)$Bot->chat_id;
 }
 
 /**

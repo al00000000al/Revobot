@@ -25,7 +25,7 @@ class Gpt
 
     private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-3.5-turbo')
     {
-        list($_, $answer) = OpenAIService::generate($user_input, $context, $history, $model);
+        list($_, $answer) = OpenAIService::generate($user_input, $context, (array)$history, $model);
 
         if ($save_history) {
             $history = OpenAIService::addMessageToHistory($history, 'user', (string)$user_input);

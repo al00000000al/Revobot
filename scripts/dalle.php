@@ -22,7 +22,7 @@ if (!$input) {
 }
 list($status, $result) = Dalle::generate($input);
 if ($status === -1) {
-    Tg::send($result, $chat_id);
+    Tg::sendMessage($chat_id, $result);
 } else {
     Tg::sendPhoto($chat_id, $result, $input);
 }

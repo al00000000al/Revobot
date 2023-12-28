@@ -325,21 +325,25 @@ class Revobot
             });
 
             KLua::registerFunction1('getChatAdministrators', function ($chat_id = 0) {
-                if ($chat_id === 0) {
-                    $chat_id = chatId();
+                if ((int)$chat_id === 0) {
+                    $chatId = chatId();
+                } else {
+                    $chatId = (int)$chat_id;
                 }
                 if ($this->provider === 'tg') {
-                    return Tg::getChatAdministrators((int)$chat_id);
+                    return Tg::getChatAdministrators((int)$chatId);
                 }
                 return '';
             });
 
             KLua::registerFunction1('getChat', function ($chat_id = 0) {
-                if ($chat_id === 0) {
-                    $chat_id = chatId();
+                if ((int)$chat_id === 0) {
+                    $chatId = chatId();
+                } else {
+                    $chatId = (int)$chat_id;
                 }
                 if ($this->provider === 'tg') {
-                    return Tg::getChat((int)$chat_id);
+                    return Tg::getChat((int)$chatId);
                 }
                 return '';
             });

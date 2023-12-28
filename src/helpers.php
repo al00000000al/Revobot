@@ -7,9 +7,11 @@
  */
 function userId(): int
 {
+    /** @var Revobot\Revobot $Bot */
     global $Bot;
-    if ($Bot->getProvider() === 'tg' && isset($Bot->getRawData()['from']['id'])) {
-        return (int)$Bot->getRawData()['from']['id'];
+
+    if ($Bot->provider === 'tg' && isset($Bot->raw_data['from']['id'])) {
+        return (int)$Bot->raw_data['from']['id'];
     }
     return 0;
 }
@@ -21,6 +23,7 @@ function userId(): int
  */
 function chatId(): int
 {
+    /** @var Revobot\Revobot $Bot */
     global $Bot;
-    return $Bot->getChatId();
+    return $Bot->chat_id;
 }

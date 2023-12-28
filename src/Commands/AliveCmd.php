@@ -2,11 +2,11 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Config;
 use Revobot\Util\PMC;
 
 class AliveCmd extends BaseCmd
 {
-
     const KEYS = ['alive', 'алив'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Состояние бота';
@@ -22,6 +22,7 @@ class AliveCmd extends BaseCmd
     public function exec(): string
     {
         $pmc_v = PMC::getVersion();
-        return "Жив! PMC: $pmc_v, Bot build: 181";
+        $build = file_get_contents(Config::get('base_path') . '/build.txt');
+        return "Жив! PMC: {$pmc_v}, Bot build: {$build}";
     }
 }

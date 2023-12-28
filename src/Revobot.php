@@ -53,6 +53,7 @@ class Revobot
      */
     public function __construct(string $provider)
     {
+        /** @var Revobot $Bot */
         global $Bot;
         $this->provider = $provider;
         $Bot = $this;
@@ -64,20 +65,6 @@ class Revobot
     public function setMessage(string $message)
     {
         $this->message = $message;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserId(): int
-    {
-        if ($this->provider === 'tg') {
-            if (isset($this->raw_data['from']['id'])) {
-                return (int)$this->raw_data['from']['id'];
-            }
-            return 0;
-        }
-        return 0;
     }
 
     /**
@@ -142,7 +129,7 @@ class Revobot
 
             KLua::registerFunction3('editMessageText', function ($message_id, $text, $options = []) {
                 if ($this->provider === 'tg') {
-                    return Tg::editMessageText($this->chat_id, (int)$message_id, (string) $text, '', $options);
+                    return Tg::editMessageText($this->chat_id, (int)$message_id, (string) $text, '', (array)$options);
                 }
                 return '';
             });

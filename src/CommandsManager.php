@@ -25,7 +25,7 @@ case 'алиас':
 	break;
 case 'alive':
 case 'алив':
-	$response = (new \Revobot\Commands\AliveCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\AliveCmd($input))->exec();
 	break;
 case 'answer':
 case 'ответ':
@@ -57,7 +57,7 @@ case 'чат':
 	break;
 case 'chatid':
 case 'чатид':
-	$response = (new \Revobot\Commands\ChatIdCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\ChatIdCmd($input))->exec();
 	break;
 case 'cmd':
 case 'кмд':
@@ -68,7 +68,7 @@ case 'комманда':
 	break;
 case 'config':
 case 'конфиг':
-	$response = (new \Revobot\Commands\ConfigCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\ConfigCmd($input))->exec();
 	break;
 case 'delete':
 case 'del':
@@ -154,7 +154,7 @@ case 'start':
 	break;
 case 'id':
 case 'ид':
-	$response = (new \Revobot\Commands\IdCmd($input, $bot))->exec();
+	$response = (new \Revobot\Commands\IdCmd($input))->exec();
 	break;
 case 'idead':
 case 'яумру':

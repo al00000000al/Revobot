@@ -28,7 +28,7 @@ class Gpt
         list($_, $answer) = OpenAIService::generate($user_input, $context, $history, $model);
 
         if ($save_history) {
-            $history = OpenAIService::addMessageToHistory($history, 'user', $user_input);
+            $history = OpenAIService::addMessageToHistory($history, 'user', (string)$user_input);
             $history = OpenAIService::addMessageToHistory($history, 'assistant', (string)$answer);
             $GptPMC->setHistory($history);
         }

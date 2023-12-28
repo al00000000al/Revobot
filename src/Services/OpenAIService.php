@@ -2,22 +2,33 @@
 
 namespace Revobot\Services;
 
-use Orhanerday\OpenAi\OpenAi;
 use Revobot\Config;
-use Revobot\Util\Curl;
 
 class OpenAIService
 {
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 1000): array
+
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 1000)
     {
-        // $open_ai = new OpenAi(Config::get('openai_api_key'));
-        $messages  = [];
+        $messages = [];
         $messages = self::addMessageToHistory($messages, 'system', $context);
-        foreach ($history as $message) {
-            $messages = self::addMessageToHistory($messages, (string)$message['role'], (string)$message['content']);
+
+        #ifndef KPHP
+        // Какая-то фигня, не компилируется - Can not compile foreach on array of Unknown type
+        for ($i = 0; $i < count($history); $i++) {
+            if (!is_array($history[$i])) {
+                continue; // Убедитесь, что текущий элемент является массивом
+            }
+
+            $message = $history[$i];
+            $role = isset($message['role']) ? (string)$message['role'] : 'user';
+            $content = isset($message['content']) ? (string)$message['content'] : 'hi';
+            $messages = self::addMessageToHistory($messages, $role, $content);
         }
+        #endif
+
         $messages = self::addMessageToHistory($messages, 'user', $input);
+
 
         $ch = curl_init(Config::get('openai_api_host'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -39,7 +50,13 @@ class OpenAIService
         return [(string)$d['choices'][0]['finish_reason'], (string)$d['choices'][0]['message']['content']];
     }
 
-    public static function addMessageToHistory($history, string $role, string $content)
+    /**
+     * @param array $history
+     * @param string $role
+     * @param string $content
+     * @return array
+     */
+    public static function addMessageToHistory(array $history, string $role, string $content)
     {
         $history[] = ['role' => $role, 'content' => $content];
 

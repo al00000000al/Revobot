@@ -454,7 +454,7 @@ class Revobot
             if (isset($this->raw_data['reply_to_message'])) {
                 $source_text = (string)$this->raw_data['reply_to_message']['text'];
                 $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
-                if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text)) {
+                if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
                     $save_history = 1;
                     PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                     $base_path = Config::get('base_path');

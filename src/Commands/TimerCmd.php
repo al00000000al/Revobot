@@ -33,6 +33,7 @@ class TimerCmd extends BaseCmd
             return 'Некорректная дата или время. Формат: YYYY-MM-DD HH:MM';
         }
 
+        $date_time2 = $date_time - self::_getUserTimeOffset();
         $text = $args[2];
         $chat_id = chatId();
         $user_id = userId();
@@ -40,12 +41,12 @@ class TimerCmd extends BaseCmd
         $timer_data = [
             'user' => $user_id,
             'text' => $text,
-            'datetime' => $date_time,
+            'datetime' => $date_time2,
             'chat_id' => $chat_id,
             '_rnd' => $rnd
         ];
 
-        PMC::set('timer_' . $date_time . '_' . $rnd, json_encode($timer_data));
+        PMC::set('timer_' . $date_time2 . '_' . $rnd, json_encode($timer_data));
 
         $revocoin =  (new Revocoin($Bot));
         $user_balance = $revocoin->getBalance($user_id);
@@ -57,5 +58,14 @@ class TimerCmd extends BaseCmd
         (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('tg_bot_id'), $user_id);
 
         return 'Таймер установлен на ' . date('Y-m-d H:i', $date_time) . "\n -" . Prices::PRICE_TIMER . ' R';
+    }
+
+    private function _getUserTimeOffset()
+    {
+        $timezone =  PMC::get('user_timezone_tg' . userId());
+        if (!$timezone) {
+            return (TimeCmd::MSK_TZ) * 60 * 60;
+        }
+        return ((int)$timezone - TimeCmd::MSK_TZ) * 60 * 60;
     }
 }

@@ -12,7 +12,7 @@ class TimeCmd extends BaseCmd
     const HELP_DESCRIPTION = 'Правильное время';
     private const PMC_USER_TIMEZONE_KEY = "user_timezone_"; //.$provider.$user_id
     private const DATE_FORMAT = 'Y-m-d H:i:s';
-    const MSK_TZ = 3;
+    public const MSK_TZ = 3;
 
     private Revobot $bot;
 

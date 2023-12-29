@@ -2,6 +2,9 @@
 
 namespace Revobot\Commands;
 
+use Revobot\Commands\Custom\Prices;
+use Revobot\Config;
+use Revobot\Money\Revocoin;
 use Revobot\Util\PMC;
 
 class TimerCmd extends BaseCmd
@@ -17,6 +20,8 @@ class TimerCmd extends BaseCmd
 
     public function exec(): string
     {
+        global $Bot;
+
         $args = explode(' ', $this->input, 3);
 
         if (count($args) < 3) {
@@ -30,9 +35,10 @@ class TimerCmd extends BaseCmd
 
         $text = $args[2];
         $chat_id = chatId();
+        $user_id = userId();
         $rnd = mt_rand(100, 999);
         $timer_data = [
-            'user' => userId(),
+            'user' => $user_id,
             'text' => $text,
             'datetime' => $date_time,
             'chat_id' => $chat_id,
@@ -41,6 +47,15 @@ class TimerCmd extends BaseCmd
 
         PMC::set('timer_' . $date_time . '_' . $rnd, json_encode($timer_data));
 
-        return 'Таймер установлен на ' . date('Y-m-d H:i', $date_time);
+        $revocoin =  (new Revocoin($Bot));
+        $user_balance = $revocoin->getBalance($user_id);
+
+        if ($user_balance < Prices::PRICE_TIMER) {
+            return "Недостаточно ревокоинов (требуется 5 R)";
+        }
+
+        (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('tg_bot_id'), $user_id);
+
+        return 'Таймер установлен на ' . date('Y-m-d H:i', $date_time) . "\n -" . Prices::PRICE_TIMER . ' R';
     }
 }

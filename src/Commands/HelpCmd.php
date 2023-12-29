@@ -27,6 +27,7 @@ class HelpCmd extends BaseCmd
 /chatid - get chat id
 /cmd - Создать команду (20R)
 /delete - Удалить команду
+/delmsg - Удааление сообщения бота
 /donate - Купить ревокоины
 /echo - Печатать
 /editcode - Редактировать команду с кодом lua (0R)

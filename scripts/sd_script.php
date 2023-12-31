@@ -7,6 +7,10 @@ use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 use Revobot\Util\Strings;
 
+global $NoCheck;
+
+$NoCheck = true;
+
 require __DIR__ . '/../config.php';
 
 while (true) {
@@ -57,7 +61,7 @@ function sdGenerate($taskData)
 
     if (isset($responseData['images'][0])) {
         $imageData = base64_decode($responseData['images'][0]);
-        $output = 'tmp/output' . time() . '_' . $user_id . '.png';
+        $output = '../tmp/output' . time() . '_' . $user_id . '.png';
         file_put_contents($output, $imageData);
         Tg::sendPhoto($chat_id, $output, $taskData['prompt'], ['has_spoiler' => 1]);
         // @unlink($output);
@@ -70,6 +74,8 @@ function sdRun()
 {
     $taskApiUrl = Config::get('stable_diffusion_task_api') . http_build_query(['key' => Config::get('stable_diffusion_task_key')]);
     $taskData = json_decode(Curl::get($taskApiUrl), true);
+
+    print_r($taskData);
 
     if (!isset($taskData['prompt'])) {
         echo date(DATE_ATOM, time()) . "\r\n";

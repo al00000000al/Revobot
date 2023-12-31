@@ -84,6 +84,10 @@ class Curl
 
     private static function isLocalUrl($url)
     {
+        global $NoCheck;
+        if ((bool)$NoCheck) {
+            return false;
+        }
         $host = parse_url($url, PHP_URL_HOST);
         if (!$host) {
             return true;

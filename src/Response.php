@@ -7,14 +7,14 @@ class Response
     public static function json($data, $statusCode = 200)
     {
         header('Content-Type: application/json');
-        http_response_code($statusCode);
+        // http_response_code($statusCode);
         echo json_encode($data);
     }
 
     public static function text($text, $statusCode = 200)
     {
         header('Content-Type: text/plain');
-        http_response_code($statusCode);
+        // http_response_code($statusCode);
         echo $text;
     }
 
@@ -27,7 +27,7 @@ class Response
     public static function html($htmlContent, $statusCode = 200)
     {
         header('Content-Type: text/html');
-        http_response_code($statusCode);
+        // http_response_code($statusCode);
         echo $htmlContent;
     }
 }

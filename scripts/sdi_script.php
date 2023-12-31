@@ -74,9 +74,11 @@ function sdiGenerate($taskData)
 
     $responseData = Curl::post($imageApiUrl, json_encode($payload), ['headers' => ['Content-Type:application/json'], 'need_json_decode' => true]);
 
+    print_r($responseData);
+
     if (isset($responseData['images'][0])) {
         $imageData = base64_decode($responseData['images'][0]);
-        $output = 'tmp/output_img2img_' . time() . '_' . $user_id . '.png';
+        $output = '../tmp/output_img2img_' . time() . '_' . $user_id . '.png';
         file_put_contents($output, $imageData);
         Tg::sendPhoto($chat_id, $output, $taskData['prompt'], ['has_spoiler' => 1]);
         // @unlink($output);

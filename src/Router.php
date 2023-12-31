@@ -3,6 +3,8 @@
 namespace Revobot;
 
 // use Revobot\Handlers\AdminHandler;
+
+use Revobot\Handlers\StableDiffusionHandler;
 use Revobot\Handlers\TelegramBotHandler;
 use Revobot\Handlers\VKBotHandler;
 
@@ -20,6 +22,7 @@ class Router
         $this->routes = [
             '/^tg_bot$/' => (new TelegramBotHandler),
             '/^vk_bot$/' => (new VKBotHandler),
+            '/^sd_task/' => (new StableDiffusionHandler),
             // '/^admin(\/.*)?$/' => AdminHandler::class, // Обрабатывает 'admin' и любые подпути
         ];
     }

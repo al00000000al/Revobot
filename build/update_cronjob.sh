@@ -20,4 +20,4 @@ update_cron_job() {
     fi
 }
 
-update_cron_job "/home/opc/www/revobot/scripts/cron/timer.php" "*/5 * * * *"
+update_cron_job "/home/opc/www/revobot/scripts/cron/timer.php" "* * * * *"

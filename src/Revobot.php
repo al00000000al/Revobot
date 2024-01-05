@@ -580,7 +580,7 @@ class Revobot
     public static function verifyTgRequest()
     {
         if (isset($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'])) {
-            if (hash_equals($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'], Config::get('secret_token'))) {
+            if (hash_equals((string)$_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'], Config::get('tg_secret_token'))) {
                 return true;
             }
         }

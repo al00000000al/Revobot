@@ -33,3 +33,4 @@ $config['stable_diffusion_task_api'] = 'http://localhost/sd_task?';
 $config['telegram_webhook_url'] = 'https://localhost/tg_bot';
 
 $config['base_path'] = '/home/opc/www/revobot/';
+$config['public_domain'] = 'https://localhost';

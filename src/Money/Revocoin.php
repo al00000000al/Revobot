@@ -59,15 +59,14 @@ class Revocoin
         return $prize_max_tries;
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getLastBlock(): array
-    {
-        $last_block = PMC::get(self::PMC_MONEY_LAST_BLOCK_KEY);
 
-        list($block_id, $prev_hash) = $last_block;
-        return [$block_id, $prev_hash];
+    /**
+     * @return tuple(int, string)
+     */
+    public static function getLastBlock()
+    {
+        list($block_id, $hash) = PMC::get(self::PMC_MONEY_LAST_BLOCK_KEY);
+        return tuple((int)$block_id, (string)$hash);
     }
 
 
@@ -192,7 +191,7 @@ class Revocoin
         // @todo: instance_cache
 
         $prize_max_tries = self::MAX_TRIES_DEFAULT;
-        $last_block = $this->getLastBlock();
+        $last_block = self::getLastBlock();
         $block_id = (int)$last_block[0];
         $prev_hash = $last_block[1];
 
@@ -227,7 +226,7 @@ class Revocoin
                     $this->saveBlock($next_id, $params_str);
                     $this->setLastBlock($next_id, $hash);
 
-                    return ['id' => $next_id, 'amount' => $prize];
+                    return ['id' => $next_id, 'amount' => $prize, 'hash' => $hash];
                 }
 
                 return [];
@@ -236,5 +235,10 @@ class Revocoin
         }
 
         return [];
+    }
+
+    public static function getBlock(string $provider, int $block_id): array
+    {
+        return (array) PMC::get(self::PMC_MONEY_BLOCK_KEY . $provider . $block_id);
     }
 }

@@ -418,7 +418,7 @@ class Revobot
             $mining_result = wait($mining_future);
 
             if (!empty($mining_result)) {
-                $this->sendMessageTg('+' . $mining_result['amount'] . ' R у @' . $this->getUserNick() . "\nBlock #" . $mining_result['id']);
+                $this->sendMessageTg(self::renderMiningMessage($mining_result['amount'], $this->getUserNick(), $mining_result['id'], $mining_result['hash']), 'html');
             }
             // Mining bot
             if ($response) {
@@ -426,7 +426,7 @@ class Revobot
                 $mining_result_bot = wait($mining_future_bot);
 
                 if (!empty($mining_result_bot)) {
-                    $this->sendMessageTg('+' . $mining_result_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_bot['id']);
+                    $this->sendMessageTg(self::renderMiningMessage($mining_result_bot['amount'], 'Therevoluciabot', $mining_result_bot['id'], $mining_result_bot['hash']), 'html');
                 }
             }
 
@@ -438,7 +438,7 @@ class Revobot
                     $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$bot_answer));
                     $mining_result_ans_bot = wait($mining_future_ans_bot);
                     if (!empty($mining_result_ans_bot)) {
-                        $this->sendMessageTg('+' . $mining_result_ans_bot['amount'] . ' R у @Therevoluciabot' . "\nBlock #" . $mining_result_ans_bot['id']);
+                        $this->sendMessageTg(self::renderMiningMessage($mining_result_ans_bot['amount'], 'Therevoluciabot', $mining_result_ans_bot['id'], $mining_result_ans_bot['hash']), 'html');
                     }
                 }
             }
@@ -586,5 +586,14 @@ class Revobot
         }
 
         return false;
+    }
+
+    /**
+     * @kphp-inline
+     */
+    public static function renderMiningMessage($amount, $username, $block_id, $hash)
+    {
+        $domain = Config::get('public_domain');
+        return "+{$amount} R у @{$username}\n<a href=\"{$domain}/blocks/{$block_id}_{$hash}\">Block #{$block_id}</a>";
     }
 }

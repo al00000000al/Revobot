@@ -5,6 +5,7 @@ namespace Revobot\Handlers;
 use Revobot\RequestHandlerInterface;
 use Revobot\Revobot;
 use Revobot\Config;
+use Revobot\Response;
 use Revobot\Services\Providers\Tg;
 
 class TelegramBotHandler implements RequestHandlerInterface
@@ -15,8 +16,10 @@ class TelegramBotHandler implements RequestHandlerInterface
         // Получение входящих данных от Telegram
         $data = file_get_contents('php://input');
         $dataArr = (array)json_decode($data, true);
-        if (!$dataArr) {
-            return; // Если данные не удалось декодировать, прекращаем обработку
+
+        if (!$dataArr || !Revobot::verifyTgRequest()) {
+            Response::json(['error' => 'invalid request']);
+            return;
         }
 
         $bot = new Revobot('tg');

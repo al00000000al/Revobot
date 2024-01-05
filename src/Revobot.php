@@ -575,4 +575,16 @@ class Revobot
     {
         Tg::sendChatAction(chatId(), 'typing');
     }
+
+
+    public static function verifyTgRequest()
+    {
+        if (isset($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'])) {
+            if (hash_equals($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'], Config::get('secret_token'))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

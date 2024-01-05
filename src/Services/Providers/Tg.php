@@ -320,11 +320,12 @@ class Tg extends Base
         ]);
     }
 
-    public static function setWebhook(string $url)
+    public static function setWebhook(string $url, $options = [])
     {
         return self::_makeRequest('setWebhook', [
             'url' => $url,
             'drop_pending_updates' => true,
+            ...$options
         ]);
     }
 

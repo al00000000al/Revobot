@@ -27,7 +27,10 @@ class TimeCmd extends BaseCmd
     {
         $tz = null;
         if (!empty($this->input)) {
-            $tz = (string)$this->input;
+            $tz = (float)trim((string)$this->input);
+            if ((int)$tz > 14 || (int)$tz < -12 || ($tz == 0 && $this->input !== '+0')) {
+                return "Неправильная зона, пишите /time +4";
+            }
             PMC::set($this->getKey(), $tz);
         } else {
             $result = PMC::get($this->getKey());
@@ -40,7 +43,7 @@ class TimeCmd extends BaseCmd
             return date(self::DATE_FORMAT);
         }
 
-        return date(self::DATE_FORMAT, time() + ((int)$tz - self::MSK_TZ) * 60 * 60);
+        return date(self::DATE_FORMAT, time() + ((float)$tz - self::MSK_TZ) * 60 * 60) . ' ' . ((int)$tz > 0 ? '+' . $tz : '' . $tz);
     }
 
     /**

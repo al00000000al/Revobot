@@ -1,6 +1,7 @@
 <?php
 
 $config['tg_key'] = '';
+$config['tg_secret_token'] = '';
 $config['vk_key'] = '';
 $config['secret_key'] = '';
 $config['fc_key'] = '';

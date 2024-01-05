@@ -17,6 +17,9 @@ if (KPHP_COMPILER_VERSION) {
 
 const LUA_MAX_MEM_BYTES = 1024 * 1024;
 
+global $NoCheck;
+$NoCheck = false;
+
 $lua_config = new KLuaConfig();
 $lua_config->preload_stdlib = ['base', 'string', 'math', 'utf8'];
 $lua_config->alloc_hook = function ($alloc_size) {

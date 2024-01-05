@@ -8,7 +8,7 @@ class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 1000)
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-3.5-turbo', $temperature = 0.8, $max_tokens = 500)
     {
         $messages = [];
         $messages = self::addMessageToHistory($messages, 'system', $context);

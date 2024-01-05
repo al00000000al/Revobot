@@ -24,7 +24,8 @@ function processTimers()
 
         if ((int)$current_time >= (int)$timer_info['datetime']) {
             $username = getUsername($timer_info['chat_id'], $timer_info['user']);
-            Tg::sendMessage($timer_info['chat_id'], $username . ' ' . $timer_info['text']);
+            $res = Tg::sendMessage($timer_info['chat_id'], $username . ' ' . $timer_info['text']);
+            print_r($res);
             PMC::delete('timer_' . $timer_info['datetime'] . '_' . $timer_info['_rnd']);
         }
     }

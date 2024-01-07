@@ -4,6 +4,7 @@ namespace Revobot;
 
 // use Revobot\Handlers\AdminHandler;
 
+use Revobot\Handlers\AdminHandler;
 use Revobot\Handlers\BlockchainHandler;
 use Revobot\Handlers\StableDiffusionHandler;
 use Revobot\Handlers\TelegramBotHandler;
@@ -25,7 +26,7 @@ class Router
             '/^vk_bot$/' => (new VKBotHandler),
             '/^sd_task/' => (new StableDiffusionHandler),
             '/^blocks/' => (new BlockchainHandler),
-            // '/^admin(\/.*)?$/' => AdminHandler::class, // Обрабатывает 'admin' и любые подпути
+            '/^admin(\/.*)?$/' => (new AdminHandler), // Обрабатывает 'admin' и любые подпути
         ];
     }
 

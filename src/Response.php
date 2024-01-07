@@ -29,5 +29,6 @@ class Response
         header('Content-Type: text/html');
         // http_response_code($statusCode);
         echo $htmlContent;
+        return;
     }
 }

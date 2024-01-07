@@ -45,7 +45,7 @@ class AdminHandler implements RequestHandlerInterface
     {
         $user_id = $this->getAuthUser();
         if ($user_id !== false) {
-            return Response::html('Login Successful: user_id=' . $user_id);
+            return Response::html("Login Successful: user_id={$user_id}<br><a href=\"/admin?logout=1\">Log out</a>");
         } else {
             return Response::html($this->loginSkin(Config::get('public_domain')));
         }
@@ -53,6 +53,7 @@ class AdminHandler implements RequestHandlerInterface
 
     private function logout()
     {
+        PMC::delete('auth_hash' . $_COOKIE[self::COOKIE]);
         setcookie(self::COOKIE, '');
         $this->redirect();
         return;

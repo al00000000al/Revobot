@@ -432,7 +432,7 @@ class Revobot
 
             if ($has_bot_response) {
 
-                $bot_answer = Answers::getAnswer('- ' . $this->message . "\n - ");
+                $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
                 if (!empty($bot_answer)) {
                     $this->sendMessageTg((string)$bot_answer);
                     $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$bot_answer));

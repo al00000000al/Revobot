@@ -62,6 +62,7 @@ class HelpCmd extends BaseCmd
 /stat - Статистика R
 /storageget - Получить значение из ключа
 /storageset - Сохранить значение в ключе
+/summarize - /summarize ссылка
 /talk - Лимит на разговоров
 /time - Правильное время
 /timer - Установка таймера ($)

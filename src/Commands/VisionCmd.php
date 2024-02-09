@@ -10,7 +10,7 @@ use Revobot\Services\Providers\Tg;
 class VisionCmd extends BaseCmd
 {
     private Revobot $bot;
-    const KEYS = ['vision', 'чтотам', 'прочитай', 'чтоделать'];
+    const KEYS = ['vision', 'чтотам', 'чтоделать'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'send image';
 

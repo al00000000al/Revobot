@@ -9,7 +9,7 @@ use Revobot\Util\Curl;
 
 class SummarizeCmd extends BaseCmd
 {
-    const KEYS = ['summarize'];
+    const KEYS = ['summarize', 'прочитай', 'статья'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = '/summarize ссылка';
     private Revobot $bot;

@@ -28,10 +28,10 @@ class SummarizeCmd extends BaseCmd
         }
         $user_id = userId();
         $chat_id = chatId();
-        $data = Curl::get(trim($this->input));
+        $data = strip_tags(Curl::get(trim($this->input)));
         $message_id = $this->bot->raw_data['message_id'];
         $GptPMC = new GptPMC($user_id, $this->bot->provider);
-        $GptPMC->setInput('Что тут? Напиши очень кратко.' . PHP_EOL . $data);
+        $GptPMC->setInput('Что тут? Напиши очень кратко на русском языке.' . PHP_EOL . $data);
         $base_path = Config::get('base_path');
         exec("cd {$base_path}/scripts && php gptda.php $chat_id $user_id $message_id > /dev/null 2>&1 &");
         return '';

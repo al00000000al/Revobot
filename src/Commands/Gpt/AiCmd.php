@@ -9,6 +9,7 @@ use Revobot\Games\AI\GptPMC;
 use Revobot\JobWorkers\JobLauncher;
 use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
 use Revobot\Revobot;
+use Revobot\Util\Throttler;
 
 class AiCmd extends BaseCmd
 {
@@ -29,11 +30,15 @@ class AiCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
+
             $base_path = Config::get('base_path');
             $GptPMC = new GptPMC(userId(), $this->bot->provider);
             $save_history = 1;
             $chat_id = chatId();
             $user_id = userId();
+            if (!Throttler::check($user_id, 'aicmd', 50)) {
+                return 'Больше нельзя сегодня';
+            }
             $message_id = $this->bot->raw_data['message_id'];
             $input = $this->input;
             $GptPMC->setInput($input);

@@ -32,8 +32,8 @@ class ShowCmd extends BaseCmd
 
         $user_id = userId();
         $chat_id = chatId();
-        if (!Throttler::check($this->bot, $user_id, 'showcmd', 1, 60 * 60)) {
-            return 'Подождите немного!';
+        if (!Throttler::check($user_id, 'showcmd', 20)) {
+            return 'Больше нельзя сегодня';
         }
         $base_path = Config::get('base_path');
         PMC::set('dalle_input' . $user_id, $this->input);

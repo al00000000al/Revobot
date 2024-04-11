@@ -17,7 +17,7 @@ class StableDiffusionHandler implements RequestHandlerInterface
             if (empty($key)) {
                 return Response::json(['error' => 'key not set']);
             }
-            if (strcmp($_GET['key'], $key)) {
+            if (($_GET['key'] === $key)) {
                 $items = PMC::get('stable_diffusion_#');
                 if (!empty($items)) {
                     $key = array_key_first($items);

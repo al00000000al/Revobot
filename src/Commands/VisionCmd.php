@@ -6,6 +6,7 @@ use Revobot\Config;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Revobot;
 use Revobot\Services\Providers\Tg;
+use Revobot\Util\Throttler;
 
 class VisionCmd extends BaseCmd
 {
@@ -44,6 +45,10 @@ class VisionCmd extends BaseCmd
             $input = 'Че тут? Напиши очень кратко';
         }
         $user_id = userId();
+
+        if (!Throttler::check($user_id, 'visioncmd', 20)) {
+            return 'Больше нельзя сегодня';
+        }
         $GptPMC = new GptPMC($user_id, $this->bot->provider);
         $GptPMC->setInput($input);
 

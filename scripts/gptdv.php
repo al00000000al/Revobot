@@ -42,7 +42,7 @@ $data = [
             ]
         ]
     ],
-    'max_tokens' => 300
+    'max_tokens' => 800
 ];
 
 $ch = curl_init(Config::get('openai_api_host'));

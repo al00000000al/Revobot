@@ -36,7 +36,7 @@ class AiCmd extends BaseCmd
             $save_history = 1;
             $chat_id = chatId();
             $user_id = userId();
-            if (!Throttler::check($user_id, 'aicmd', 50)) {
+            if (Throttler::check($user_id, 'aicmd', 50)) {
                 return 'Больше нельзя сегодня';
             }
             $message_id = $this->bot->raw_data['message_id'];

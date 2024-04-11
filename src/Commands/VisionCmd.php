@@ -46,7 +46,7 @@ class VisionCmd extends BaseCmd
         }
         $user_id = userId();
 
-        if (!Throttler::check($user_id, 'visioncmd', 20)) {
+        if (Throttler::check($user_id, 'visioncmd', 15)) {
             return 'Больше нельзя сегодня';
         }
         $GptPMC = new GptPMC($user_id, $this->bot->provider);

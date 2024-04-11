@@ -32,7 +32,7 @@ class ShowCmd extends BaseCmd
 
         $user_id = userId();
         $chat_id = chatId();
-        if (!Throttler::check($user_id, 'showcmd', 20)) {
+        if (Throttler::check($user_id, 'showcmd', 20)) {
             return 'Больше нельзя сегодня';
         }
         $base_path = Config::get('base_path');

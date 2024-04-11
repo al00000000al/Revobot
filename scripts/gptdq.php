@@ -20,7 +20,7 @@ $chat_id = (int)$argv[1];
 $input = 'Сгенерируй сложный вопрос на тему ' . $themes[mt_rand(0, count($themes) - 1)] . ' из ОГЭ для викторины на деньги в json формате question, answers => [id, text], correct_number. В ответе пиши только json и ничего больше. Текст вопроса не слишком длинный';
 
 $data = [
-    'model' => 'gpt-4-turbo-preview',
+    'model' => 'gpt-4-turbo',
     'messages' => [
         [
             'role' => 'user',

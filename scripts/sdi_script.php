@@ -56,11 +56,11 @@ function sdiGenerate($taskData)
 
     $prompt = Strings::transliterate($prompt);
     $payload = array(
-        "prompt" => $prompt . '  <lora:LCM_LoRA_Weights_SD15:1> <lora:detail_slider_v4:1> <lora:add_sharpness:2>',
+        "prompt" => $prompt . '  <lora:detail_slider_v4:1> <lora:add_sharpness:2>',
         'negative_prompt' => $options['negative_prompt'] . ' realisticvision-negative-embedding',
-        "sampler_name" => 'LCM',
-        'cfg_scale' => 1,
-        'sampler_index' => 'LCM',
+        "sampler_name" => 'DPM++ 3M SDE',
+        'cfg_scale' => 6,
+        'sampler_index' => 'DPM++ 3M SDE',
         'init_images' => [Strings::img2base64($input)],
         'denoising_strength' => 0.5,
         'inpainting_fill' => 0,

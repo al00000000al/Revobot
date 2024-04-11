@@ -26,7 +26,7 @@ $base64Image = base64_encode($imageContent);
 $input = getInput($user_id);
 
 $data = [
-    'model' => 'gpt-4-turbo-preview',
+    'model' => 'gpt-4-turbo',
     'messages' => [
         [
             'role' => 'user',

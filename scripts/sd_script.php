@@ -31,7 +31,7 @@ function sdGenerate($taskData)
     $prompt = Strings::cleanCommandArguments($prompt);
     list($options, $prompt) = sdSafe($prompt, $options);
     if (!isset($options['steps']) || (int)$options['steps'] > 50 || (int)$options['steps'] <= 1) {
-        $options['steps'] = 8;
+        $options['steps'] = 16;
     }
     if (isset($options['width'])) {
         if ((int)$options['width'] > 1024 || (int)$options['width'] < 8) {
@@ -49,11 +49,11 @@ function sdGenerate($taskData)
     }
     $prompt = Strings::transliterate($prompt);
     $payload = array(
-        "prompt" => $prompt . ' <lora:LCM_LoRA_Weights_SD15:1> <lora:add_sharpness:1>',
+        "prompt" => $prompt . '',
         'negative_prompt' => $options['negative_prompt'] . ' realisticvision-negative-embedding',
-        "sampler_name" => 'LCM',
-        'cfg_scale' => 1,
-        'sampler_index' => 'LCM',
+        "sampler_name" => 'DPM++ 3M SDE',
+        'cfg_scale' => 6,
+        'sampler_index' => 'DPM++ 3M SDE',
         ...$options
     );
 

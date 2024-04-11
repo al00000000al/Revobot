@@ -8,7 +8,7 @@ require '../config.php';
 
 
 $data = [
-    'model' => 'gpt-4-vision-preview',
+    'model' => 'gpt-4-turbo',
     'messages' => [
         [
             'role' => 'user',

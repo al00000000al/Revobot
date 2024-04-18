@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config.php';
 const PMC_THROTTLE_KEY = 'throttle_';
 const PMC_BLOCK_KEY = 'block_';
 
-$user_id = 1422537077;
+$user_id = 12345;
 $section = 'showcmd';
 
 $key = getKey($user_id, $section);
@@ -16,6 +16,9 @@ $blockKey = getBlockKey($user_id, $section);
 
 $isBlocked = PMC::get($blockKey);
 $attempts = PMC::get($key);
+
+var_dump($isBlocked);
+var_dump($attempts);
 
 function getKey($user_id, $section)
 {

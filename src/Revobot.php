@@ -104,7 +104,7 @@ class Revobot
     public function run()
     {
         if ($this->provider === 'tg') {
-
+            $startTime = microtime(true);
             $need_reply = (bool)(PMC::get('fk_' . $this->provider . userId()));
 
             if (!empty($need_reply)) {
@@ -412,6 +412,12 @@ class Revobot
             $response = CommandsManager::process($this);
 
             if ($response && !empty($response)) {
+
+                $admins = Config::getArr('tg_bot_admins');
+                if (in_array(userId(), $admins)) {
+                    $response .= "\n\n" . round(microtime(true) - $startTime, 4) . ' сек.';
+                }
+
                 $this->sendMessageTg($response, $parse_mode);
                 $this->addUserChat();
             }

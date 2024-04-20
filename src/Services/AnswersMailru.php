@@ -50,6 +50,6 @@ class AnswersMailru
         //$bestanswer = (int)$answers['bestanswer'];
 
         $text = $answers['answers'][mt_rand(0, count($answers['answers']) - 1)]['atext'];
-        return (string)$text;
+        return (string)strip_tags($text);
     }
 }

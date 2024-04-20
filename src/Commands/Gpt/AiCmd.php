@@ -8,7 +8,10 @@ use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
 use Revobot\JobWorkers\JobLauncher;
 use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
+use Revobot\Neural\Answers;
 use Revobot\Revobot;
+use Revobot\Services\AnswersMailru;
+use Revobot\Services\DobroAI;
 use Revobot\Util\Throttler;
 
 class AiCmd extends BaseCmd
@@ -30,7 +33,11 @@ class AiCmd extends BaseCmd
     public function exec(): string
     {
         if (!empty($this->input)) {
-
+            $answer =  AnswersMailru::get($this->input);
+            if (empty($answer)) {
+                $answer = DobroAI::get("- " . $this->input . "\r\n- ");
+            }
+            return $answer;
             $base_path = Config::get('base_path');
             $GptPMC = new GptPMC(userId(), $this->bot->provider);
             $save_history = 1;

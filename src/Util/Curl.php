@@ -50,7 +50,7 @@ class Curl
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout in seconds
+        curl_setopt($ch, CURLOPT_TIMEOUT, 40); //timeout in seconds
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         $output = curl_exec($ch);
         curl_close($ch);
@@ -79,7 +79,7 @@ class Curl
 
     private static function isValidUrl($url)
     {
-        return preg_match('/^https?:\/\/[a-zA-Z0-9.-А-Яа-яёЁ\:\/\\\\\%&\*\(\)_\?\-=]+$/', $url);
+        return preg_match('/^https?:\/\/[a-zA-Z0-9.-А-Яа-яёЁ\s\:\/\\\\\%&\*\(\)_\?\-=\+]+$/', $url);
     }
 
     private static function isLocalUrl($url)

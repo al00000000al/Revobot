@@ -24,6 +24,7 @@ class VisionCmd extends BaseCmd
 
     public function exec(): string
     {
+        return 'хуй';
         if (isset($this->bot->raw_data['photo'])) {
             $photo = array_last_value($this->bot->raw_data['photo']);
         } elseif (isset($this->bot->raw_data['reply_to_message']['photo'])) {

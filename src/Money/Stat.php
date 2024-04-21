@@ -3,6 +3,7 @@
 namespace Revobot\Money;
 
 use Revobot\Revobot;
+use Revobot\Util\PMC;
 
 class Stat
 {
@@ -66,29 +67,32 @@ class Stat
     }
 
     /**
+     * [Ссылка](https://example.com)
      * @param int $user_id
      * @return string
      */
     private function getUsername(int $user_id): string
     {
-        //[Ссылка](https://example.com)
+        $username = PMC::get('tg_username' . $user_id);
+        if (!$username) {
+            if ($user_id === $this->bot->getTgBotId()) {
+                return '[Therevoluciabot](https://t.me/Therevoluciabot)';
+            }
 
-        if ($user_id === $this->bot->getTgBotId()) {
-            return '[Therevoluciabot](https://t.me/Therevoluciabot)';
+            $chat_member = $this->bot->getChatMemberTg($user_id);
+
+            if (!isset($chat_member['result'])) {
+                return '';
+            }
+
+            if (isset($chat_member['result']['user']['username'])) {
+                $username = '[' . $chat_member['result']['user']['username'] . '](https://t.me/' . $chat_member['result']['user']['username'] . ')';
+            } else {
+                $username = (string)$user_id;
+            }
+            PMC::set('tg_username' . $user_id, $username, 0, 7 * 24 * 60 * 60);
         }
-
-        $chat_member = $this->bot->getChatMemberTg($user_id);
-
-        if (!isset($chat_member['result'])) {
-            return '';
-        }
-
-        if (isset($chat_member['result']['user']['username'])) {
-            $username = '[' . $chat_member['result']['user']['username'] . '](https://t.me/' . $chat_member['result']['user']['username'] . ')';
-        } else {
-            $username = (string)$user_id;
-        }
-        return $username;
+        return (string)$username;
     }
 
 

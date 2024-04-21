@@ -31,9 +31,9 @@ function chatId(): int
 /**
  * Получение типа сервиса ('tg', 'vk')
  *
- * @return int
+ * @return string
  */
-function provider(): int
+function provider(): string
 {
     /** @var Revobot\Revobot $Bot */
     global $Bot;

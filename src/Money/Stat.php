@@ -58,9 +58,6 @@ class Stat
                 $i++;
             }
 
-            if (in_array(userId(), Config::getArr('tg_bot_admins'))) {
-                Tg::sendMessage(chatId(), (string)json_encode($responseBalances) . (string)json_encode($responseUsernames));
-            }
 
 
             /*

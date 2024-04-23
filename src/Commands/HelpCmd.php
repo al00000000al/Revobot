@@ -46,6 +46,7 @@ class HelpCmd extends BaseCmd
 /id - Мой ид
 /idead - умрешь ли ты от того что на фото
 /infa - Вероятность события
+/mail - get answer from otveti mail ru
 /mycommands - Мои комманды
 /newcode - Создать команду с кодом lua (30R)
 /or - Выбрать что-то одно

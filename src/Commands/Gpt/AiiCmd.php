@@ -33,10 +33,6 @@ class AiiCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        $answer =  AnswersMailru::get($this->input);
-        if (empty($answer)) {
-            $answer = DobroAI::get("- " . $this->input . "\r\n- ");
-        }
         (new ClearAllCmd($this->input, $this->bot))->exec();
         return (new AiCmd($this->input, $this->bot))->exec();
     }

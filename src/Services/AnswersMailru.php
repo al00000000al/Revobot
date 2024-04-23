@@ -35,7 +35,13 @@ class AnswersMailru
             return '';
         }
 
-        $random_qid = (int) $questions['results'][mt_rand(0, count($questions['results']) - 1)]['id'];
+        // $random_qid = (int) $questions['results'][mt_rand(0, count($questions['results']) - 1)]['id'];
+        if (count($questions['results']) > 3) {
+            $cnt = 2;
+        } else {
+            $cnt = count($questions['results']);
+        }
+        $random_qid = (int) $questions['results'][mt_rand(0, $cnt)]['id'];
 
         $params = http_build_query(['qid' =>  $random_qid]);
 
@@ -44,9 +50,9 @@ class AnswersMailru
         $answers = (array)json_decode($answers, true);
 
 
-        if (!isset($answers['bestanswer'])) {
-            return '';
-        }
+        // if (!isset($answers['bestanswer'])) {
+        //     return '';
+        // }
         //$bestanswer = (int)$answers['bestanswer'];
 
         $text = $answers['answers'][mt_rand(0, count($answers['answers']) - 1)]['atext'];

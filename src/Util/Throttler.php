@@ -9,7 +9,7 @@ class Throttler
     const PMC_THROTTLE_KEY = 'throttle_';
     const PMC_BLOCK_KEY = 'block_'; // Добавлен новый ключ для блокировки
 
-    public static function check($user_id, $section = 'global', $attempts_limit = 5, $interval = 12 * 60 * 60, $block_duration = 12 * 60 * 60)
+    public static function check(int $user_id, $section = 'global', $attempts_limit = 5, $interval = 12 * 60 * 60, $block_duration = 12 * 60 * 60)
     {
         $key = self::getKey($user_id, $section);
         $blockKey = self::getBlockKey($user_id, $section);

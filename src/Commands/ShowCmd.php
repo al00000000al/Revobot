@@ -29,6 +29,7 @@ class ShowCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
+        return 'хуй';
 
         $user_id = userId();
         $chat_id = chatId();

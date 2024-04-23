@@ -75,6 +75,7 @@ class HelpCmd extends BaseCmd
 /when - Узнать когда
 /who - Узнать кто
 /yn - Да или нет
+/zn - получить ответы со znanija
 ";
     }
 }

@@ -4,6 +4,7 @@ namespace Revobot\Commands;
 
 use Revobot\Revobot;
 use Revobot\Util\PMC;
+use Revobot\Util\Time;
 
 class TimeCmd extends BaseCmd
 {
@@ -43,7 +44,12 @@ class TimeCmd extends BaseCmd
             return date(self::DATE_FORMAT);
         }
 
-        return date(self::DATE_FORMAT, time() + ((float)$tz - self::MSK_TZ) * 60 * 60) . ' ' . ((int)$tz > 0 ? '+' . $tz : '' . $tz);
+        $tz  = ((int)$tz > 0 ? '+' . $tz : '' . $tz);
+        $tz = str_replace('++', '+', $tz);
+        $user_time = date(self::DATE_FORMAT, time() + ((float)$tz - self::MSK_TZ) * 60 * 60);
+        $harmonic_time = Time::garmonic($tz);
+
+        return $this->_format($user_time, $tz, $harmonic_time);
     }
 
     /**
@@ -52,5 +58,13 @@ class TimeCmd extends BaseCmd
     private function getKey(): string
     {
         return self::PMC_USER_TIMEZONE_KEY . $this->bot->provider . userId();
+    }
+
+    private function _format(string $user_time, string $tz, string $harmonic_time)
+    {
+        return <<<TEXT
+Время: {$user_time} {$tz}
+Текущее гармоническое время: {$harmonic_time}
+TEXT;
     }
 }

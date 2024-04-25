@@ -15,13 +15,12 @@ class Time
     /**
      * Гармоническое время
      */
-    public static function garmonic($tz = '')
+    public static function garmonic($time)
     {
-        date_default_timezone_set('GMT' . $tz);
         // Получаем текущее время в секундах с начала дня
-        $currentHour = date("G");
-        $currentMinute = date("i");
-        $currentSecond = date("s");
+        $currentHour = date("G", $time);
+        $currentMinute = date("i", $time);
+        $currentSecond = date("s", $time);
         $secondsSinceMidnight = $currentHour * 3600 + $currentMinute * 60 + $currentSecond;
         // Один гармоник равен 86.4 секунды, поэтому делим на это число
         $harmonics = floor($secondsSinceMidnight / self::GARMONIC);

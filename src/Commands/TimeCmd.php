@@ -46,8 +46,9 @@ class TimeCmd extends BaseCmd
 
         $tz  = ((int)$tz > 0 ? '+' . $tz : '' . $tz);
         $tz = str_replace('++', '+', $tz);
-        $user_time = date(self::DATE_FORMAT, time() + ((float)$tz - self::MSK_TZ) * 60 * 60);
-        $harmonic_time = Time::garmonic($tz);
+        $time = time() + ((float)$tz - self::MSK_TZ) * 60 * 60;
+        $user_time = date(self::DATE_FORMAT, $time);
+        $harmonic_time = Time::garmonic($time);
 
         return $this->_format($user_time, $tz, $harmonic_time);
     }

@@ -17,7 +17,7 @@ https://github.com/VKCOM/kphp
 Сборка:
 
 ```
-kphp  --composer-root=$(pwd) index.php
+kphp  --composer-root=$(pwd) -T /home/opc/scheme.tlo -F index.php
 ```
 
 или

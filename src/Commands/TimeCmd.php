@@ -64,7 +64,7 @@ class TimeCmd extends BaseCmd
     private function _format(string $user_time, string $tz, string $harmonic_time)
     {
         return <<<TEXT
-Время: {$user_time} {$tz}
+Время: {$user_time} GMT{$tz}
 Текущее гармоническое время: {$harmonic_time}
 TEXT;
     }

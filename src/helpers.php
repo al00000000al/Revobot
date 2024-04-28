@@ -39,3 +39,13 @@ function provider(): string
     global $Bot;
     return $Bot->provider;
 }
+
+/**
+ * @var mixed $data
+ */
+function debugLog($data)
+{
+    global $Debug;
+
+    $Debug .= (string)$data . PHP_EOL;
+}

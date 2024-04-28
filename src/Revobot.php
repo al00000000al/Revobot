@@ -415,7 +415,12 @@ class Revobot
 
                 $admins = Config::getArr('tg_bot_admins');
                 if (in_array(userId(), $admins)) {
-                    $response .= "\n\n" . round(microtime(true) - $startTime, 4) . ' сек.';
+                    $is_debug = (bool) PMC::get('debug');
+                    if ($is_debug) {
+                        global $Debug;
+                        $response .= "\n--------------\n\n" . $Debug;
+                        $response .= "\n" . round(microtime(true) - $startTime, 4) . ' сек.';
+                    }
                 }
 
                 $this->sendMessageTg($response, $parse_mode);

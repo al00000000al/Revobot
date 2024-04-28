@@ -40,7 +40,9 @@ class PMC
      */
     public static function get($key)
     {
-        return self::getInstance()->get($key);
+        $result = self::getInstance()->get($key);
+        debugLog('get ' . $key . ': ' . print_r($result, true));
+        return $result;
     }
 
     /**
@@ -52,6 +54,7 @@ class PMC
      */
     public static function set($key, $value, $flags = 0, $expiration = 0)
     {
+        debugLog('set ' . $key . ': ' . $value . ', expiration=' . $expiration);
         return self::getInstance()->set($key, $value, $flags, $expiration);
     }
 
@@ -61,6 +64,7 @@ class PMC
      */
     public static function delete($key)
     {
+        debugLog('delete ' . $key);
         return self::getInstance()->delete($key);
     }
 
@@ -82,6 +86,8 @@ class PMC
      */
     public static function increment($key, $increment = 1)
     {
+        debugLog('incr ' . $key . ', ' . $increment);
+
         $memcache = self::getInstance();
 
         // Попытка инкремента

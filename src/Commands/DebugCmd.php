@@ -25,6 +25,7 @@ class DebugCmd extends BaseCmd
 
         $is_debug = (bool) PMC::get('debug');
         $is_debug = !$is_debug;
+        PMC::set('debug', $is_debug);
         return 'Set debug to:' . ((int)$is_debug);
     }
 }

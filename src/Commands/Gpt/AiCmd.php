@@ -3,6 +3,7 @@
 namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
+use Revobot\Commands\ZnCmd;
 use Revobot\Config;
 use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
@@ -32,6 +33,7 @@ class AiCmd extends BaseCmd
 
     public function exec(): string
     {
+        return (new ZnCmd($this->input))->exec();
         if (!empty($this->input)) {
             $base_path = Config::get('base_path');
             $GptPMC = new GptPMC(userId(), $this->bot->provider);

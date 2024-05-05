@@ -52,6 +52,7 @@ class HelpCmd extends BaseCmd
 /or - Выбрать что-то одно
 /pass - Пароль для переноса данных
 /poll - Создать опрос в чате
+/porfirevich - порфирьевич ии
 /pukvy - риска миса
 /vopros - Вопросы на коины
 /rand - Случайное число

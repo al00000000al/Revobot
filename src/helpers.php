@@ -49,3 +49,12 @@ function debugLog($data)
 
     $Debug .= (string)$data . PHP_EOL;
 }
+
+#ifndef KPHP
+if (!function_exists('cp1251')) {
+    function cp1251(string $utf8_string)
+    {
+        return iconv('UTF-8', 'cp1251', $utf8_string);
+    }
+}
+#endif

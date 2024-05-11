@@ -21,6 +21,7 @@ class HuebotCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
+
         return $this->process($this->input);
     }
 
@@ -31,13 +32,13 @@ class HuebotCmd extends BaseCmd
         foreach ($words as $word) {
             $parts = Strings::splitIntoSyllables($word);
             if (count($parts) > 1) {
-                if (mb_substr($parts[0], -1) === 'и') {
+                if (mb_substr($parts[0], -1, 1, 'UTF-8') === 'и') {
                     $pref = 'и';
-                } else  if (mb_substr($parts[0], -1) === 'а') {
+                } else  if (mb_substr($parts[0], -1, 1, 'UTF-8') === 'а') {
                     $pref = 'я';
-                } else  if (mb_substr($parts[0], -1) === 'ю') {
+                } else  if (mb_substr($parts[0], -1, 1, 'UTF-8') === 'ю') {
                     $pref = 'ю';
-                } else  if (mb_substr($parts[0], -1) === 'о') {
+                } else  if (mb_substr($parts[0], -1, 1, 'UTF-8') === 'о') {
                     $pref = 'ё';
                 } else {
                     $pref = 'е';
@@ -45,7 +46,7 @@ class HuebotCmd extends BaseCmd
                 $response[] = 'ху' . $pref . (string)array_pop($parts);
             } else {
                 if (Strings::isVowelLetter($parts[0], 0)) {
-                    $response[] = 'хуй' . mb_substr($parts[0], 1);
+                    $response[] = 'хуй' . mb_substr($parts[0], 1, strlen($parts[0]) - 1, 'UTF-8');
                 } else {
                     $response[] = 'хуй' . $parts[0];
                 }

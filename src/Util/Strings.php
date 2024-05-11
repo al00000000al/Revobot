@@ -129,12 +129,12 @@ class Strings
      */
     public static function splitIntoSyllables(string $word): array
     {
-        $vowelsSet = 'аеёиоуыэюя';  // Набор гласных букв
-        $specialsSet = 'йьъ';  // Набор специальных символов
+        $vowelsSet = ('аеёиоуыэюя');  // Набор гласных букв
+        $specialsSet = ('йьъ');  // Набор специальных символов
 
-        $prevVowel = mb_strlen($word);
-        for ($i = 0; $i < mb_strlen($word); $i++) {
-            if (strpos($vowelsSet, mb_substr($word, $i, 1)) !== false) {
+        $prevVowel = strlen($word);
+        for ($i = 0; $i < strlen($word); $i++) {
+            if (strpos($vowelsSet, mb_substr($word, $i, 1, 'UTF-8')) !== false) {
                 $prevVowel = $i;
                 break;
             }
@@ -142,13 +142,13 @@ class Strings
 
         $pos = 0;
         $syllables = [];
-        for ($i = $prevVowel + 1; $i < mb_strlen($word); $i++) {
-            if (strpos($vowelsSet, mb_substr($word, $i, 1)) !== false) {
+        for ($i = $prevVowel + 1; $i < strlen($word); $i++) {
+            if (strpos($vowelsSet, mb_substr($word, $i, 1, 'UTF-8')) !== false) {
                 $a = $prevVowel;
                 $b = $i;
                 $npos = 0;
                 for ($j = $b - 1; $j > $a; $j--) {
-                    if (strpos($specialsSet, mb_substr($word, $j, 1)) !== false) {
+                    if (strpos($specialsSet, mb_substr($word, $j, 1, 'UTF-8')) !== false) {
                         $npos = $j + 1;
                         break;
                     }
@@ -162,12 +162,12 @@ class Strings
                         $npos = $a + 2;
                     }
                 }
-                $syllables[] = mb_substr($word, $pos, $npos - $pos);
+                $syllables[] = mb_substr($word, $pos, $npos - $pos, 'UTF-8');
                 $pos = $npos;
                 $prevVowel = $i;
             }
         }
-        $syllables[] = mb_substr($word, $pos);  // Добавляем оставшуюся часть слова в массив
+        $syllables[] = mb_substr($word, $pos, strlen($word) - $pos, 'UTF-8');  // Добавляем оставшуюся часть слова в массив
 
         return $syllables;
     }
@@ -177,7 +177,7 @@ class Strings
      */
     public static function isVowelLetter(string $word, int $position = 0): bool
     {
-        return strpos('аеёиоуыэюя',  mb_substr($word, $position, 1)) !== false;
+        return strpos('аеёиоуыэюя',  mb_substr($word, $position, 1, 'UTF-8')) !== false;
     }
 
     /**
@@ -185,6 +185,6 @@ class Strings
      */
     public static function isConsonantLetter(string $word, int $position = 0): bool
     {
-        return strpos('бвгджзйклмнпрстфхцчшщ', mb_substr($word, $position, 1)) !== false;
+        return strpos('бвгджзйклмнпрстфхцчшщ', mb_substr($word, $position, 1, 'UTF-8')) !== false;
     }
 }

@@ -121,4 +121,70 @@ class Strings
         }
         return tuple($parts[0], '');
     }
+
+    /**
+     * Разбивает слово на слоги
+     *
+     * @see https://habr.com/ru/articles/739026/
+     */
+    public static function splitIntoSyllables(string $word): array
+    {
+        $vowelsSet = 'аеёиоуыэюя';  // Набор гласных букв
+        $specialsSet = 'йьъ';  // Набор специальных символов
+
+        $prevVowel = mb_strlen($word);
+        for ($i = 0; $i < mb_strlen($word); $i++) {
+            if (strpos($vowelsSet, mb_substr($word, $i, 1)) !== false) {
+                $prevVowel = $i;
+                break;
+            }
+        }
+
+        $pos = 0;
+        $syllables = [];
+        for ($i = $prevVowel + 1; $i < mb_strlen($word); $i++) {
+            if (strpos($vowelsSet, mb_substr($word, $i, 1)) !== false) {
+                $a = $prevVowel;
+                $b = $i;
+                $npos = 0;
+                for ($j = $b - 1; $j > $a; $j--) {
+                    if (strpos($specialsSet, mb_substr($word, $j, 1)) !== false) {
+                        $npos = $j + 1;
+                        break;
+                    }
+                }
+                if ($npos === 0) {
+                    if ($b - $a <= 2) {
+                        $npos = $a + 1;
+                    } elseif ($b - $a >= 6) {
+                        $npos = $b - 3;
+                    } else {
+                        $npos = $a + 2;
+                    }
+                }
+                $syllables[] = mb_substr($word, $pos, $npos - $pos);
+                $pos = $npos;
+                $prevVowel = $i;
+            }
+        }
+        $syllables[] = mb_substr($word, $pos);  // Добавляем оставшуюся часть слова в массив
+
+        return $syllables;
+    }
+
+    /**
+     * Является ли буква гласной в позиции в слове (позиция -1 для последней буквы)
+     */
+    public static function isVowelLetter(string $word, int $position = 0): bool
+    {
+        return strpos('аеёиоуыэюя',  mb_substr($word, $position, 1)) !== false;
+    }
+
+    /**
+     * Является ли буква согласной в позиции в слове (позиция -1 для последней буквы)
+     */
+    public static function isConsonantLetter(string $word, int $position = 0): bool
+    {
+        return strpos('бвгджзйклмнпрстфхцчшщ', mb_substr($word, $position, 1)) !== false;
+    }
 }

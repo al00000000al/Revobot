@@ -57,6 +57,7 @@ class HelpCmd extends BaseCmd
 /vopros - Вопросы на коины
 /rand - Случайное число
 /rsend - Отправить R случ. польз.
+/sber - sber ai
 /send - Отправить R польз.
 /show - AI image generate DALL-E
 /showcode - show code

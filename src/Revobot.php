@@ -12,6 +12,7 @@ use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 use Revobot\Util\PMC;
 use Revobot\Util\Strings;
+use Revobot\Util\Throttler;
 
 class Revobot
 {
@@ -473,11 +474,14 @@ class Revobot
                 $source_text = (string)$this->raw_data['reply_to_message']['text'];
                 $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
                 if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
-                    $save_history = 1;
-                    PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
-                    $base_path = Config::get('base_path');
-
-                    exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                    if (Throttler::check($user_id, 'aicmd', 50)) {
+                        $this->sendMessageTg('Больше нельзя сегодня');
+                    } else {
+                        $save_history = 1;
+                        PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
+                        $base_path = Config::get('base_path');
+                        exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                    }
                 }
             }
 

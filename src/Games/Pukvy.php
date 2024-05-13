@@ -32,11 +32,11 @@ class Pukvy
     {
 
 
-        $first_1 = mb_substr($this->words[0], 0, 1, 'UTF-8');
-        $first_2 = mb_substr($this->words[1], 0, 1, 'UTF-8');
+        $first_1 = Strings::substr($this->words[0], 0, 1);
+        $first_2 = Strings::substr($this->words[1], 0, 1);
 
-        $second_1 = mb_substr($this->words[0], 1, 1, 'UTF-8');
-        $second_2 = mb_substr($this->words[1], 1, 1, 'UTF-8');
+        $second_1 = Strings::substr($this->words[0], 1, 1);
+        $second_2 = Strings::substr($this->words[1], 1, 1);
 
         if (
             (in_array($second_1, self::RUS_V, true) && (in_array($first_1, self::RUS_V, true))
@@ -50,12 +50,12 @@ class Pukvy
             $slog_1 = $this->slogi($this->words[0])[0];
             $slog_2 = $this->slogi($this->words[1])[0];
 
-            $word_1 = $slog_2 . mb_substr($this->words[0], mb_strlen($slog_1, 'UTF-8'), mb_strlen($this->words[0], 'UTF-8') - mb_strlen($slog_1, 'UTF-8'), 'UTF-8');
-            $word_2 = $slog_1 . mb_substr($this->words[1], mb_strlen($slog_2, 'UTF-8'), mb_strlen($this->words[1], 'UTF-8') - mb_strlen($slog_2, 'UTF-8'), 'UTF-8');
+            $word_1 = $slog_2 . Strings::substr($this->words[0], mb_strlen($slog_1, 'UTF-8'), mb_strlen($this->words[0], 'UTF-8') - mb_strlen($slog_1, 'UTF-8'));
+            $word_2 = $slog_1 . Strings::substr($this->words[1], mb_strlen($slog_2, 'UTF-8'), mb_strlen($this->words[1], 'UTF-8') - mb_strlen($slog_2, 'UTF-8'));
             // dbg_echo($slog_2 .' '. $slog_1);
         } else {
-            $word_1 = $first_2 . mb_substr($this->words[0], 1, mb_strlen($this->words[0], 'UTF-8') - 1, 'UTF-8');
-            $word_2 = $first_1 . mb_substr($this->words[1], 1, mb_strlen($this->words[1], 'UTF-8') - 1, 'UTF-8');
+            $word_1 = $first_2 . Strings::substr($this->words[0], 1, mb_strlen($this->words[0], 'UTF-8') - 1);
+            $word_2 = $first_1 . Strings::substr($this->words[1], 1, mb_strlen($this->words[1], 'UTF-8') - 1);
             // dbg_echo($first_2 .' '. $first_1);
         }
 

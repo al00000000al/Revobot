@@ -134,7 +134,7 @@ class Strings
 
         $prevVowel = strlen($word);
         for ($i = 0; $i < strlen($word); $i++) {
-            if (strpos($vowelsSet, mb_substr($word, $i, 1, 'UTF-8')) !== false) {
+            if (strpos($vowelsSet, Strings::substr($word, $i, 1)) !== false) {
                 $prevVowel = $i;
                 break;
             }
@@ -143,12 +143,12 @@ class Strings
         $pos = 0;
         $syllables = [];
         for ($i = $prevVowel + 1; $i < strlen($word); $i++) {
-            if (strpos($vowelsSet, mb_substr($word, $i, 1, 'UTF-8')) !== false) {
+            if (strpos($vowelsSet, Strings::substr($word, $i, 1)) !== false) {
                 $a = $prevVowel;
                 $b = $i;
                 $npos = 0;
                 for ($j = $b - 1; $j > $a; $j--) {
-                    if (strpos($specialsSet, mb_substr($word, $j, 1, 'UTF-8')) !== false) {
+                    if (strpos($specialsSet, Strings::substr($word, $j, 1)) !== false) {
                         $npos = $j + 1;
                         break;
                     }
@@ -162,12 +162,12 @@ class Strings
                         $npos = $a + 2;
                     }
                 }
-                $syllables[] = mb_substr($word, $pos, $npos - $pos, 'UTF-8');
+                $syllables[] = Strings::substr($word, $pos, $npos - $pos);
                 $pos = $npos;
                 $prevVowel = $i;
             }
         }
-        $syllables[] = mb_substr($word, $pos, strlen($word) - $pos, 'UTF-8');  // Добавляем оставшуюся часть слова в массив
+        $syllables[] = Strings::substr($word, $pos, strlen($word) - $pos);  // Добавляем оставшуюся часть слова в массив
 
         return $syllables;
     }
@@ -177,7 +177,7 @@ class Strings
      */
     public static function isVowelLetter(string $word, int $position = 0): bool
     {
-        return strpos('аеёиоуыэюя',  mb_substr($word, $position, 1, 'UTF-8')) !== false;
+        return strpos('аеёиоуыэюя',  Strings::substr($word, $position, 1)) !== false;
     }
 
     /**
@@ -185,6 +185,12 @@ class Strings
      */
     public static function isConsonantLetter(string $word, int $position = 0): bool
     {
-        return strpos('бвгджзйклмнпрстфхцчшщ', mb_substr($word, $position, 1, 'UTF-8')) !== false;
+        return strpos('бвгджзйклмнпрстфхцчшщ', Strings::substr($word, $position, 1)) !== false;
+    }
+
+
+    public static function substr(string $string, int $start = 0, $length = null): string
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
     }
 }

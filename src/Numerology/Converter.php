@@ -2,6 +2,8 @@
 
 namespace Revobot\Numerology;
 
+use Revobot\Util\Strings;
+
 class Converter
 {
 
@@ -17,7 +19,7 @@ class Converter
         $number = 0;
 
         for ($i = 0; $i < $word_len; $i++) {
-            $char = mb_substr($word, $i, 1, 'UTF-8');
+            $char = Strings::substr($word, $i, 1);
             $char_n = Words::getNumber($char);
             $number += $char_n;
         }

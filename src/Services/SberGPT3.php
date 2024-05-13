@@ -3,6 +3,7 @@
 namespace Revobot\Services;
 
 use Revobot\Util\Curl;
+use Revobot\Util\Strings;
 
 class SberGPT3
 {
@@ -26,7 +27,7 @@ class SberGPT3
 
         if (isset($result['predictions'])) {
             $output = (string)$result['predictions'];
-            return mb_substr($output, mb_strlen($input));
+            return Strings::substr($output, mb_strlen($input, 'UTF-8'));
         }
         return '';
     }

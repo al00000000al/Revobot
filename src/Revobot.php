@@ -3,6 +3,7 @@
 namespace Revobot;
 
 use KLua\KLua;
+use Revobot\Commands\HuebotCmd;
 use Revobot\Commands\StorageSetCmd;
 use Revobot\Games\AI\GptPMC;
 use Revobot\Money\Revocoin;
@@ -10,6 +11,7 @@ use Revobot\Neural\Answers;
 use Revobot\Services\Providers\Tg;
 use Revobot\Util\Curl;
 use Revobot\Util\PMC;
+use Revobot\Util\Strings;
 
 class Revobot
 {
@@ -442,8 +444,13 @@ class Revobot
             }
 
             if ($has_bot_response) {
+                $bot_answer = '';
+                if (count(Strings::stringToWords($this->message)) == 1) {
+                    $bot_answer = (new HuebotCmd($this->message))->exec();
+                } else {
+                    $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
+                }
 
-                $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
                 if (!empty($bot_answer)) {
                     $this->sendMessageTg((string)$bot_answer);
                     $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$bot_answer));
@@ -470,13 +477,13 @@ class Revobot
                     PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                     $base_path = Config::get('base_path');
 
-                    // exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                    exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
                 }
             }
 
-            if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
-                (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
-            }
+            // if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
+            //     (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
+            // }
         }
     }
 

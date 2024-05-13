@@ -33,7 +33,7 @@ class AiCmd extends BaseCmd
 
     public function exec(): string
     {
-        return (new ZnCmd($this->input))->exec();
+        // return (new ZnCmd($this->input))->exec();
         if (!empty($this->input)) {
             $base_path = Config::get('base_path');
             $GptPMC = new GptPMC(userId(), $this->bot->provider);
@@ -57,7 +57,7 @@ class AiCmd extends BaseCmd
             //     'user_id' => userId(),
             //     'provider' => $this->bot->provider,
             //     'chat_id' =>chatId(),
-            //     'model' => 'gpt-3.5-turbo'
+            //     'model' => 'gpt-4o'
             //   ]);
             // JobLauncher::start($job_request, 120);
             // return "";

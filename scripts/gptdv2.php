@@ -21,7 +21,7 @@ $imageContent = file_get_contents($base_path . 'temp.jpg');
 $base64Image = base64_encode($imageContent);
 
 $data = [
-    'model' => 'gpt-4-turbo',
+    'model' => 'gpt-4o',
     'messages' => [
         [
             'role' => 'user',

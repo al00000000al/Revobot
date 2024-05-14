@@ -2,6 +2,7 @@
 
 namespace Revobot\Handlers;
 
+use Revobot\Config;
 use Revobot\RequestHandlerInterface;
 
 class VKBotHandler implements RequestHandlerInterface
@@ -16,18 +17,34 @@ class VKBotHandler implements RequestHandlerInterface
             return;
         }
 
-        if (isset($dataArr['type']) && $dataArr['type'] === 'message_new') {
-            $this->_handleNewMessage($dataArr['object']);
+        if (!isset($dataArr['secret'])) {
+            return;
         }
 
-        echo 'ok';
+        if ($dataArr['secret'] !== Config::get('vk_bot_secret')) {
+            return;
+        }
+
+        if (isset($dataArr['type'])) {
+            switch ($dataArr['type']) {
+                case 'confirmation':
+                    if ((int)$dataArr['group_id'] === -Config::getInt('vk_bot_id')) {
+                        return Config::get('vk_bot_confirmation');
+                    }
+                    break;
+
+                case 'new_message':
+                    $this->_handleNewMessage($dataArr['object']);
+                    $this->_wrapOk();
+                    break;
+            }
+        }
     }
 
     private function _handleNewMessage($messageData)
     {
         $userId = $messageData['from_id'];
         $messageText = $messageData['text'];
-        self::_wrapOk();
     }
 
     private function _sendMessage($userId, $text)
@@ -37,6 +54,6 @@ class VKBotHandler implements RequestHandlerInterface
     private function _wrapOk()
     {
         header("HTTP/1.1 200 OK");
-        echo 'OK';
+        echo 'ok';
     }
 }

@@ -27,9 +27,16 @@ class VKBotHandler implements RequestHandlerInterface
     {
         $userId = $messageData['from_id'];
         $messageText = $messageData['text'];
+        self::_wrapOk();
     }
 
     private function _sendMessage($userId, $text)
     {
+    }
+
+    private function _wrapOk()
+    {
+        header("HTTP/1.1 200 OK");
+        echo 'OK';
     }
 }

@@ -6,14 +6,14 @@ namespace Revobot\Services\Providers;
 use Revobot\Config;
 use Revobot\Util\Curl;
 
-class Tg extends Base
+class Vk extends Base
 {
 
     public const API_URL = 'https://api.vk.com/method/';
 
     public static function sendMessage(int $chat_id, string $text, $options = [])
     {
-        $options['chat_id'] = $chat_id;
+        $options['peer_id'] = $chat_id;
         $options['text'] = $text;
         // $options['disable_web_page_preview'] = true;
 
@@ -32,7 +32,7 @@ class Tg extends Base
     public static function deleteMessage(int $chat_id, int $message_id)
     {
         return self::_makeRequest('messages.delete', [
-            'chat_id' => $chat_id,
+            'peer_id' => $chat_id,
             'message_id' => $message_id
         ]);
     }
@@ -47,6 +47,29 @@ class Tg extends Base
     {
         $data['access_token'] = Config::get('vk_key');
         $data['v'] = '5.133';
+        $options['need_json_decode'];
         return Curl::post(self::_getApiUrl($cmd), $data, $options);
+    }
+
+    public static function setActivity(int $chat_id, string $action, array $options = [])
+    {
+        return self::_makeRequest('messages.setActivity', [
+            'peer_id' => $chat_id,
+            'action' => $action,
+            ...$options
+        ]);
+    }
+
+    public static function getUsers(array $user_ids, array $options = [])
+    {
+        $res = self::_makeRequest('users.get', [
+            'user_ids' => implode(',', $user_ids),
+            ...$options
+        ]);
+        if (isset($res['response'])) {
+            return $res['response'];
+        } else {
+            return $res;
+        }
     }
 }

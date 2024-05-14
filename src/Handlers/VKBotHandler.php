@@ -4,6 +4,8 @@ namespace Revobot\Handlers;
 
 use Revobot\Config;
 use Revobot\RequestHandlerInterface;
+use Revobot\Response;
+use Revobot\Revobot;
 
 class VKBotHandler implements RequestHandlerInterface
 {
@@ -14,28 +16,33 @@ class VKBotHandler implements RequestHandlerInterface
         $dataArr = (array)json_decode($data, true);
 
         if (!$dataArr) {
+            Response::json(['error' => 'invalid request']);
             return;
         }
 
         if (!isset($dataArr['secret'])) {
+            Response::json(['error' => 'no secret']);
             return;
         }
 
         if ($dataArr['secret'] !== Config::get('vk_bot_secret')) {
+            Response::json(['error' => 'invalid secret']);
+            return;
+        }
+        if ((int)$dataArr['group_id'] === -Config::getInt('vk_bot_id')) {
+            Response::json(['error' => 'invalid group id']);
             return;
         }
 
         if (isset($dataArr['type'])) {
             switch ($dataArr['type']) {
                 case 'confirmation':
-                    if ((int)$dataArr['group_id'] === -Config::getInt('vk_bot_id')) {
-                        return Config::get('vk_bot_confirmation');
-                    }
+                    Response::text(Config::get('vk_bot_confirmation'));
                     break;
 
                 case 'new_message':
                     $this->_handleNewMessage($dataArr['object']);
-                    $this->_wrapOk();
+                    Response::text('ok');
                     break;
             }
         }
@@ -43,17 +50,23 @@ class VKBotHandler implements RequestHandlerInterface
 
     private function _handleNewMessage($messageData)
     {
-        $userId = $messageData['from_id'];
-        $messageText = $messageData['text'];
-    }
+        $message = $messageData['message'];
 
-    private function _sendMessage($userId, $text)
-    {
-    }
+        $bot = new Revobot('vk');
+        $bot->setVkKey(Config::get('vk_key'));
 
-    private function _wrapOk()
-    {
-        header("HTTP/1.1 200 OK");
-        echo 'ok';
+        if (isset($message['peer_id'])) {
+            $chatId = $message['peer_id'];
+            $bot->setChatId((int)$chatId);
+
+            if (isset($message['text'])) {
+                if ($message['text'] == 'Начать') {
+                    $message['text'] = '/start';
+                }
+                $bot->setMessage((string)$message['text']);
+            }
+            $bot->setRawData($message);
+            $bot->run();
+        }
     }
 }

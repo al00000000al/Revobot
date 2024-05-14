@@ -31,7 +31,7 @@ class ChannelCmd extends BaseCmd
      */
     public function exec(): string
     {
-        $this->bot->sendTypeStatusTg();
+        $this->bot->sendTypeStatus();
         $tries = 0;
         while ($tries < 5) {
             $query = Strings::random(mt_rand(1, 2), self::CHARACTERS);

@@ -1,5 +1,7 @@
 <?php
 
+use Revobot\Config;
+
 /**
  * Получение ID пользователя из глобального экземпляра Revobot.
  *
@@ -13,6 +15,11 @@ function userId(): int
     if ($Bot->provider === 'tg' && isset($Bot->raw_data['from']['id'])) {
         return (int)$Bot->raw_data['from']['id'];
     }
+
+    if ($Bot->provider === 'vk' && isset($Bot->raw_data['from']['id'])) {
+        return (int)$Bot->raw_data['from_id'];
+    }
+
     return 0;
 }
 
@@ -25,6 +32,7 @@ function chatId(): int
 {
     /** @var Revobot\Revobot $Bot */
     global $Bot;
+
     return (int)$Bot->chat_id;
 }
 
@@ -38,6 +46,21 @@ function provider(): string
     /** @var Revobot\Revobot $Bot */
     global $Bot;
     return $Bot->provider;
+}
+
+/**
+ * @return bool
+ */
+function isAdmin($user): bool
+{
+    /** @var Revobot\Revobot $Bot */
+    global $Bot;
+    if ($Bot->provider === 'tg') {
+        return in_array($user, Config::getArr('tg_bot_admins'), true);
+    } elseif ($Bot->provider === 'vk') {
+        return in_array($user, Config::getArr('vk_bot_admins'), true);
+    }
+    return false;
 }
 
 /**

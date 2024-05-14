@@ -16,7 +16,7 @@ class SendCmd extends BaseCmd
     public function __construct(string $input, Revobot $bot)
     {
         parent::__construct($input);
-        $this->setDescription("/send @юзер <сумма>\n/send telegram_id <сумма>");
+        $this->setDescription("/send @юзер <сумма>\n/send user_id <сумма>");
         $this->bot = $bot;
     }
 

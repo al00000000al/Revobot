@@ -59,7 +59,7 @@ class ExecuteCmd extends BaseCmd
             }
         }
 
-        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0],  $code);
+        // Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0],  $code);
 
         KLua::registerFunction1('r_process_func_without_args', function ($command_name) {
             return self::process($command_name);

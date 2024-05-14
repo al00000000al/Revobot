@@ -142,7 +142,7 @@ class Revocoin
             // commission for transaction
             $commission = $amount * self::TRANSACTION_COMMISSION;
             $amount -= $commission;
-            $this->updateBalance($this->bot->getTgBotId(), $this->getBalance($this->bot->getTgBotId()), $commission);
+            $this->updateBalance($this->bot->getBotId(), $this->getBalance($this->bot->getBotId()), $commission);
         }
 
         $to_user_balance = (float)$this->getBalance($to_user_id);

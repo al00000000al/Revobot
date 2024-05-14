@@ -27,7 +27,7 @@ class CasinoCmd extends BaseCmd
         }
 
         $user_id = userId();
-        $bot_id = $this->bot->getTgBotId();
+        $bot_id = $this->bot->getBotId();
 
         $user_balance = (float)(new Revocoin($this->bot))->getBalance($user_id);
         // if input string all or все or всё - amount is user balance

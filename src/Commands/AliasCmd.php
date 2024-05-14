@@ -52,7 +52,7 @@ class AliasCmd extends BaseCmd
         $user_id = userId();
 
         $customCmd->addCommand($user_id, $command_name, Types::TYPE_ALIAS, [$command]);
-        (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, $this->bot->getTgBotId(), $user_id);
+        (new Revocoin($this->bot))->transaction(Prices::PRICE_ALIAS, $this->bot->getBotId(), $user_id);
         return 'Команда /' . $command_name . ' создана! ' . "\n" . '-' . Prices::PRICE_ALIAS . 'R';
     }
 }

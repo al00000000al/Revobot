@@ -46,15 +46,15 @@ class Quiz
         $question = $this->getQuestion();
         if ((string)$question['answer'] === $answer) {
             PMC::delete(self::PMC_QUESTION_CURRENT_KEY . $this->bot->provider . chatId());
-            (new Revocoin($this->bot))->transaction(self::QUIZ_WIN_PRIZE, userId(), $this->bot->getTgBotId());
+            (new Revocoin($this->bot))->transaction(self::QUIZ_WIN_PRIZE, userId(), $this->bot->getBotId());
             $price = self::QUIZ_WIN_PRIZE;
-            $this->bot->sendMessageTg("+" . $price . 'R у ' . $this->bot->getUserNick());
-            $this->bot->sendMessageTg((string)$this->getQuestion()['question']);
+            $this->bot->sendMessage("+" . $price . 'R у ' . $this->bot->getUserNick());
+            $this->bot->sendMessage((string)$this->getQuestion()['question']);
         } else {
             $commission = self::QUIZ_LOSE_PRIZE * Revocoin::TRANSACTION_COMMISSION;
             $price = self::QUIZ_LOSE_PRIZE - $commission;
-            (new Revocoin($this->bot))->transaction(self::QUIZ_LOSE_PRIZE, $this->bot->getTgBotId(), userId());
-            $this->bot->sendMessageTg("-" . $price . 'R у ' . $this->bot->getUserNick());
+            (new Revocoin($this->bot))->transaction(self::QUIZ_LOSE_PRIZE, $this->bot->getBotId(), userId());
+            $this->bot->sendMessage("-" . $price . 'R у ' . $this->bot->getUserNick());
         }
     }
 }

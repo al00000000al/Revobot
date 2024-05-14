@@ -24,7 +24,7 @@ class StatCmd extends BaseCmd
         global $parse_mode;
         $parse_mode = 'markdown';
 
-        $this->bot->sendTypeStatusTg();
+        $this->bot->sendTypeStatus();
         return (new Stat($this->bot))->get();
     }
 }

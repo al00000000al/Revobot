@@ -110,23 +110,28 @@ class Stat
     {
         // $username = PMC::get('tg_username' . $user_id);
         // if (!$username) {
-        if ($user_id === $this->bot->getTgBotId()) {
-            return '[Therevoluciabot](https://t.me/Therevoluciabot)';
-        }
+        if (provider() === 'tg') {
+            if ($user_id === $this->bot->getBotId()) {
+                return '[Therevoluciabot](https://t.me/Therevoluciabot)';
+            }
 
-        $chat_member = $this->bot->getChatMemberTg($user_id);
+            $chat_member = $this->bot->getChatMemberTg($user_id);
 
-        if (!isset($chat_member['result'])) {
-            return '';
-        }
+            if (!isset($chat_member['result'])) {
+                return '';
+            }
 
-        if (isset($chat_member['result']['user']['username'])) {
-            $username = '[' . $chat_member['result']['user']['username'] . '](https://t.me/' . $chat_member['result']['user']['username'] . ')';
-        } else {
-            $username = (string)$user_id;
+            if (isset($chat_member['result']['user']['username'])) {
+                $username = '[' . $chat_member['result']['user']['username'] . '](https://t.me/' . $chat_member['result']['user']['username'] . ')';
+            } else {
+                $username = (string)$user_id;
+            }
+
+            // }
+        } elseif (provider() === 'vk') {
+            $username = $this->bot->getUserNick($user_id);
         }
-        PMC::set('tg_username' . $user_id, $username);
-        // }
+        PMC::set(provider() . '_username' . $user_id, $username);
         return (string)$username;
     }
 
@@ -137,6 +142,6 @@ class Stat
      */
     public function getStatCacheKey(): string
     {
-        return 'stat_' . chatId();
+        return 'stat_' . provider() . chatId();
     }
 }

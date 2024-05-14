@@ -9,6 +9,7 @@ use Revobot\Games\AI\GptPMC;
 use Revobot\Money\Revocoin;
 use Revobot\Neural\Answers;
 use Revobot\Services\Providers\Tg;
+use Revobot\Services\Providers\Vk;
 use Revobot\Util\Curl;
 use Revobot\Util\PMC;
 use Revobot\Util\Strings;
@@ -28,6 +29,8 @@ class Revobot
 
     private string $tg_key = '';
 
+    private string $vk_key = '';
+
     private const PMC_TALK_LIMIT_KEY = 'talk_limit_'; // $provider.$chat
     private const PMC_MSG_HISTORY_KEY = 'msg_history_'; // $provider.$chat
     private const PMC_USERNAMES_CHAT_KEY = 'usernames_chat_'; // $provider.$chat
@@ -40,6 +43,14 @@ class Revobot
     public function setTgKey(string $tg_key): void
     {
         $this->tg_key = $tg_key;
+    }
+
+    /**
+     * @param string $vk_key
+     */
+    public function setVkKey(string $vk_key): void
+    {
+        $this->vk_key = $vk_key;
     }
 
     /**
@@ -81,6 +92,16 @@ class Revobot
             }
             return 'null';
         }
+
+        if ($this->provider === 'vk') {
+            $response = Vk::getUsers([$this->raw_data['from_id']]);
+            if (empty($response)) {
+                return 'null';
+            } else {
+                return $response[0]['first_name'] . ' ' . $response[0]['last_name'];
+            }
+        }
+
         return '';
     }
 
@@ -106,7 +127,7 @@ class Revobot
      */
     public function run()
     {
-        if ($this->provider === 'tg') {
+        if ($this->provider === 'tg' || $this->provider === 'vk') {
             $startTime = microtime(true);
             $need_reply = (bool)(PMC::get('fk_' . $this->provider . userId()));
 
@@ -126,6 +147,9 @@ class Revobot
             KLua::registerFunction2('sendMessage', function ($string, $options = []) {
                 if ($this->provider === 'tg') {
                     return Tg::sendMessage(chatId(), (string) $string, '', (array)$options);
+                }
+                if ($this->provider === 'vk') {
+                    return Vk::sendMessage(chatId(), (string) $string, (array)$options);
                 }
                 return '';
             });
@@ -282,6 +306,9 @@ class Revobot
                 if ($this->provider === 'tg') {
                     return Tg::deleteMessage(chatId(), (int)$message_id);
                 }
+                if ($this->provider === 'vk') {
+                    return Vk::deleteMessage(chatId(), (int)$message_id);
+                }
                 return '';
             });
 
@@ -415,9 +442,7 @@ class Revobot
             $response = CommandsManager::process($this);
 
             if ($response && !empty($response)) {
-
-                $admins = Config::getArr('tg_bot_admins');
-                if (in_array(userId(), $admins)) {
+                if (isAdmin(userId())) {
                     $is_debug = (bool) PMC::get('debug');
                     if ($is_debug) {
                         global $Debug;
@@ -426,21 +451,22 @@ class Revobot
                     }
                 }
 
-                $this->sendMessageTg($response, $parse_mode);
+                $this->sendMessage($response);
+
                 $this->addUserChat();
             }
             $mining_result = wait($mining_future);
 
             if (!empty($mining_result)) {
-                $this->sendMessageTg(self::renderMiningMessage($mining_result['amount'], $this->getUserNick(), $mining_result['id'], $mining_result['hash']), 'html');
+                $this->sendMessage(self::renderMiningMessage($mining_result['amount'], $this->getUserNick(), $mining_result['id'], $mining_result['hash']), 'html');
             }
             // Mining bot
             if ($response) {
-                $mining_future_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$response));
+                $mining_future_bot = fork((new Revocoin($this))->mining($this->getBotId(), 0, (string)$response));
                 $mining_result_bot = wait($mining_future_bot);
 
                 if (!empty($mining_result_bot)) {
-                    $this->sendMessageTg(self::renderMiningMessage($mining_result_bot['amount'], 'Therevoluciabot', $mining_result_bot['id'], $mining_result_bot['hash']), 'html');
+                    $this->sendMessage(self::renderMiningMessage($mining_result_bot['amount'], 'Therevoluciabot', $mining_result_bot['id'], $mining_result_bot['hash']), 'html');
                 }
             }
 
@@ -453,11 +479,11 @@ class Revobot
                 }
 
                 if (!empty($bot_answer)) {
-                    $this->sendMessageTg((string)$bot_answer);
-                    $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getTgBotId(), 0, (string)$bot_answer));
+                    $this->sendMessage((string)$bot_answer);
+                    $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getBotId(), 0, (string)$bot_answer));
                     $mining_result_ans_bot = wait($mining_future_ans_bot);
                     if (!empty($mining_result_ans_bot)) {
-                        $this->sendMessageTg(self::renderMiningMessage($mining_result_ans_bot['amount'], 'Therevoluciabot', $mining_result_ans_bot['id'], $mining_result_ans_bot['hash']), 'html');
+                        $this->sendMessage(self::renderMiningMessage($mining_result_ans_bot['amount'], 'Therevoluciabot', $mining_result_ans_bot['id'], $mining_result_ans_bot['hash']), 'html');
                     }
                 }
             }
@@ -470,20 +496,40 @@ class Revobot
             $user_id = userId();
             $chat_id = chatId();
 
-            if (isset($this->raw_data['reply_to_message'])) {
-                $source_text = (string)$this->raw_data['reply_to_message']['text'];
-                $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
-                if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
-                    if (Throttler::check($user_id, 'aicmd', 50)) {
-                        $this->sendMessageTg('Больше нельзя сегодня');
-                    } else {
-                        $save_history = 1;
-                        PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
-                        $base_path = Config::get('base_path');
-                        exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+            if ($this->provider === 'tg') {
+                if (isset($this->raw_data['reply_to_message'])) {
+                    $source_text = (string)$this->raw_data['reply_to_message']['text'];
+                    $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
+                    if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
+                        if (Throttler::check($user_id, 'aicmd', 50)) {
+                            $this->sendMessage('Больше нельзя сегодня');
+                        } else {
+                            $save_history = 1;
+                            PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
+                            $base_path = Config::get('base_path');
+                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                        }
                     }
                 }
             }
+
+            if ($this->provider === 'vk') {
+                if (isset($this->raw_data['reply_message'])) {
+                    $source_text = (string)$this->raw_data['reply_message']['text'];
+                    $from_id = (int)$this->raw_data['reply_message']['from_id'];
+                    if ($from_id === Config::getInt('vk_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
+                        if (Throttler::check($user_id, 'aicmd', 50)) {
+                            $this->sendMessage('Больше нельзя сегодня');
+                        } else {
+                            $save_history = 1;
+                            PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
+                            $base_path = Config::get('base_path');
+                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                        }
+                    }
+                }
+            }
+
 
             // if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
             //     (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
@@ -514,12 +560,16 @@ class Revobot
     /**
      * @param string $response_text
      */
-    public function sendMessageTg(string $response_text, string $parse_mode = null)
+    public function sendMessage(string $response_text, string $parse_mode = null)
     {
         if ($response_text[0] == '@') {
             $response_text = str_replace('@', '', $response_text);
         }
-        Tg::sendMessage(chatId(), $response_text, $parse_mode);
+        if ($this->provider === 'tg') {
+            Tg::sendMessage(chatId(), $response_text, $parse_mode);
+        } elseif ($this->provider === 'vk') {
+            Vk::sendMessage(chatId(), $response_text);
+        }
     }
 
 
@@ -589,14 +639,25 @@ class Revobot
         }
     }
 
-    public function getTgBotId()
+    public function getBotId()
     {
-        return -Config::getInt('tg_bot_id');
+        if ($this->provider === 'tg') {
+            return -Config::getInt('tg_bot_id');
+        }
+
+        if ($this->provider === 'vk') {
+            return -Config::getInt('vk_bot_id');
+        }
     }
 
-    public function sendTypeStatusTg()
+    public function sendTypeStatus()
     {
-        Tg::sendChatAction(chatId(), 'typing');
+        if ($this->provider === 'tg') {
+            Tg::sendChatAction(chatId(), 'typing');
+        }
+        if ($this->provider === 'vk') {
+            Vk::setActivity(chatId(), 'typing');
+        }
     }
 
 

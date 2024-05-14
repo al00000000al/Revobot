@@ -50,7 +50,7 @@ class DeleteCmd extends BaseCmd
                     break;
             }
             if ($price > 0) {
-                (new Revocoin($this->bot))->transaction($price, $user_id, $this->bot->getTgBotId());
+                (new Revocoin($this->bot))->transaction($price, $user_id, $this->bot->getBotId());
                 $customCmd->deleteCommand($user_id, $this->input);
                 $commission = $price * Revocoin::TRANSACTION_COMMISSION;
                 $price -= $commission;

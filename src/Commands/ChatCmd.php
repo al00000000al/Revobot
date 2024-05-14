@@ -32,7 +32,7 @@ class ChatCmd extends BaseCmd
     {
         $chat = '';
         if ($this->bot->provider === 'tg') {
-            $this->bot->sendTypeStatusTg();
+            $this->bot->sendTypeStatus();
             $tries = 0;
 
             while ($tries < 10) {

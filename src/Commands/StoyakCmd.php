@@ -236,22 +236,22 @@ class StoyakCmd extends BaseCmd
     }
     private function writeCalcText()
     {
-        $this->bot->sendTypeStatusTg();
-        $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
+        $this->bot->sendTypeStatus();
+        $this->bot->sendMessage($this->getRandomMessage($this->messages));
         //sleep(3);
-        $this->bot->sendTypeStatusTg();
-        $this->bot->sendMessageTg($this->getRandomMessage($this->messages));
+        $this->bot->sendTypeStatus();
+        $this->bot->sendMessage($this->getRandomMessage($this->messages));
         //sleep(3);
-        $this->bot->sendTypeStatusTg();
-        $this->bot->sendMessageTg("3");
+        $this->bot->sendTypeStatus();
+        $this->bot->sendMessage("3");
         //sleep(3);
-        $this->bot->sendTypeStatusTg();
-        $this->bot->sendMessageTg("2");
+        $this->bot->sendTypeStatus();
+        $this->bot->sendMessage("2");
         //sleep(4);
-        $this->bot->sendTypeStatusTg();
-        $this->bot->sendMessageTg("1...");
+        $this->bot->sendTypeStatus();
+        $this->bot->sendMessage("1...");
         // sleep(3);
-        $this->bot->sendTypeStatusTg();
+        $this->bot->sendTypeStatus();
     }
 
     private function getLastStoyak($chat_id)

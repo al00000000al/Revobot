@@ -129,7 +129,7 @@ class Stat
 
             // }
         } elseif (provider() === 'vk') {
-            $username = $this->bot->getUserNick($user_id);
+            $username = $this->bot->getUserNick();
         }
         PMC::set(provider() . '_username' . $user_id, $username);
         return (string)$username;

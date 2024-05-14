@@ -55,7 +55,12 @@ class TimerCmd extends BaseCmd
             return "Недостаточно ревокоинов (требуется 5 R)";
         }
 
-        (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('tg_bot_id'), $user_id);
+        if (provider() == 'tg') {
+            (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('tg_bot_id'), $user_id);
+        } elseif (provider() === 'vk') {
+            (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('vk_bot_id'), $user_id);
+        }
+
 
         return 'Таймер установлен на ' . date('Y-m-d H:i', $date_time) . "\n -" . Prices::PRICE_TIMER . ' R';
     }

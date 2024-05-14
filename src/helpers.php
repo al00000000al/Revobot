@@ -16,7 +16,7 @@ function userId(): int
         return (int)$Bot->raw_data['from']['id'];
     }
 
-    if ($Bot->provider === 'vk' && isset($Bot->raw_data['from']['id'])) {
+    if ($Bot->provider === 'vk' && isset($Bot->raw_data['from_id'])) {
         return (int)$Bot->raw_data['from_id'];
     }
 

@@ -29,10 +29,6 @@ class VKBotHandler implements RequestHandlerInterface
             Response::json(['error' => 'invalid secret']);
             return;
         }
-        if ((int)$dataArr['group_id'] === -Config::getInt('vk_bot_id')) {
-            Response::json(['error' => 'invalid group id']);
-            return;
-        }
 
         if (isset($dataArr['type'])) {
             switch ($dataArr['type']) {
@@ -40,7 +36,7 @@ class VKBotHandler implements RequestHandlerInterface
                     Response::text(Config::get('vk_bot_confirmation'));
                     break;
 
-                case 'new_message':
+                case 'message_new':
                     $this->_handleNewMessage($dataArr['object']);
                     Response::text('ok');
                     break;

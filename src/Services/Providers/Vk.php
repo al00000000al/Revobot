@@ -14,8 +14,9 @@ class Vk extends Base
     public static function sendMessage(int $chat_id, string $text, $options = [])
     {
         $options['peer_id'] = $chat_id;
-        $options['text'] = $text;
-        // $options['disable_web_page_preview'] = true;
+        $options['message'] = $text;
+        $options['dont_parse_links'] = 1;
+        $options['random_id'] = mt_rand(0, PHP_INT_MAX);
 
         $result = self::_makeRequest('messages.send', [
             ...$options,

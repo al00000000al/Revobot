@@ -648,6 +648,7 @@ class Revobot
         if ($this->provider === 'vk') {
             return -Config::getInt('vk_bot_id');
         }
+        return 0;
     }
 
     public function sendTypeStatus()

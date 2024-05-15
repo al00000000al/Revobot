@@ -21,3 +21,4 @@ update_cron_job() {
 }
 
 update_cron_job "/home/opc/www/revobot/scripts/cron/timer.php" "* * * * *"
+update_cron_job "/home/opc/www/revobot/scripts/cron/mining.php" "* * * * *"

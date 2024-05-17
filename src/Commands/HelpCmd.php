@@ -19,6 +19,7 @@ class HelpCmd extends BaseCmd
 /alive - Состояние бота
 /answer - Ответить на вопрос
 /balance - Узнать свой баланс
+/bank - get revolucia balance
 /bash - Случайная шутка
 /calc - Калькулятор
 /casino - Казино на ревокоены

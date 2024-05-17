@@ -56,7 +56,7 @@ class TimerCmd extends BaseCmd
         }
 
         if (provider() == 'tg') {
-            (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('tg_bot_id'), $user_id);
+            (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, -Config::getInt('tg_bot_id'), $user_id);
         } elseif (provider() === 'vk') {
             (new Revocoin($Bot))->transaction(Prices::PRICE_TIMER, Config::getInt('vk_bot_id'), $user_id);
         }

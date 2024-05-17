@@ -21,10 +21,8 @@ class StatCmd extends BaseCmd
 
     public function exec(): string
     {
-        global $parse_mode;
-        $parse_mode = 'markdown';
-
         $this->bot->sendTypeStatus();
-        return (new Stat($this->bot))->get();
+        $this->bot->sendMessage((new Stat($this->bot))->get(), 'markdown');
+        return '';
     }
 }

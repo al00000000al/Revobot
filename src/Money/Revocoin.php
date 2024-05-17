@@ -196,7 +196,7 @@ class Revocoin
         $prev_hash = $last_block[1];
 
         $next_id = $block_id + 1;
-        $prize = 100.0;
+        $prize = 200.0;
         $time = time();
         $nonce = mt_rand(0, PHP_INT_MAX);
 

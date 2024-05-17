@@ -35,6 +35,9 @@ class Stat
             $usernamesQuery = [];
 
             foreach ($chat as $user) {
+                if ($user === $this->bot->getBotId() || -$user === $this->bot->getBotId()) {
+                    $user = -abs($user);
+                }
                 $balancesQuery[]  = ['memcache.get', Revocoin::PMC_MONEY_USER_BALANCE_KEY . provider() . $user];
                 $usernamesQuery[] = ['memcache.get', provider() . '_username' . $user];
             }
@@ -110,7 +113,7 @@ class Stat
     {
         // $username = PMC::get('tg_username' . $user_id);
         // if (!$username) {
-        if (provider() === 'tg') {
+        if ($this->bot->provider == 'tg') {
             if ($user_id === $this->bot->getBotId()) {
                 return '[Therevoluciabot](https://t.me/Therevoluciabot)';
             }
@@ -128,10 +131,10 @@ class Stat
             }
 
             // }
-        } elseif (provider() === 'vk') {
+        } elseif ($this->bot->provider === 'vk') {
             $username = $this->bot->getUserNick();
         }
-        PMC::set(provider() . '_username' . $user_id, $username);
+        PMC::set($this->bot->provider . '_username' . $user_id, $username);
         return (string)$username;
     }
 

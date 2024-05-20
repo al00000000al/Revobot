@@ -50,12 +50,13 @@ class CasinoCmd extends BaseCmd
             return 'Недостаточно средств у вас на счету';
         }
 
-        $coeff_arr = [0, 0, 2, 3, 4, 5, 0, 2, 2, 2, 3, 4, 5, 6, 0, 2, 3, 4, 5, 6, 10, 2, 3, 4, 5, 0, 0, 50, 1];
+        // Increase the number of zeros in coeff_arr to make losing more likely
+        $coeff_arr = [0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 0, 0, 0, 2, 3, 4, 5, 6, 0, 0, 0, 2, 3, 4, 5, 0, 0, 0, 1];
         $coeff = $coeff_arr[mt_rand(0, count($coeff_arr) - 1)];
 
         if ($balance < ($amount * $coeff)) {
             $coeff = 0;
-            //      return 'Недостаточно средств на счету казина';
+            return 'Недостаточно средств на счету казина';
         }
 
         $old_amount = $amount;

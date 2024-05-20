@@ -16,6 +16,8 @@ class Revocoin
     const MONEY_VERSION = 2;
     const MAX_TRIES_DEFAULT = 30;
     const TRANSACTION_COMMISSION = 0.03; // 3%
+    const PRIZE_DELIM = 1.5;
+    const PRIZE = 100.0;
 
     const PMC_MONEY_TRIES_KEY = 'money_tries';
     const PMC_MONEY_LAST_BLOCK_KEY = 'money_last_block';
@@ -196,7 +198,7 @@ class Revocoin
         $prev_hash = $last_block[1];
 
         $next_id = $block_id + 1;
-        $prize = 200.0;
+        $prize = self::PRIZE;
         $time = time();
         $nonce = mt_rand(0, PHP_INT_MAX);
 
@@ -231,7 +233,7 @@ class Revocoin
 
                 return [];
             }
-            $prize /= 1.5;
+            $prize /= self::PRIZE_DELIM;
         }
 
         return [];

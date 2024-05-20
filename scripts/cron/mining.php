@@ -16,5 +16,5 @@ for ($i = 0; $i < 10000; $i++) {
     if (!empty($mining_result)) {
         var_dump($mining_result);
     }
-    sleep(1);
+    sleep(3);
 }

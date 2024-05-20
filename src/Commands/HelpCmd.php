@@ -26,6 +26,7 @@ class HelpCmd extends BaseCmd
 /channel - Случайный канал
 /chat - Случайный чат
 /chatid - get chat id
+/coinflip - Орел или решка на ревокоены
 /cmd - Создать команду (20R)
 /delete - Удалить команду
 /delmsg - Удааление сообщения бота

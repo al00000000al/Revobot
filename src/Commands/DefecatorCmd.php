@@ -27,12 +27,12 @@ class DefecatorCmd extends BaseCmd
         $user_cmd = trim($this->input);
         if (empty($user_cmd)) {
             $outputText = '';
-            if (!empty($commands)) {
+            if (!empty($commands) && count($commands) > 0) {
                 sort($commands);
                 foreach ($commands as $command) {
                     $outputText .= '/' . $command . "\n";
                 }
-                $outputText .= "Рандомные команды в чате:\n{$outputText}";
+                $outputText = "Рандомные команды в чате:\n{$outputText}";
             } else {
                 $outputText = 'В чате нет комманд';
             }
@@ -49,7 +49,7 @@ class DefecatorCmd extends BaseCmd
             return 'Команда удалена из списука';
         } else {
             $customCmd = new CustomCmd($this->bot);
-            if (!$customCmd->isExistCmd($user_cmd) || !$customCmd->isExistCustomCmd($user_cmd)) {
+            if (!$customCmd->isExistCmd($user_cmd) && !$customCmd->isExistCustomCmd($user_cmd)) {
                 return 'Такой команды нет, поэтому ее нельзя добавить';
             }
             // добавление
@@ -72,7 +72,7 @@ class DefecatorCmd extends BaseCmd
         return self::PMC_DEFCMD_KEY . provider() . '_' . chatId();
     }
 
-    private function getCommands()
+    private function getCommands(): array
     {
         return (array)PMC::get(self::getKey());
     }

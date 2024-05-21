@@ -524,7 +524,8 @@ class Revobot
                     $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
                 } else {
                     $count = count($chat_commands) - 1;
-                    $this->sendMessage('/' . $chat_commands[mt_rand(0, $count)]);
+                    $message = $this->message;
+                    $this->setMessage('/' . $chat_commands[mt_rand(0, $count)] . ' ' . $message);
                     $bot_answer = CommandsManager::process($this);
                 }
                 if (!empty($bot_answer)) {

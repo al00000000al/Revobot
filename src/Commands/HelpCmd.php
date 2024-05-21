@@ -44,6 +44,7 @@ class HelpCmd extends BaseCmd
 /context - Контекст
 /dellast - Удалить свое последнее сообщение из истории
 /history - История
+/permanentContext - установить постоянный контекст
 /help - Помощь
 /huebot - напишите слово и получите х*еслово
 /id - Мой ид

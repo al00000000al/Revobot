@@ -7,6 +7,7 @@ use Revobot\Util\PMC;
 class GptPMC
 {
     private const PMC_USER_AI_KEY = 'pmc_user_ai_';
+    private const PMC_USER_AI_PERM_KEY = 'pmc_user_perm_ai_';
     private const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
     private const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
 
@@ -21,13 +22,22 @@ class GptPMC
 
     public function getContext()
     {
-
         return (string) PMC::get(self::getContextKey($this->user_id, $this->provider));
+    }
+
+    public function getContextPermanent()
+    {
+        return (string) PMC::get(self::getContextPermanentKey($this->user_id, $this->provider));
     }
 
     public function setContext(string $context)
     {
         PMC::set(self::getContextKey($this->user_id, $this->provider), $context);
+    }
+
+    public function setContextPermanent(string $context)
+    {
+        PMC::set(self::getContextPermanentKey($this->user_id, $this->provider), $context);
     }
 
     public function getHistory()
@@ -53,6 +63,11 @@ class GptPMC
     private static function getContextKey(int $user_id, string $provider)
     {
         return self::PMC_USER_AI_KEY . $provider . $user_id;
+    }
+
+    private static function getContextPermanentKey(int $user_id, string $provider)
+    {
+        return self::PMC_USER_AI_PERM_KEY . $provider . $user_id;
     }
 
     private static function getHistoryKey(int $user_id, string $provider)

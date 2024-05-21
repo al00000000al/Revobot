@@ -20,7 +20,7 @@ class Gpt
 
         $save_history = true;
 
-        return self::process($user_input, self::formatContext($GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
+        return self::process($user_input, self::formatContext($GptPMC->getContextPermanent() . "\n" . $GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
     }
 
     private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-4o')

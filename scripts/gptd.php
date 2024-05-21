@@ -12,6 +12,7 @@ global $NeedProxy;
 $NeedProxy = true;
 
 const PMC_USER_AI_KEY = 'pmc_user_ai_';
+const PMC_USER_AI_PERM_KEY = 'pmc_user_perm_ai_';
 const PMC_USER_AI_HISTORY_KEY = 'pmc_user_ai_history_';
 const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
 
@@ -26,7 +27,7 @@ $chat_id = (int)$argv[3];
 $message_id = (int)$argv[4] ?? 0;
 
 // $user_id = 198239789;
-$context = getContext($user_id);
+$context = getContextPermanent($user_id) . "\n" . getContext($user_id);
 $history = getHistory($user_id);
 $input = getInput($user_id);
 
@@ -88,6 +89,12 @@ function getContext($user_id)
     return $result;
 }
 
+function getContextPermanent($user_id)
+{
+    $result = (string) PMC::get(getContextPermanentKey($user_id));
+    return $result;
+}
+
 function getHistory($user_id)
 {
     $result = (array) json_decode(PMC::get(getHistoryKey($user_id)), true);
@@ -109,6 +116,11 @@ function setHistory(array $history, $user_id)
 function getContextKey($user_id)
 {
     return PMC_USER_AI_KEY . 'tg' . $user_id;
+}
+
+function getContextPermanentKey($user_id)
+{
+    return PMC_USER_AI_PERM_KEY . 'tg' . $user_id;
 }
 
 function getHistoryKey($user_id)

@@ -41,10 +41,11 @@ class HelpCmd extends BaseCmd
 /clearall - очистить историю и контекст
 /clearcontext - Установить контекст
 /clearhistory - Сбросить историю
+/clearpermanencontext - Очистить перманентный контекст
 /context - Контекст
 /dellast - Удалить свое последнее сообщение из истории
 /history - История
-/permanentContext - установить постоянный контекст
+/permanentcontext - установить постоянный контекст
 /help - Помощь
 /huebot - напишите слово и получите х*еслово
 /id - Мой ид

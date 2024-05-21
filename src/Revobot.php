@@ -3,6 +3,7 @@
 namespace Revobot;
 
 use KLua\KLua;
+use Revobot\Commands\DefecatorCmd;
 use Revobot\Commands\HuebotCmd;
 use Revobot\Commands\StorageSetCmd;
 use Revobot\Games\AI\GptPMC;
@@ -470,24 +471,6 @@ class Revobot
                 }
             }
 
-            if ($has_bot_response) {
-                $bot_answer = '';
-                if (count(Strings::stringToWords($this->message)) == 1) {
-                    $bot_answer = (new HuebotCmd($this->message))->exec();
-                } else {
-                    $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
-                }
-
-                if (!empty($bot_answer)) {
-                    $this->sendMessage((string)$bot_answer);
-                    $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getBotId(), 0, (string)$bot_answer));
-                    $mining_result_ans_bot = wait($mining_future_ans_bot);
-                    if (!empty($mining_result_ans_bot)) {
-                        $this->sendMessage(self::renderMiningMessage($mining_result_ans_bot['amount'], 'Therevoluciabot', $mining_result_ans_bot['id'], $mining_result_ans_bot['hash']), 'html');
-                    }
-                }
-            }
-
             // if(InstagramDownloader::is_instagram_reels_url($this->message)){
             //     InstagramDownloader::get($this->message, chatId());
             // }
@@ -534,6 +517,25 @@ class Revobot
             // if ($user_id === $chat_id && strlen($this->message) > 0 && $this->message[0] !== '/') {
             //     (new \Revobot\Commands\Gpt\AiCmd($this->message, $this))->exec();
             // }
+
+            if ($has_bot_response) {
+                $chat_commands = PMC::get(DefecatorCmd::getKey());
+                if (empty($chat_commands)) {
+                    $bot_answer = Answers::getAnswer('Вопрос: ' . $this->message . "\nОтвет:");
+                } else {
+                    $count = count($chat_commands) - 1;
+                    $this->sendMessage('/' . $chat_commands[mt_rand(0, $count)]);
+                    $bot_answer = CommandsManager::process($this);
+                }
+                if (!empty($bot_answer)) {
+                    $this->sendMessage((string)$bot_answer);
+                    $mining_future_ans_bot = fork((new Revocoin($this))->mining($this->getBotId(), 0, (string)$bot_answer));
+                    $mining_result_ans_bot = wait($mining_future_ans_bot);
+                    if (!empty($mining_result_ans_bot)) {
+                        $this->sendMessage(self::renderMiningMessage($mining_result_ans_bot['amount'], 'Therevoluciabot', $mining_result_ans_bot['id'], $mining_result_ans_bot['hash']), 'html');
+                    }
+                }
+            }
         }
     }
 

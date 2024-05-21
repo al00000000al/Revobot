@@ -28,6 +28,7 @@ class HelpCmd extends BaseCmd
 /chatid - get chat id
 /coinflip - Орел или решка на ревокоены
 /cmd - Создать команду (20R)
+/defecator - Рандомное выполнение команд в чате
 /delete - Удалить команду
 /delmsg - Удааление сообщения бота
 /donate - Купить ревокоины

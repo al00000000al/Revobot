@@ -239,17 +239,19 @@ class StoyakCmd extends BaseCmd
         $this->bot->sendTypeStatus();
         $this->bot->sendMessage($this->getRandomMessage($this->messages));
         //sleep(3);
-        $this->bot->sendTypeStatus();
+        // $this->bot->sendTypeStatus();
         $this->bot->sendMessage($this->getRandomMessage($this->messages));
         //sleep(3);
-        $this->bot->sendTypeStatus();
+        // $this->bot->sendTypeStatus();
         $this->bot->sendMessage("3");
         //sleep(3);
-        $this->bot->sendTypeStatus();
+        // $this->bot->sendTypeStatus();
         $this->bot->sendMessage("2");
         //sleep(4);
-        $this->bot->sendTypeStatus();
+        // $this->bot->sendTypeStatus();
         $this->bot->sendMessage("1...");
+        $this->bot->sendMessage("0");
+
         // sleep(3);
         $this->bot->sendTypeStatus();
     }

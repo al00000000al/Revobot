@@ -69,6 +69,11 @@ class ExecuteCmd extends BaseCmd
             return self::process($command_name, $input);
         });
 
+        if (isset($this->bot->raw_data['reply_message'])) {
+            $this->bot->raw_data['reply_message']['text'] = str_replace("\n", ' ', $this->bot->raw_data['reply_message']['text']);
+        }
+
+
         try {
             KLua::eval('
     local Api = {}
@@ -94,7 +99,7 @@ class ExecuteCmd extends BaseCmd
 setmetatable(Api, Api_mt)
 
 local function run()
-local Message = jsonDecode([[' . addslashes(json_encode($this->bot->raw_data)) . ']])
+local Message = jsonDecode("' . addslashes(json_encode($this->bot->raw_data)) . '")
 local Params = [[' . addslashes($params) . ']]
     ' . $code . '
 end

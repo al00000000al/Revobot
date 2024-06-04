@@ -48,6 +48,12 @@ class Todo
         return true;
     }
 
+    public function updateUserTodos(array $items)
+    {
+        PMC::set(self::PMC_TODO_USER_KEY . $this->provider . $this->user_id, (string)json_encode($items));
+        return true;
+    }
+
     public function addTodo(int $user_id, string $item, string $provider = 'tg')
     {
         $items = $this->getUserTodos($user_id, $provider);

@@ -25,6 +25,7 @@ class TelegramBotHandler implements RequestHandlerInterface
         $bot = new Revobot('tg');
         $bot->setTgKey(Config::get('tg_key'));
 
+
         // Обработка обычных сообщений
         if (isset($dataArr['message'])) {
             $this->_handleMessage((array)$dataArr['message'], $bot);

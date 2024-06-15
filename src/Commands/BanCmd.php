@@ -22,15 +22,19 @@ class BanCmd extends BaseCmd
 
     public function exec(): string
     {
-        if (!isAdmin(userid())) {
+        if (!isAdmin(userId())) {
             return '';
         }
 
-        if (provider() === 'tg') {
-            $user_id = $this->bot->raw_data['reply_to_message']['from']['id'];
+        if (!isset($this->bot->raw_data['reply_to_message']['from']['id']) && empty($this->input)) {
+            return 'not ok';
         }
 
-        PMC::set(self::PMC_KEY . provider() . $user_id, 1, 0, 14400);
+        if (provider() === 'tg') {
+            $user_id = $this->bot->raw_data['reply_to_message']['from']['id'] ?? trim($this->input);
+        }
+
+        PMC::set(self::PMC_KEY . provider() . $user_id, 1, 0, 86400);
         return 'ok';
     }
 }

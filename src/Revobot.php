@@ -129,6 +129,13 @@ class Revobot
     public function run()
     {
         if ($this->provider === 'tg' || $this->provider === 'vk') {
+            if ($this->provider === 'tg') {
+                $whitelist = Config::getArr('tg_whitelist');
+                if (!in_array(userId(), $whitelist)) {
+                    $this->sendMessage('Пользователя нет в белом списке');
+                    return;
+                }
+            }
             $startTime = microtime(true);
             $need_reply = (bool)(PMC::get('fk_' . $this->provider . userId()));
 

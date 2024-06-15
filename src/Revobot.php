@@ -129,13 +129,7 @@ class Revobot
     public function run()
     {
         if ($this->provider === 'tg' || $this->provider === 'vk') {
-            if ($this->provider === 'tg') {
-                $whitelist = Config::getArr('tg_whitelist');
-                if (!in_array(userId(), $whitelist)) {
-                    $this->sendMessage('Пользователя нет в белом списке');
-                    return;
-                }
-            }
+
             $startTime = microtime(true);
             $need_reply = (bool)(PMC::get('fk_' . $this->provider . userId()));
 
@@ -450,6 +444,23 @@ class Revobot
             $response = CommandsManager::process($this);
 
             if ($response && !empty($response)) {
+                if ($this->provider === 'tg') {
+                    $is_agree = (bool)PMC::get(provider() . '_agreement' . userId());
+                    if (!$is_agree) {
+                        $this->sendMessage("Добро пожаловать! Для использования нашего бота, пожалуйста, ознакомьтесь с условиями пользования. Принятие условий является обязательным для продолжения использования бота.
+
+Условия пользования: https://telegra.ph/Usloviya-polzovaniya-botom-v-Telegram-06-15
+
+Если вы согласны с условиями, отправьте команду /i_agree");
+                        return;
+                    }
+                    $whitelist = Config::getArr('tg_whitelist');
+                    if (!in_array(userId(), $whitelist)) {
+                        $user_id = userId();
+                        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], "Пользователя {$user_id} нет в белом списке");
+                        return;
+                    }
+                }
                 if (isAdmin(userId())) {
                     $is_debug = (bool) PMC::get('debug');
                     if ($is_debug) {

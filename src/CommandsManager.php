@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'alias','алиас','alive','алив','answer','ответ','balance','баланс','ban','bank','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','chatid','чатид','coinflip','орелирешка','coin','flip','cmd','кмд','команда','command','комманда','config','конфиг','debug','defecator','дефекатор','delete','del','удалить','delmsg','donate','донат','echo','эхо','excho','print','принт','editcode','редактироватькод','exchange','currency','курс','execute','food','fuckyou','идинахуй','пошланахуй','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','clearpermanencontext','context','контекст','c','кнт','dellast','d','делпослед','history','h','ист','история','permanentcontext','help','хэлп','хлеп','помощь','start','huebot','хуеслово','slovo','hueslovo','id','ид','idead','яумру','infa','инфа','key','ключ','key.edit','mail','меил','mycommands','моикомманды','newcode','новыйкод','or','ili','или','pass','пароль','poll','опрос','porfirevich','porf','порф','порфирьевич','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','showcode','stable','sd','сд','stat','стат','storageget','storageset','stoyak','стояк','summarize','прочитай','статья','talk','толк','time','тайм','время','timer','таймер','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','todo.uniq','туник','vision','чтотам','чтоделать','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн','zn','znanija','зн','знания'
+        'alias','алиас','alive','алив','answer','ответ','balance','баланс','ban','bank','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','chatid','чатид','coinflip','орелирешка','coin','flip','cmd','кмд','команда','command','комманда','config','конфиг','debug','defecator','дефекатор','delete','del','удалить','delmsg','donate','донат','echo','эхо','excho','print','принт','editcode','редактироватькод','exchange','currency','курс','execute','food','fuckyou','идинахуй','пошланахуй','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','clearpermanencontext','context','контекст','c','кнт','dellast','d','делпослед','history','h','ист','история','permanentcontext','help','хэлп','хлеп','помощь','start','huebot','хуеслово','slovo','hueslovo','iagree','i_agree','id','ид','idead','яумру','infa','инфа','key','ключ','key.edit','mail','меил','mycommands','моикомманды','newcode','новыйкод','or','ili','или','pass','пароль','poll','опрос','porfirevich','porf','порф','порфирьевич','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','showcode','stable','sd','сд','stat','стат','storageget','storageset','stoyak','стояк','summarize','прочитай','статья','talk','толк','time','тайм','время','timer','таймер','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','todo.uniq','туник','vision','чтотам','чтоделать','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн','zn','znanija','зн','знания'
     ];
 
     /**
@@ -185,6 +185,10 @@ case 'хуеслово':
 case 'slovo':
 case 'hueslovo':
 	$response = (new \Revobot\Commands\HuebotCmd($input))->exec();
+	break;
+case 'iagree':
+case 'i_agree':
+	$response = (new \Revobot\Commands\IagreeCmd($input))->exec();
 	break;
 case 'id':
 case 'ид':

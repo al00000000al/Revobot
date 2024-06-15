@@ -454,12 +454,6 @@ class Revobot
 Если вы согласны с условиями, отправьте команду /i_agree");
                         return;
                     }
-                    $whitelist = Config::getArr('tg_whitelist');
-                    if (!in_array(userId(), $whitelist)) {
-                        $user_id = userId();
-                        Tg::sendMessage((int)Config::getArr('tg_bot_admins')[0], "Пользователя {$user_id} нет в белом списке");
-                        return;
-                    }
                 }
                 if (isAdmin(userId())) {
                     $is_debug = (bool) PMC::get('debug');

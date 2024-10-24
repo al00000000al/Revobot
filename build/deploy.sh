@@ -11,7 +11,7 @@ rm $ZIP_NAME
 
 
 # Compress files into ZIP archive
-zip -r $ZIP_NAME . -x ".git/*" "build/*" "vendor/*" "*.zip" ".github*" "tmp/*"
+zip -r $ZIP_NAME . -x ".git/*" "build/*" "*.zip" ".github*" "tmp/*"
 
 # Upload ZIP archive to remote server
 scp -i $SSH_KEY -P $SSH_PORT $ZIP_NAME $SSH_USER@$SSH_HOST:$SSH_DIR

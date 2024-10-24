@@ -26,10 +26,7 @@
         "vkcom/kphp-polyfills": "^1.0.0",
       "ext-curl": "*",
       "ext-json": "*",
-        "orhanerday/open-ai": "^4.7",
-        "quasilyte/klua": "^1.0",
-        "amphp/websocket-client": "^2.0",
-        "amphp/http-client": "^5.1"
+        "quasilyte/klua": "^1.0"
 
     },
     "require-dev": {

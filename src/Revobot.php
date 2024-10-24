@@ -445,13 +445,7 @@ class Revobot
 
             if ($response && !empty($response)) {
                 if ($this->provider === 'tg') {
-                    $is_agree = (bool)PMC::get(provider() . '_agreement' . userId());
-                    if (!$is_agree) {
-                        $this->sendMessage("Добро пожаловать! Для использования нашего бота, пожалуйста, ознакомьтесь с условиями пользования. Принятие условий является обязательным для продолжения использования бота.
-
-Условия пользования: https://telegra.ph/Usloviya-polzovaniya-botom-v-Telegram-06-15
-
-Если вы согласны с условиями, отправьте команду /i_agree");
+                    if (!$this->checkAgreement()) {
                         return;
                     }
                 }
@@ -493,9 +487,16 @@ class Revobot
 
             if ($this->provider === 'tg') {
                 if (isset($this->raw_data['reply_to_message'])) {
-                    $source_text = (string)$this->raw_data['reply_to_message']['text'];
                     $from_id = (int)$this->raw_data['reply_to_message']['from']['id'];
-                    if ($from_id === Config::getInt('tg_bot_id') && !empty($source_text) && $this->message[0] !== '/') {
+                    $tg_bot_id = Config::getInt('tg_bot_id');
+                    if ($this->provider === 'tg' && $from_id === $tg_bot_id) {
+                        if (!$this->checkAgreement()) {
+                            return;
+                        }
+                    }
+                    $source_text = (string)$this->raw_data['reply_to_message']['text'];
+
+                    if ($from_id === $tg_bot_id && !empty($source_text) && $this->message[0] !== '/') {
                         if (Throttler::check($user_id, 'aicmd', 50)) {
                             $this->sendMessage('Больше нельзя сегодня');
                         } else {
@@ -553,6 +554,13 @@ class Revobot
     }
 
 
+    /**
+     * @deprecated
+     */
+    public function checkAgreement(): bool
+    {
+        return true;
+    }
 
     /**
      * @return string

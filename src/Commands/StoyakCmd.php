@@ -250,7 +250,10 @@ class StoyakCmd extends BaseCmd
         //sleep(4);
         // $this->bot->sendTypeStatus();
         $this->bot->sendMessage("1...");
-        $this->bot->sendMessage("0");
+        $this->bot->sendMessage($this->getRandomMessage(['жопа','-1','-2','-3','uh','и где','все']));
+        sleep(4);
+        $this->bot->sendTypeStatus();
+        // $this->bot->sendMessage("-2");
 
         // sleep(3);
         $this->bot->sendTypeStatus();

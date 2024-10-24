@@ -34,3 +34,8 @@ $config['telegram_webhook_url'] = 'https://localhost/tg_bot';
 
 $config['base_path'] = '/home/opc/www/revobot/';
 $config['public_domain'] = 'https://localhost';
+
+$config['ai_service'] = [
+    'url' => 'http://127.0.0.1:5001/',
+    'is_enabled' => true
+];

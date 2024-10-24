@@ -19,11 +19,15 @@ class Curl
             return "Невалидный URL";
         }
 
-        if (self::isLocalUrl($url)) {
-            if (isset($options['need_json_decode'])) {
-                return ['error' => "Локальный URL"];
+        if (!isset($options['no_check_local'])) {
+
+
+            if (self::isLocalUrl($url)) {
+                if (isset($options['need_json_decode'])) {
+                    return ['error' => "Локальный URL"];
+                }
+                return "Локальный URL";
             }
-            return "Локальный URL";
         }
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);

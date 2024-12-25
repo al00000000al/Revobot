@@ -83,7 +83,7 @@ class Curl
 
     private static function isValidUrl($url)
     {
-        return preg_match('/^https?:\/\/[a-zA-Z0-9.-А-Яа-яёЁ\s\:\/\\\\\%&\*\(\)_\?\-=\+]+$/', $url);
+        return preg_match('/^https?:\/\/[a-zA-Z0-9\.А-Яа-яёЁ\s\:\/\\\\\%&\*\(\)_\?\-=\+]+$/', $url);
     }
 
     private static function isLocalUrl($url)

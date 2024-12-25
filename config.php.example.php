@@ -28,6 +28,8 @@ $config += [
     'crystalpay_callback' => 'http://',
 ];
 $config['openai_api_host'] = 'http://localhost/openai_api.php';
+$config['tmdb_api_host'] = 'http://localhost/tmdb_api.php';
+$config['tmdb_api_key'] = 'get here: themoviedb.org/settings/api';
 $config['stable_diffusion_task_api'] = 'http://localhost/sd_task?';
 
 $config['telegram_webhook_url'] = 'https://localhost/tg_bot';

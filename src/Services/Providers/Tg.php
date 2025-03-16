@@ -17,7 +17,7 @@ class Tg extends Base
         $options['chat_id'] = $chat_id;
         $options['text'] = $text;
         $options['parse_mode'] = $parse_mode;
-        $options['disable_web_page_preview'] = true;
+        // $options['disable_web_page_preview'] = true;
 
         $result = self::_makeRequest('sendMessage', [
             ...$options,

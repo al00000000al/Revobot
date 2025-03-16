@@ -42,6 +42,9 @@ class TelegramBotHandler implements RequestHandlerInterface
         if (isset($message['chat']['id'])) {
             $chatId = $message['chat']['id'];
             $bot->setChatId((int)$chatId);
+            if (isset($message['message_thread_id'])) {
+                $bot->setMessageThreadId((int)$message['message_thread_id']);
+            }
 
             if (isset($message['text'])) {
                 $bot->setMessage((string)$message['text']);
@@ -61,6 +64,9 @@ class TelegramBotHandler implements RequestHandlerInterface
         $data = $callbackQuery["data"]; // данные, отправленные кнопкой
 
         $bot->setChatId($chatId);
+        if (isset($callbackQuery['message']['message_thread_id'])) {
+            $bot->setMessageThreadId((int)$callbackQuery['message']['message_thread_id']);
+        }
         $bot->setMessage((string)$data);
 
         if (isset($callbackQuery['message'])) {

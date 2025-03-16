@@ -21,6 +21,7 @@ class Revobot
 
 
     public int $chat_id;
+    public int $message_thread_id = -1;
 
     public string $provider;
     public string $message;
@@ -60,6 +61,14 @@ class Revobot
     public function setChatId(int $chat_id): void
     {
         $this->chat_id = $chat_id;
+    }
+
+     /**
+     * @param int $message_thread_id
+     */
+    public function setMessageThreadId(int $message_thread_id): void
+    {
+        $this->message_thread_id = $message_thread_id;
     }
 
 
@@ -148,6 +157,9 @@ class Revobot
             #region API
             KLua::registerFunction2('sendMessage', function ($string, $options = []) {
                 if ($this->provider === 'tg') {
+                    if  ($this->message_thread_id !== -1) {
+                        $options['message_thread_id'] = $this->message_thread_id;
+                    }
                     return Tg::sendMessage(chatId(), (string) $string, '', (array)$options);
                 }
                 if ($this->provider === 'vk') {
@@ -589,7 +601,11 @@ class Revobot
             $response_text = str_replace('@', '', $response_text);
         }
         if ($this->provider === 'tg') {
-            Tg::sendMessage(chatId(), $response_text, $parse_mode);
+            $options = [];
+            if ($this->message_thread_id !== -1) {
+                $options['message_thread_id'] = $this->message_thread_id;
+            }
+            Tg::sendMessage(chatId(), $response_text, $parse_mode, $options);
         } elseif ($this->provider === 'vk') {
             Vk::sendMessage(chatId(), $response_text);
         }

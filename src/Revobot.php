@@ -515,7 +515,8 @@ class Revobot
                             $save_history = 1;
                             PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                             $base_path = Config::get('base_path');
-                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                            $thread_id = $this->message_thread_id;
+                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id 0 $thread_id > /dev/null 2>&1 &");
                         }
                     }
                 }
@@ -532,7 +533,8 @@ class Revobot
                             $save_history = 1;
                             PMC::set(GptPMC::getInputKey($user_id, $this->provider), $this->message);
                             $base_path = Config::get('base_path');
-                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id > /dev/null 2>&1 &");
+                            $thread_id = $this->message_thread_id;
+                            exec("cd {$base_path}/scripts && php gptd.php $user_id $save_history $chat_id 0 $thread_id > /dev/null 2>&1 &");
                         }
                     }
                 }

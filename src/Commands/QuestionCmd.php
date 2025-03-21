@@ -25,7 +25,7 @@ class QuestionCmd extends BaseCmd
         // return (string)$question['question'];
         $base_path = Config::get('base_path');
         $chat_id = chatId();
-        exec("cd {$base_path}/scripts && php gptdq.php $chat_id > /dev/null 2>&1 &");
+        exec("cd {$base_path}/scripts && php gptdq.php $chat_id> /dev/null 2>&1 &");
         return '';
     }
 }

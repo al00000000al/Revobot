@@ -25,6 +25,7 @@ $user_id = (int)$argv[1];
 $save_history = (bool)$argv[2];
 $chat_id = (int)$argv[3];
 $message_id = (int)$argv[4] ?? 0;
+$message_thread_id = (int)$argv[5] ?? -1;
 
 // $user_id = 198239789;
 $context = getContextPermanent($user_id) . "\n" . getContext($user_id);
@@ -67,17 +68,17 @@ $is_need_continue = false;
 echo $answer . PHP_EOL;
 if ($message_id > 0) {
     if ($is_need_continue) {
-        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'reply_markup' => $continue]);
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'reply_markup' => $continue, 'message_thread_id' => $message_thread_id]);
     } else {
-        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id]);
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_to_message_id' => $message_id, 'message_thread_id' => $message_thread_id]);
     }
 
     print_r($res);
 } else {
     if ($is_need_continue) {
-        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_markup' => $continue]);
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['reply_markup' => $continue, 'message_thread_id' => $message_thread_id]);
     } else {
-        $res = Tg::sendMessage($chat_id, $answer, 'markdown');
+        $res = Tg::sendMessage($chat_id, $answer, 'markdown', ['message_thread_id' => $message_thread_id]);
     }
     print_r($res);
 }

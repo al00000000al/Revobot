@@ -61,11 +61,101 @@ class Curl
         return $output;
     }
 
-    // Функция для получения случайного прокси с pubproxy.com
-    public static function getRandomProxy()
+    /**
+     * Отправка POST-запроса с прокси
+     *
+     */
+    public static function postProxy($url, $data, $country, array $options = [])
     {
+        if (!self::isValidUrl($url)) {
+            if (isset($options['need_json_decode'])) {
+                return ['error' => "Невалидный URL"];
+            }
+            return "Невалидный URL";
+        }
+
+        if (!isset($options['no_check_local'])) {
+            if (self::isLocalUrl($url)) {
+                if (isset($options['need_json_decode'])) {
+                    return ['error' => "Локальный URL"];
+                }
+                return "Локальный URL";
+            }
+        }
+
+        // Получаем случайный прокси для POST-запроса
+        $proxy = self::getProxyIp($country);
+        if ($proxy) {
+            // Прокси настроен
+            $proxyUrl = "http://$proxy";  // Прокси в формате ip:port
+        } else {
+            return "Не удалось получить прокси";
+        }
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+
+        // Устанавливаем прокси для POST-запроса
+        curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
+
+        if (!empty($options['headers'])) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, (array)$options['headers']);
+        }
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        if (isset($options['need_json_decode'])) {
+            return json_decode($res, true);
+        }
+        return $res;
+    }
+
+    /**
+     * Отправка GET-запроса с прокси
+     *
+     */
+    public static function getProxy($url, $country)
+    {
+        if (!self::isValidUrl($url) || self::isLocalUrl($url)) {
+            return "Невалидный или локальный URL";
+        }
+
+        // Получаем случайный прокси для GET-запроса
+        $proxy = self::getProxyIp($country);
+        if ($proxy) {
+            // Прокси настроен
+            $proxyUrl = "http://$proxy";  // Прокси в формате ip:port
+        } else {
+            return "Не удалось получить прокси";
+        }
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy?https=true&type=http&post=true");
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 40); //timeout in seconds
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+
+        // Устанавливаем прокси для GET-запроса
+        curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
+
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return (string)$output;
+    }
+
+    /**
+     * Функция для получения прокси с США
+     *
+     */
+    public static function getProxyIp(string $country)
+    {
+        // Получаем случайный прокси с pubproxy.com, ограничивая его геолокацией
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://pubproxy.com/api/proxy?https=true&type=http&post=true&country=".$country);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);

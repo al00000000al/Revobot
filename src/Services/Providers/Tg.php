@@ -12,13 +12,13 @@ class Tg extends Base
     public const API_URL = 'https://api.telegram.org/bot';
     public const API_FILE_URL = 'https://api.telegram.org/file/bot';
 
-    public static function sendMessage(int $chat_id, string $text, string $parse_mode = null, $options = [])
+    public static function sendMessage(int $chat_id, string $text, string $parse_mode = '', $options = [])
     {
         $options['chat_id'] = $chat_id;
         $options['text'] = $text;
         $options['parse_mode'] = $parse_mode;
 
-        if (isset($options['message_thread_id']) && (int) $options['message_thread_id'] === -1) {
+        if (isset($options['message_thread_id']) && (int) $options['message_thread_id'] == -1) {
             unset($options['message_thread_id']);
         }
         // $options['disable_web_page_preview'] = true;
@@ -36,7 +36,7 @@ class Tg extends Base
         return $result;
     }
 
-    public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = null, array $options = [])
+    public static function editMessageText(int $chat_id, int $message_id, string $text, string $parse_mode = '', array $options = [])
     {
         return self::_makeRequest('editMessageText', [
             'chat_id' => $chat_id,

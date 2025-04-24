@@ -2,12 +2,10 @@
 
 namespace Revobot\Handlers;
 
-use Revobot\RequestHandlerInterface;
-
-class JobWorkerHandler implements RequestHandlerInterface
+class JobWorkerHandler
 {
     /** @kphp-required */
-    public function handle($uri)
+    public function handle()
     {
         $kphp_job_request = kphp_job_worker_fetch_request();
         if (!$kphp_job_request) {

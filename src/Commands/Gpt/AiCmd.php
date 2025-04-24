@@ -58,7 +58,7 @@ class AiCmd extends BaseCmd
             //     'user_id' => userId(),
             //     'provider' => $this->bot->provider,
             //     'chat_id' =>chatId(),
-            //     'model' => 'gpt-4o'
+            //     'model' => 'gpt-4.1-mini-2025-04-14'
             //   ]);
             // JobLauncher::start($job_request, 120);
             // return "";

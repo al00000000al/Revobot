@@ -13,7 +13,7 @@ $chat_id = '198239789';
 $messageId = -1;
 
 $data = array(
-    'model' => 'gpt-4o',
+    'model' => 'gpt-4.1-mini-2025-04-14',
     'stream' => true,
     'messages' => array(
         array(

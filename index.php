@@ -30,7 +30,7 @@ $lua_config->alloc_hook = function ($alloc_size) {
 KLua::init($lua_config);
 
 if (PHP_SAPI !== 'cli' && isset($_SERVER["JOB_ID"])) {
-    (new JobWorkerHandler)->handle('');
+    (new JobWorkerHandler)->handle();
 } else {
     $router = new Router();
     $url = $_SERVER['PHP_SELF'];

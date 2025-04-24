@@ -1,5 +1,7 @@
 <?php
 
+use Revobot\Config;
+
 require '../vendor/autoload.php';
 require '../config.php';
 
@@ -19,7 +21,7 @@ function handleHttpRequest()
 
     $arr = [1, 2, 3, 4, 5];
     $timeout = 10.0;
-    $job_request = new Revobot\JobWorkers\Requests\Test($arr);
+    $job_request = new Revobot\JobWorkers\Requests\Test($arr, Config::getArr('tg_bot_admins')[0]);
     $job_id = Revobot\JobWorkers\JobLauncher::start($job_request, $timeout);
 
     dbg_echo("continue work");

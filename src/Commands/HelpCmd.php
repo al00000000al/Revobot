@@ -36,6 +36,7 @@ class HelpCmd extends BaseCmd
 /editcode - Редактировать команду с кодом lua (0R)
 /exchange - Курс
 /execute - lua script
+/film - get random film
 /fuckyou - Бот не отвечает 4ч на команды
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
@@ -51,6 +52,7 @@ class HelpCmd extends BaseCmd
 /huebot - напишите слово и получите х*еслово
 /id - Мой ид
 /idead - умрешь ли ты от того что на фото
+/iface - определить по фото лица
 /infa - Вероятность события
 /mail - get answer from otveti mail ru
 /mycommands - Мои комманды

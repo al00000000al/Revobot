@@ -8,7 +8,7 @@ class OpenAIService
 {
 
 
-    public static function generate(string $input, string $context, array $history, string $model = 'gpt-4.1-mini-2025-04-14', $temperature = 0.8, $max_tokens = 500)
+    public static function generate(string $input, string $context, array $history, string $model = 'gpt-5-mini-2025-08-07', $temperature = 1, $max_completion_tokens = 1000)
     {
         $messages = [];
         $messages = self::addMessageToHistory($messages, 'system', $context);
@@ -36,8 +36,8 @@ class OpenAIService
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['q' => json_encode([
             'model' => $model,
             'messages' => $messages,
-            'temperature' => $temperature,
-            'max_tokens' => $max_tokens,
+            // 'temperature' => $temperature,
+            'max_completion_tokens' => $max_completion_tokens,
             // 'frequency_penalty' => 0.5,
             // 'presence_penalty' => 0.6,
         ]), 'key' => Config::get('openai_api_key')]));

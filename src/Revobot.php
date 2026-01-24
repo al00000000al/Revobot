@@ -242,7 +242,7 @@ class Revobot
         } else {
             PMC::set(GptPMC::getInputKey($userId, $this->provider), $this->message);
             $basePath = Config::get('base_path');
-            $threadId = $this->message_thread_id ?? -1;
+            $threadId = $this->message_thread_id ?? '0';
             $message_id = $this->raw_data['message_id'];
             $save_history = 1;
             exec("cd {$basePath}/scripts && php gptd.php '$userId' '$save_history '$chatId' '$message_id' '$threadId' > /dev/null 2>&1 &");

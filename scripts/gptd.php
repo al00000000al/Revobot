@@ -25,7 +25,7 @@ $user_id = (int)$argv[1];
 $save_history = (bool)$argv[2];
 $chat_id = (int)$argv[3];
 $message_id = (int)$argv[4] ?? 0;
-$message_thread_id = (int)$argv[5] ?? -1;
+$message_thread_id = (int)$argv[5] ?? 0;
 
 // $user_id = 198239789;
 $context = getContextPermanent($user_id) . "\n" . getContext($user_id);
@@ -42,7 +42,7 @@ if (empty($context)) {
 $context .= $date_message;
 
 
-list($reason, $answer) = OpenAIService::generate($input, $context, (array)$history, 'gpt-4.1-mini-2025-04-14'); //'gpt-4o'
+list($reason, $answer) = OpenAIService::generate($input, $context, (array)$history, 'gpt-5-mini-2025-08-07'); //'gpt-4o'
 if ($save_history) {
     $history = OpenAIService::addMessageToHistory($history, 'user', (string)$input);
     $history = OpenAIService::addMessageToHistory($history, 'assistant', (string)$answer);

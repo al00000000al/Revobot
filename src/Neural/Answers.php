@@ -4,8 +4,6 @@ namespace Revobot\Neural;
 
 use Revobot\Services\AnswersMailru;
 use Revobot\Services\DobroAI;
-use Revobot\Services\Huggingface\SbermGPT;
-use Revobot\Services\SberGPT3;
 
 class Answers
 {
@@ -18,12 +16,7 @@ class Answers
         try {
             $text = DobroAI::get($input);
         } catch (\Exception $_) {
-            $s = mt_rand(0, 100);
-            if ($s < 0) {
-                $text = SberGPT3::generate($input);
-            } else {
-                $text = AnswersMailru::get($input);
-            }
+            $text = AnswersMailru::get($input);
         }
 
         if ($text === 'техт сгенерирован с помощью нейросети Порфирьевич porfirevich.ru') {

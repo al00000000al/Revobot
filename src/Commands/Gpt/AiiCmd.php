@@ -3,14 +3,7 @@
 namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
-use Revobot\Games\AI\Gpt;
-use Revobot\Games\AI\GptPMC;
-use Revobot\JobWorkers\JobLauncher;
-use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
-use Revobot\Neural\Answers;
 use Revobot\Revobot;
-use Revobot\Services\AnswersMailru;
-use Revobot\Services\DobroAI;
 
 class AiiCmd extends BaseCmd
 {

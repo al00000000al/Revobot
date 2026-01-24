@@ -20,14 +20,14 @@ $chat_id = (int)$argv[1];
 $input = 'Сгенерируй сложный вопрос на тему ' . $themes[mt_rand(0, count($themes) - 1)] . ' из ОГЭ для викторины на деньги в json формате question, answers => [id, text], correct_number. В ответе пиши только json и ничего больше. Текст вопроса не слишком длинный';
 
 $data = [
-    'model' => 'gpt-4.1-mini-2025-04-14',
+    'model' => 'gpt-5-mini-2025-08-07',
     'messages' => [
         [
             'role' => 'user',
             'content' => $input,
         ]
     ],
-    'max_tokens' => 500
+    'max_completion_tokens' => 1000
 ];
 
 $ch = curl_init(Config::get('openai_api_host'));

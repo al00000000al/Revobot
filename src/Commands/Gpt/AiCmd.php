@@ -3,16 +3,9 @@
 namespace Revobot\Commands\Gpt;
 
 use Revobot\Commands\BaseCmd;
-use Revobot\Commands\ZnCmd;
 use Revobot\Config;
-use Revobot\Games\AI\Gpt;
 use Revobot\Games\AI\GptPMC;
-use Revobot\JobWorkers\JobLauncher;
-use Revobot\JobWorkers\Requests\Gpt as RequestsGpt;
-use Revobot\Neural\Answers;
 use Revobot\Revobot;
-use Revobot\Services\AnswersMailru;
-use Revobot\Services\DobroAI;
 use Revobot\Util\Throttler;
 
 class AiCmd extends BaseCmd
@@ -58,7 +51,7 @@ class AiCmd extends BaseCmd
             //     'user_id' => userId(),
             //     'provider' => $this->bot->provider,
             //     'chat_id' =>chatId(),
-            //     'model' => 'gpt-4.1-mini-2025-04-14'
+            //     'model' => 'gpt-5-mini-2025-08-07'
             //   ]);
             // JobLauncher::start($job_request, 120);
             // return "";

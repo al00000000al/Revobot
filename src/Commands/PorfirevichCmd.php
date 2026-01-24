@@ -21,6 +21,6 @@ class PorfirevichCmd extends BaseCmd
         if (empty($this->input)) {
             return $this->description;
         }
-        return DobroAI::get($this->input);
+        return DobroAI::get($this->input, 50);
     }
 }

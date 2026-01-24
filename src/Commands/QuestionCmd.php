@@ -2,8 +2,7 @@
 
 namespace Revobot\Commands;
 
-use Revobot\Config;
-use Revobot\Games\Quiz;
+use Revobot\Config;;
 use Revobot\Revobot;
 
 class QuestionCmd extends BaseCmd
@@ -21,8 +20,6 @@ class QuestionCmd extends BaseCmd
 
     public function exec(): string
     {
-        // $question = (new Quiz($this->bot))->getQuestion();
-        // return (string)$question['question'];
         $base_path = Config::get('base_path');
         $chat_id = chatId();
         exec("cd {$base_path}/scripts && php gptdq.php $chat_id> /dev/null 2>&1 &");

@@ -15,6 +15,7 @@ class FCQuestions
      */
     public static function get()
     {
+        return [];
         $response = Curl::get(self::BASE_URL . Config::get('fc_key'));
         return json_decode($response, true);
     }

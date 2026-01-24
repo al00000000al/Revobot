@@ -7,7 +7,7 @@ use Revobot\Util\Curl;
 
 class TlgrmApp
 {
-    public const URL = 'https://typesense.tlgrm.app/collections/channels/documents/search?';
+    public const URL = 'https://typesense.tlgrm.ru/collections/channels/documents/search?';
 
     /**
      * @param string $query

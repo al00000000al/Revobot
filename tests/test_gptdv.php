@@ -8,7 +8,7 @@ require '../config.php';
 
 
 $data = [
-    'model' => 'gpt-4.1-mini-2025-04-14',
+    'model' => 'gpt-5-mini-2025-08-07',
     'messages' => [
         [
             'role' => 'user',
@@ -17,14 +17,14 @@ $data = [
                     'type' => 'text',
                     'text' => "Write in detail what is in the picture, if there are trains, then what type and model of train with numbers, if buildings, then what types of buildings with numbers, if there are plants, then what types of plants. If you can determine country, write country. It maybe russia. Response in the format JSON: {\"keywords\":[]}"
                 ],
-                [
-                    'type' => 'image_url',
-                    'image_url' => ['url' => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/81-717-714_on_Nagatinsky_Metro_Bridge.jpg/800px-81-717-714_on_Nagatinsky_Metro_Bridge.jpg", 'detail' => 'high']
-                ]
+                // [
+                //     'type' => 'image_url',
+                //     'image_url' => ['url' => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/81-717-714_on_Nagatinsky_Metro_Bridge.jpg/800px-81-717-714_on_Nagatinsky_Metro_Bridge.jpg", 'detail' => 'high']
+                // ]
             ]
         ]
     ],
-    'max_tokens' => 300
+    'max_completion_tokens' => 1000
 ];
 
 $ch = curl_init('https://api.openai.com/v1/chat/completions');

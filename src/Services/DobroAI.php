@@ -9,11 +9,11 @@ class DobroAI
 
     private const BASE_URL = 'https://pelevin.gpt.dobro.ai/generate/';
 
-    public static function get($start): string
+    public static function get($start, int $lenght = 25): string
     {
         $response = Curl::post(
             self::BASE_URL,
-            json_encode(["prompt" => $start, "length" => 25, "num_samples" => 1]),
+            json_encode(["prompt" => $start, "length" => $lenght, "num_samples" => 1]),
             ['headers' => ['Content-Type: application/json'], 'need_json_decode' => true]
         );
         if (!$response) {

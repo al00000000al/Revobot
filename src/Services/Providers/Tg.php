@@ -18,7 +18,7 @@ class Tg extends Base
         $options['text'] = $text;
         $options['parse_mode'] = $parse_mode;
 
-        if (isset($options['message_thread_id']) && (int) $options['message_thread_id'] == -1) {
+        if (isset($options['message_thread_id']) && (int) $options['message_thread_id'] == -1 || (int) $options['message_thread_id'] == 0) {
             unset($options['message_thread_id']);
         }
         // $options['disable_web_page_preview'] = true;

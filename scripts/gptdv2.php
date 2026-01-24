@@ -21,7 +21,7 @@ $imageContent = file_get_contents($base_path . 'temp.jpg');
 $base64Image = base64_encode($imageContent);
 
 $data = [
-    'model' => 'gpt-4.1-mini-2025-04-14',
+    'model' => 'gpt-5-mini-2025-08-07',
     'messages' => [
         [
             'role' => 'user',
@@ -37,7 +37,7 @@ $data = [
             ]
         ]
     ],
-    'max_tokens' => 300
+    'max_completion_tokens' => 1000
 ];
 $ch = curl_init(Config::get('openai_api_host'));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

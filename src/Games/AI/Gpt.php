@@ -7,7 +7,7 @@ use Revobot\Services\OpenAIService;
 class Gpt
 {
     const PMC_USER_AI_INPUT_KEY = 'pmc_user_ai_input_';
-    public static function generate(string $user_input, int $user_id, string $provider, bool $clear_all = false, $model = 'gpt-4.1-mini-2025-04-14')
+    public static function generate(string $user_input, int $user_id, string $provider, bool $clear_all = false, $model = 'gpt-5-mini-2025-08-07')
     {
         $GptPMC = new GptPMC($user_id, $provider);
 
@@ -23,7 +23,7 @@ class Gpt
         return self::process($user_input, self::formatContext($GptPMC->getContextPermanent() . "\n" . $GptPMC->getContext()), $GptPMC->getHistory(), $GptPMC, $save_history, $model);
     }
 
-    private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-4.1-mini-2025-04-14')
+    private static function process($user_input, $context, $history, GptPMC $GptPMC, $save_history = true, $model = 'gpt-5-mini-2025-08-07')
     {
         list($_, $answer) = OpenAIService::generate($user_input, $context, (array)$history, $model);
 

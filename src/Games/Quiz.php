@@ -31,7 +31,7 @@ class Quiz
         if (!$current) {
             $result = PMC::get(self::PMC_QUESTIONS_KEY);
             if (!$result) {
-                return;
+                return null;
                 // $result = FCQuestions::get();
             }
             $current = array_shift($result);

@@ -2,7 +2,7 @@
 
 namespace Revobot\Commands;
 
-use PentabaseLogic;
+use Revobot\Numerology\PentabaseLogic;
 
 class PentabaseCmd extends BaseCmd
 {

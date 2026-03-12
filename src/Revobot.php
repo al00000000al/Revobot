@@ -185,13 +185,17 @@ class Revobot
     private function handleMiningResponse($userId, $response)
     {
         $miningResult = wait(fork((new Revocoin($this))->mining($userId, 0, $this->message)));
-        if (!empty($miningResult)) {
+        if (!empty($miningResult) && !$this->isIgnoredChat()) {
             $this->sendMessage(self::renderMiningMessage($miningResult['amount'], $this->getUserNick(), $miningResult['id'], $miningResult['hash']), 'html');
         }
 
-        if ($response) {
+        if ($response && !$this->isIgnoredChat()) {
             $this->mineBotResponse($response);
         }
+    }
+
+    private function isIgnoredChat() {
+        return in_array(chatId(), Config::getArr('tg_mining_ignore_chats'));
     }
 
     private function mineBotResponse($response)

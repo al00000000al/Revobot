@@ -4,7 +4,6 @@ namespace Revobot\Games;
 
 use Revobot\Money\Revocoin;
 use Revobot\Revobot;
-use Revobot\Services\FCQuestions;
 use Revobot\Util\PMC;
 
 class Quiz

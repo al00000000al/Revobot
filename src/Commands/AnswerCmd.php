@@ -10,7 +10,7 @@ class AnswerCmd extends BaseCmd
     private Revobot $bot;
 
     const KEYS = ['answer', 'ответ'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'Ответить на вопрос';
 
     public function __construct(string $input, Revobot $bot)

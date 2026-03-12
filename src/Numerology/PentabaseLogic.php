@@ -4,6 +4,9 @@
  * Класс PentabaseLogic
  * Чистая реализация Октанализа и Пентабазиса по тексту.
  */
+
+namespace Revobot\Numerology;
+
 class PentabaseLogic
 {
     // Описания инстанций
@@ -84,7 +87,8 @@ class PentabaseLogic
     private function buildResponse(array $scores, int $bgId, string $date): array
     {
         arsort($scores);
-        $topId = key($scores);
+
+        $topId = (int)array_key_first($scores);
 
         return [
             'date'   => $date,

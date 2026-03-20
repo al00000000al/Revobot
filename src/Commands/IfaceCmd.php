@@ -11,7 +11,7 @@ class IfaceCmd extends BaseCmd
 {
     private Revobot $bot;
     const KEYS = ['iface', 'aiface'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'определить по фото лица';
 
     public function __construct(string $input, Revobot $bot)

@@ -22,10 +22,10 @@ class StatStoyak
             return 'Ни у кого еще не встал';
         }
 
-        $stat_key = self::getStatCacheKey(chatId());
+        // $stat_key = self::getStatCacheKey(chatId());
 
-        $cached = instance_cache_fetch(StatCached::class, $stat_key);
-        if (!$cached) {
+        // $cached = instance_cache_fetch(StatCached::class, $stat_key);
+        // if (!$cached) {
             $users = [];
             $usernames = [];
             foreach ($chat as $user) {
@@ -33,12 +33,12 @@ class StatStoyak
                 $usernames[$user] = $this->getUsername((int)$user);
             }
 
-            $cached = new StatCached($users, $usernames);
-            instance_cache_store(self::getStatCacheKey(chatId()), $cached, 60);
-        }
+            // $cached = new StatCached($users, $usernames);
+            // instance_cache_store(self::getStatCacheKey(chatId()), $cached, 60);
+        // }
 
 
-        return $this->format($cached->users, $cached->usernames);
+        return $this->format($users, $usernames);
     }
 
     /**

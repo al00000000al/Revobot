@@ -4,16 +4,32 @@
 */
 namespace Revobot\Commands;
 
+use Revobot\Commands\Custom\CustomCmd;
+use Revobot\Revobot;
+
 class HelpCmd extends BaseCmd
 {
+    private Revobot $bot;
     const KEYS = ['help','хэлп','хлеп', 'помощь','start'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Помощь';
+
+    public function __construct(string $input, Revobot $bot)
+    {
+        parent::__construct($input);
+        $this->bot = $bot;
+    }
+
     /**
      * @return string
      */
     public function exec(): string
     {
+        $user_commands = (new CustomCmd($this->bot))->getUserCommands(userId());
+        $user_commands_str = '';
+        foreach ($user_commands as $user_command) {
+            $user_commands_str .= '/'.$user_command."\n";
+        }
         return "Список команд бота:
 /alias - Создать алиас (10R)
 /alive - Состояние бота
@@ -28,16 +44,13 @@ class HelpCmd extends BaseCmd
 /chatid - get chat id
 /coinflip - Орел или решка на ревокоены
 /cmd - Создать команду (20R)
-/defecator - Рандомное выполнение команд в чате
 /delete - Удалить команду
 /delmsg - Удааление сообщения бота
-/donate - Купить ревокоины
 /echo - Печатать
 /editcode - Редактировать команду с кодом lua (0R)
-/exchange - Курс
+/exchange - /exchange сумма валюта — конвертация в рубли по курсу ЦБ РФ
 /execute - lua script
 /film - get random film
-/fuckyou - Бот не отвечает 4ч на команды
 /ai - Нейросеть
 /aii - Очистить контекст и историю и ответить
 /clearall - очистить историю и контекст
@@ -49,10 +62,8 @@ class HelpCmd extends BaseCmd
 /history - История
 /permanentcontext - установить постоянный контекст
 /help - Помощь
-/huebot - напишите слово и получите х*еслово
 /id - Мой ид
 /idead - умрешь ли ты от того что на фото
-/iface - определить по фото лица
 /infa - Вероятность события
 /mail - get answer from otveti mail ru
 /mycommands - Мои комманды
@@ -69,7 +80,6 @@ class HelpCmd extends BaseCmd
 /send - Отправить R польз.
 /show - AI image generate DALL-E
 /showcode - show code
-/stable - create image
 /stat - Статистика R
 /storageget - Получить значение из ключа
 /storageset - Сохранить значение в ключе
@@ -81,13 +91,12 @@ class HelpCmd extends BaseCmd
 /todo - Список задач
 /done - Отметить выполненым
 /todo.uniq - удалить дубли в туду
-/vision - send image
 /vozrast - Сколько сегодня мне лет
 /weather - Моя погода
 /when - Узнать когда
 /who - Узнать кто
 /yn - Да или нет
-/zn - получить ответы со znanija
-";
+
+$user_commands_str";
     }
 }

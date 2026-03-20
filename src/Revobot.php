@@ -173,6 +173,7 @@ class Revobot
     private function handleResponse($response, $isDebug, $startTime)
     {
         if (isAdmin(userId()) && $isDebug) {
+            /** @var string $Debug */
             global $Debug;
             $response .= "\n--------------\n\n" . $Debug;
             $response .= "\n" . round(microtime(true) - $startTime, 4) . ' сек.';

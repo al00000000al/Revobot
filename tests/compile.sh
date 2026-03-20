@@ -1,1 +1,1 @@
-kphp -M cli -T /var/www/vkontakte/data/www/vkontakte.com/tl/scheme.tlo krpc.php
+/usr/share/vkontakte/bin/kphp2cpp -M cli -T /home/opc/scheme.tlo --no-crc32c -F krpc.php

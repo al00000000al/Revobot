@@ -11,6 +11,7 @@ class FuckYouCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Бот не отвечает 4ч на команды';
     public const PMC_KEY = 'fk_';
+    const IS_HIDDEN = true;
     private Revobot $bot;
 
     public function __construct(string $input, Revobot $bot)

@@ -7,7 +7,7 @@ use Revobot\Services\Znanija;
 class ZnCmd extends BaseCmd
 {
     const KEYS = ['zn', 'znanija', 'зн', 'знания'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'получить ответы со znanija';
 
     public function __construct(string $input)

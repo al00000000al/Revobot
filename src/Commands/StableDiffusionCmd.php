@@ -11,7 +11,7 @@ class StableDiffusionCmd extends BaseCmd
 {
     private Revobot $bot;
     const KEYS = ['stable', 'sd', 'сд'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'create image';
     const PMC_KEY = 'stable_diffusion_';
 

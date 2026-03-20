@@ -12,7 +12,7 @@ class VisionCmd extends BaseCmd
 {
     private Revobot $bot;
     const KEYS = ['vision', 'чтотам', 'чтоделать'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'send image';
 
     public function __construct(string $input, Revobot $bot)

@@ -68,6 +68,7 @@ function isAdmin($user): bool
  */
 function debugLog($data)
 {
+    /** @var string $Debug */
     global $Debug;
 
     $Debug .= (string)$data . PHP_EOL;

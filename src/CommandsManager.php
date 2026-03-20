@@ -7,7 +7,7 @@ namespace Revobot;
 class CommandsManager extends CommandsManagerBase
 {
     public const COMMANDS = [
-        'alias','алиас','alive','алив','answer','ответ','balance','баланс','ban','bank','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','chatid','чатид','coinflip','орелирешка','coin','flip','cmd','кмд','команда','command','комманда','config','конфиг','debug','defecator','дефекатор','delete','del','удалить','delmsg','donate','донат','echo','эхо','excho','print','принт','editcode','редактироватькод','exchange','currency','курс','execute','film','food','fuckyou','идинахуй','пошланахуй','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','clearpermanencontext','context','контекст','c','кнт','dellast','d','делпослед','history','h','ист','история','permanentcontext','help','хэлп','хлеп','помощь','start','huebot','хуеслово','slovo','hueslovo','iagree','i_agree','id','ид','idead','яумру','iface','aiface','infa','инфа','key','ключ','key.edit','mail','меил','mycommands','моикомманды','newcode','новыйкод','or','ili','или','pass','пароль','pentabase','пентабазис','poll','опрос','porfirevich','porf','порф','порфирьевич','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','showcode','stable','sd','сд','stat','стат','storageget','storageset','stoyak','стояк','summarize','прочитай','статья','talk','толк','time','тайм','время','timer','таймер','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','todo.uniq','туник','vision','чтотам','чтоделать','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн','zn','znanija','зн','знания'
+        'alias','алиас','alive','алив','answer','ответ','balance','баланс','ban','bank','bash','баш','calc','калк','casino','казино','channel','канал','chat','чат','chatid','чатид','coinflip','орелирешка','coin','flip','cmd','кмд','команда','command','комманда','config','конфиг','debug','defecator','дефекатор','delete','del','удалить','delmsg','echo','эхо','excho','print','принт','editcode','редактироватькод','exchange','currency','курс','execute','film','fuckyou','идинахуй','пошланахуй','ai','ии','aii','иии','clearall','сброс','clearcontext','ксброс','cc','clearhistory','ch','исброс','clearpermanencontext','context','контекст','c','кнт','dellast','d','делпослед','history','h','ист','история','permanentcontext','help','хэлп','хлеп','помощь','start','huebot','хуеслово','slovo','hueslovo','id','ид','idead','яумру','infa','инфа','key','ключ','key.edit','mail','меил','mycommands','моикомманды','newcode','новыйкод','or','ili','или','pass','пароль','pentabase','пентабазис','poll','опрос','porfirevich','porf','порф','порфирьевич','pukvy','пуквы','vopros','question','вопрос','rand','random','ранд','рандом','rsend','рсенд','send','сенд','show','покажи','image','photo','фото','картинка','showcode','stat','стат','storageget','storageset','stoyak','стояк','summarize','прочитай','статья','talk','толк','time','тайм','время','timer','таймер','cancel','отмена','передумал','todo','туду','задачи','done','todo.done','готово','todo.uniq','туник','vozrast','возраст','weather','погода','pogoda','when','kogda','когда','who','кто','yn','дн'
     ];
 
     /**
@@ -97,10 +97,6 @@ case 'удалить':
 case 'delmsg':
 	$response = (new \Revobot\Commands\DelmsgCmd($input, $bot))->exec();
 	break;
-case 'donate':
-case 'донат':
-	$response = (new \Revobot\Commands\DonateCmd($input))->exec();
-	break;
 case 'echo':
 case 'эхо':
 case 'excho':
@@ -122,9 +118,6 @@ case 'execute':
 	break;
 case 'film':
 	$response = (new \Revobot\Commands\FilmCmd($input))->exec();
-	break;
-case 'food':
-	$response = (new \Revobot\Commands\FoodCmd($input, $bot))->exec();
 	break;
 case 'fuckyou':
 case 'идинахуй':
@@ -181,17 +174,13 @@ case 'хэлп':
 case 'хлеп':
 case 'помощь':
 case 'start':
-	$response = (new \Revobot\Commands\HelpCmd($input))->exec();
+	$response = (new \Revobot\Commands\HelpCmd($input, $bot))->exec();
 	break;
 case 'huebot':
 case 'хуеслово':
 case 'slovo':
 case 'hueslovo':
 	$response = (new \Revobot\Commands\HuebotCmd($input))->exec();
-	break;
-case 'iagree':
-case 'i_agree':
-	$response = (new \Revobot\Commands\IagreeCmd($input))->exec();
 	break;
 case 'id':
 case 'ид':
@@ -200,10 +189,6 @@ case 'ид':
 case 'idead':
 case 'яумру':
 	$response = (new \Revobot\Commands\IdeadCmd($input, $bot))->exec();
-	break;
-case 'iface':
-case 'aiface':
-	$response = (new \Revobot\Commands\IfaceCmd($input, $bot))->exec();
 	break;
 case 'infa':
 case 'инфа':
@@ -285,11 +270,6 @@ case 'картинка':
 case 'showcode':
 	$response = (new \Revobot\Commands\ShowCodeCmd($input, $bot))->exec();
 	break;
-case 'stable':
-case 'sd':
-case 'сд':
-	$response = (new \Revobot\Commands\StableDiffusionCmd($input, $bot))->exec();
-	break;
 case 'stat':
 case 'стат':
 	$response = (new \Revobot\Commands\StatCmd($input, $bot))->exec();
@@ -341,11 +321,6 @@ case 'todo.uniq':
 case 'туник':
 	$response = (new \Revobot\Commands\Todo\TodoUniqCmd($input, $bot))->exec();
 	break;
-case 'vision':
-case 'чтотам':
-case 'чтоделать':
-	$response = (new \Revobot\Commands\VisionCmd($input, $bot))->exec();
-	break;
 case 'vozrast':
 case 'возраст':
 	$response = (new \Revobot\Commands\VozrastCmd($input, $bot))->exec();
@@ -367,12 +342,6 @@ case 'кто':
 case 'yn':
 case 'дн':
 	$response = (new \Revobot\Commands\YnCmd($input, $bot))->exec();
-	break;
-case 'zn':
-case 'znanija':
-case 'зн':
-case 'знания':
-	$response = (new \Revobot\Commands\ZnCmd($input))->exec();
 	break;
 
             default:

@@ -1,6 +1,13 @@
 <?php
 
-$conn = new_rpc_connection('127.0.0.1', 11209, 0, 0);
+$conn = new_rpc_connection('127.0.0.1', 11209);
+
+// Или проверка на null:
+if ($conn === null) {
+    echo "Connection failed\n";
+} else {
+    echo "Connection ok\n";
+}
 $user_id = 198239789;
 $query_ids = rpc_tl_query(
     $conn,

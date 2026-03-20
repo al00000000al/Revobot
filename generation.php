@@ -101,17 +101,33 @@ function generateHelpCmd($commands)
 */
 namespace Revobot\Commands;
 
+use Revobot\Commands\Custom\CustomCmd;
+use Revobot\Revobot;
+
 class HelpCmd extends BaseCmd
 {
+    private Revobot \$bot;
     const KEYS = ['help','хэлп','хлеп', 'помощь','start'];
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'Помощь';
+
+    public function __construct(string \$input, Revobot \$bot)
+    {
+        parent::__construct(\$input);
+        \$this->bot = \$bot;
+    }
+
     /**
      * @return string
      */
     public function exec(): string
     {
-        return "Список команд бота:\n{$commands}";
+        \$user_commands = (new CustomCmd(\$this->bot))->getUserCommands(userId());
+        \$user_commands_str = '';
+        foreach (\$user_commands as \$user_command) {
+            \$user_commands_str .= '/'.\$user_command."\\n";
+        }
+        return "Список команд бота:\n{$commands}\n\$user_commands_str";
     }
 }
 PHP;

@@ -12,6 +12,7 @@ class DefecatorCmd extends BaseCmd
     private Revobot $bot;
     const KEYS = ['defecator', 'дефекатор'];
     const IS_ENABLED = true;
+    const IS_HIDDEN = true;
     const HELP_DESCRIPTION = 'Рандомное выполнение команд в чате';
     public const PMC_DEFCMD_KEY = 'defcmd_key_'; // provider() . '_'.chatid();
 

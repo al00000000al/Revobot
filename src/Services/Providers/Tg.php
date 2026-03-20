@@ -182,12 +182,11 @@ class Tg extends Base
 
 
 
-    public static function sendChatAction(int $chat_id, string $action, array $options = [])
+    public static function sendChatAction(int $chat_id, string $action)
     {
         return self::_makeRequest('sendChatAction', [
             'chat_id' => $chat_id,
             'action' => $action,
-            ...$options
         ]);
     }
 

@@ -15,70 +15,82 @@ class Stat
     {
         $this->bot = $bot;
     }
-
     public function get(): string
     {
         $chat = $this->bot->loadChat();
-        if (empty($chat)) {
+
+        if (!$chat) {
             return 'Никого еще нет в рейтинге';
         }
 
-        $stat_key = $this->getStatCacheKey();
+        $users = [];
+        $usernames = [];
 
-        $cached = instance_cache_fetch(StatCached::class, $stat_key);
-        if (!$cached) {
-            $users = [];
-            $usernames = [];
+        $conn = new_rpc_connection('127.0.0.1', 11209, 0, 6);
 
-            $conn = new_rpc_connection('127.0.0.1', 11209, 0, 6);
-            $balancesQuery = [];
-            $usernamesQuery = [];
-
-            foreach ($chat as $user) {
-                if ($user === $this->bot->getBotId() || -$user === $this->bot->getBotId()) {
-                    $user = -abs($user);
-                }
-                $balancesQuery[]  = ['memcache.get', Revocoin::PMC_MONEY_USER_BALANCE_KEY . provider() . $user];
-                $usernamesQuery[] = ['memcache.get', provider() . '_username' . $user];
-            }
-
-            $query_ids = rpc_tl_query($conn, $balancesQuery);
-            $responseBalances = rpc_tl_query_result($query_ids);
-            $query_ids = rpc_tl_query($conn, $usernamesQuery);
-            $responseUsernames = rpc_tl_query_result($query_ids);
-            $i = 0;
-            foreach ($chat as $user) {
-                if (isset($responseBalances[$i]['result']['value'])) {
-                    $users[$user] = (float)$responseBalances[$i]['result']['value'];
-                } else {
-                    $users[$user] = 0;
-                }
-                if (isset($responseUsernames[$i]['result']['value'])) {
-                    $usernames[$user] = (string)$responseUsernames[$i]['result']['value'];
-                } else {
-                    $usernames[$user] = $this->getUsername((int)$user);
-                }
-                $i++;
-            }
-
-
-
-            /*
-            $revocoin = new Revocoin($this->bot);
-            foreach ($chat as $user) {
-                $users[$user] = $revocoin->getBalance((int)$user);
-                $usernames[$user] = $this->getUsername((int)$user);
-            }
-            */
-
-            $cached = new StatCached($users, $usernames);
-            instance_cache_store($this->getStatCacheKey(), $cached, 60);
+        if (!$conn) {
+            return 'RPC connection error';
         }
 
+        $queries = [];
 
-        return $this->format($cached->users, $cached->usernames);
+        foreach ($chat as $user) {
+
+            if ($user === $this->bot->getBotId() || -$user === $this->bot->getBotId()) {
+                $user = -abs($user);
+            }
+
+            $queries[] = [
+                'memcache.get',
+                Revocoin::PMC_MONEY_USER_BALANCE_KEY . provider() . $user
+            ];
+
+            $queries[] = [
+                'memcache.get',
+                provider() . '_username' . $user
+            ];
+        }
+
+        $responses = [];
+
+        foreach (array_chunk($queries, 300) as $chunk) {
+            $ids = rpc_tl_query($conn, $chunk);
+
+            if (!$ids) {
+                continue;
+            }
+
+            $result = rpc_tl_query_result($ids);
+
+            if ($result) {
+                $responses = array_merge($responses, $result);
+            }
+        }
+
+        $i = 0;
+
+        foreach ($chat as $user) {
+
+            $balanceIndex = $i * 2;
+            $usernameIndex = $i * 2 + 1;
+
+            if (isset($responses[$balanceIndex]['result']['value'])) {
+                $users[$user] = (float)$responses[$balanceIndex]['result']['value'];
+            } else {
+                $users[$user] = 0;
+            }
+
+            if (isset($responses[$usernameIndex]['result']['value'])) {
+                $usernames[$user] = (string)$responses[$usernameIndex]['result']['value'];
+            } else {
+                $usernames[$user] = $this->getUsername((int)$user);
+            }
+
+            $i++;
+        }
+
+        return $this->format($users, $usernames);
     }
-
     /**
      * @param float[] $users
      * @param string[] $usernames
@@ -132,9 +144,9 @@ class Stat
 
             // }
         } elseif ($this->bot->provider === 'vk') {
-            $username = $this->bot->getUserNick();
+            $username = $this->bot->getUserNick() ?? 'unk';
         }
-        PMC::set($this->bot->provider . '_username' . $user_id, $username);
+        PMC::set($this->bot->provider . '_username' . $user_id, $username ? $username : (string)$user_id);
         return (string)$username;
     }
 

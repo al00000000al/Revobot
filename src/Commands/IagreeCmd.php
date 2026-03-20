@@ -7,7 +7,7 @@ use Revobot\Util\PMC;
 class IagreeCmd extends BaseCmd
 {
     const KEYS = ['iagree', 'i_agree'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = '';
     const IS_HIDDEN = true;
 

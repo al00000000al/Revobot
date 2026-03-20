@@ -9,7 +9,7 @@ use Revobot\Util\Curl;
 class FoodCmd extends BaseCmd
 {
     const KEYS = ['food'];
-    const IS_ENABLED = true;
+    const IS_ENABLED = false;
     const HELP_DESCRIPTION = 'get food menu';
     const IS_ADMIN_ONLY = true;
     private Revobot $bot;

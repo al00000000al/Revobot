@@ -10,6 +10,7 @@ class HuebotCmd extends BaseCmd
     const IS_ENABLED = true;
     const HELP_DESCRIPTION = 'напишите слово и получите х*еслово';
 
+    const IS_HIDDEN = true;
     public function __construct(string $input)
     {
         parent::__construct($input);

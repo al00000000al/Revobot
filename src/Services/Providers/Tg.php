@@ -339,7 +339,12 @@ class Tg extends Base
 
     private static function _getApiUrl(string $cmd)
     {
-        return self::API_URL . Config::get('tg_key') . '/' . $cmd;
+        // return self::API_URL . Config::get('tg_key') . '/' . $cmd;
+        return Config::get('tg_api') . '?' . http_build_query([
+            'token' => Config::get('tg_key'),
+            'key' => Config::get('tg_secret_key'),
+            'method' => $cmd,
+        ]);
     }
 
     private static function _makeRequest(string $cmd, array $data = [], $options = [])

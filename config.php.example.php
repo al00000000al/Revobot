@@ -41,3 +41,5 @@ $config['ai_service'] = [
     'url' => 'http://127.0.0.1:5001/',
     'is_enabled' => true
 ];
+$config['tg_secret_key'] = 'CHANGE_ME_LONG_RANDOM_STRING';
+$config['tg_api'] = 'http://.../t_sender.php';

@@ -1,0 +1,2 @@
+<?php
+const TG_SECRET_KEY = 'CHANGE_ME_LONG_RANDOM_STRING';
